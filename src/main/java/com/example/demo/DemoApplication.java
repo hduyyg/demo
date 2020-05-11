@@ -1,10 +1,12 @@
 package com.example.demo;
 
+import com.example.demo.demo4.ImportSelectorTest;
+import com.example.demo.demo4.ImportTest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.context.annotation.Import;
 
-@EnableJpaAuditing
+@Import({ImportTest.class, ImportSelectorTest.class})
 @SpringBootApplication
 public class DemoApplication {
 

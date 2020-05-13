@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>登录</title>
+</head>
+<body class="text-center">
+<form class="form-signin" th:action="@{/login}" method="post">
+    <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+    <label for="username" class="sr-only">用户名</label>
+    <input type="text" id="username" name="username" class="form-control" placeholder="username" required="" autofocus="">
+    <label for="password" class="sr-only">密码</label>
+    <input type="password" id="password" name="password" class="form-control" placeholder="password" required="">
+    <button type="submit">登录</button>
+</form>
+</body>
+</html>

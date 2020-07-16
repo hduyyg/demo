@@ -1,41 +1,62 @@
-#include <bits/stdc++.h>
+#include<cstdio>
+#include<algorithm>
+#define maxn 200
 using namespace std;
-#define f(q, w) for (int q = 0; q <w; ++q)
-int b[2], m[2];//B和马的坐标
-long long mem[25][25] = { 1 };//记忆化数组
-int e[9][2] = { 0,0, -2,-1, -1,-2, 1,2, 2,1 ,1,-2, -2,1, -1,2, 2,-1 };
-//马的控制范围
-inline bool check(int x, int y) {//检查是否被控制
-    f(i, 9)
-        if (x + e[i][0] == m[0] && y + e[i][1] == m[1])
-            return false;
-    return true;
+ 
+int n,c[maxn+20],r[maxn+20],ans[maxn+20];
+int a[maxn+20][maxn+20],w[maxn+20][maxn+20];
+bool used[maxn+20];
+ 
+void readdata()
+{  
+  int i,j,k,x,y,z;
+  scanf("%d%d",&n,&k);
+  for(i=1;i<=n;i++)
+    {
+      scanf("%d%d",&x,&y);
+      c[i]=(x==0)?-y:x;
+    }
+  for(i=1;i<=k;i++)
+    {
+      scanf("%d%d%d",&x,&y,&z);
+      a[x][++a[x][0]]=y;
+      w[x][y]=z,r[y]++;
+    }  
 }
-inline long long dp(int x, int y) {//后来才发现写的其实是递归hhh
-    if (mem[x][y])return mem[x][y];
-	if (x && !mem[x - 1][y]) {
-        mem[x - 1][y] = check(x - 1, y) ? dp(x - 1, y) : 0;
-	} 
-    if (y && !mem[x][y - 1]) {
-        mem[x][y - 1] = check(x, y - 1) ? dp(x, y - 1) : 0;
-	}
-	
-	if (x) mem[x][y] += mem[x - 1][y]; 
-	if (y) mem[x][y] += mem[x][y - 1];         
-    return mem[x][y];
+void work()
+{
+  int i,j,k,x,y;
+  for(i=1;i<=n;i++)
+    for(j=1;j<=n;j++)
+      if(r[j]==0 && !used[j])
+        {
+          used[j]=1;
+          if(a[j][0]==0 && c[j]>0)
+            {
+              ans[++ans[0]]=j;
+              break;
+            }
+          for(k=1;k<=a[j][0];k++)
+            {
+              x=a[j][k];
+              if(c[j]>0)c[x]+=c[j]*w[j][x];
+              r[x]--;
+            }
+          break;  
+        }
+  if(ans[0]==0)printf("NULL\n");
+  else
+    {
+      sort(ans+1,ans+ans[0]+1);
+      for(i=1;i<=ans[0];i++)
+        printf("%d %d\n",ans[i],c[ans[i]]);
+    }        
 }
-
-int main(void) {
-    cin >> b[0] >> b[1] >> m[0] >> m[1];
-    if (check(b[0], b[1]) && check(0, 0))
-        cout << dp(b[0], b[1]);
-    else cout << "0";//判断起点终点是否被控制
-//    cout << endl;
-//    f(i, 21) {
-//        f(in, 21) {
-//            printf("%d\t", mem[i][in]);
-//        }
-//        cout << endl;
-//    }
-    return 0;
+ 
+int main()
+{
+  //freopen("1.in","r",stdin);
+  readdata();
+  work();
+  return 0;
 }

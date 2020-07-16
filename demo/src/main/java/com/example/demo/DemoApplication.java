@@ -4,8 +4,10 @@ import com.example.demo.demo4.ImportSelectorTest;
 import com.example.demo.demo4.ImportTest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
+@EnableAspectJAutoProxy
 @Import({ImportTest.class, ImportSelectorTest.class})
 @SpringBootApplication
 public class DemoApplication {

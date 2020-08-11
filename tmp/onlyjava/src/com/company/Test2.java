@@ -1,11 +1,11 @@
 package com.company;
 
-public class Main {
+public class Test2 {
 
     public static void main(String[] args) {
         while (true) {
             for (int i = 0; i < 100000000; i++) {
-                new Object();
+                test();
             }
             System.out.println("for");
             try {
@@ -14,5 +14,9 @@ public class Main {
 
             }
         }
+    }
+
+    private static void test() {
+        new Object();
     }
 }

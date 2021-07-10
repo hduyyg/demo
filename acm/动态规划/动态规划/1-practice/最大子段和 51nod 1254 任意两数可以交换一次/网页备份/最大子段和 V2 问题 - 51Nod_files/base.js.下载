@@ -1,0 +1,4149 @@
+'use strict';
+var __extends = (this && this.__extends) || function (d, b) {
+	for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	function __() { this.constructor = d; }
+	d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+Array.prototype.Copy = function () {
+	for (var Index = 0, Array = []; Index !== this.length; Array.push(this[Index++]))
+		;
+	return Array;
+};
+Array.prototype.Push = function (Value) {
+	this.push(Value);
+	return this;
+};
+Array.prototype.RemoveValue = function (Value) {
+	return this.Remove(function (Data) { return Data == Value; });
+};
+Array.prototype.Remove = function (IsValue) {
+	for (var Index = -1; ++Index != this.length;) {
+		if (IsValue(this[Index])) {
+			for (var WriteIndex = Index; ++Index != this.length;) {
+				if (!IsValue(this[Index]))
+					this[WriteIndex++] = this[Index];
+			}
+			this.length = WriteIndex;
+			break;
+		}
+	}
+	return this;
+};
+Array.prototype.RemoveAt = function (Index, Count) {
+	if (Count === void 0) { Count = 1; }
+	if (Index >= 0)
+		this.splice(Index, Count);
+	return this;
+};
+Array.prototype.RemoveAtEnd = function (Index) {
+	if (Index >= 0 && Index < this.length) {
+		this[Index] = this[this.length - 1];
+		--this.length;
+	}
+	return this;
+};
+Array.prototype.IndexOf = function (Function) {
+	for (var Index = -1; ++Index !== this.length;) {
+		if (Function(this[Index]))
+			return Index;
+	}
+	return -1;
+};
+Array.prototype.IndexOfValue = function (Value) {
+	if (fastCSharp.Pub.IE) {
+		for (var Index = -1; ++Index !== this.length;) {
+			if (this[Index] == Value)
+				return Index;
+		}
+		return -1;
+	}
+	return this.indexOf(Value);
+};
+Array.prototype.First = function (Function) {
+	var Index = this.IndexOf(Function);
+	if (Index >= 0)
+		return this[Index];
+};
+Array.prototype.MaxValue = function () {
+	if (this.length) {
+		for (var Index = this.length, Value = this[--Index]; Index;) {
+			if (this[--Index] > Value)
+				Value = this[Index];
+		}
+		return Value;
+	}
+};
+Array.prototype.Max = function (GetKey) {
+	if (this.length) {
+		for (var Index = this.length, Value = this[--Index], Key = GetKey(Value); Index;) {
+			var NextKey = GetKey(this[--Index]);
+			if (NextKey > Key) {
+				Value = this[Index];
+				Key = NextKey;
+			}
+		}
+		return Value;
+	}
+};
+Array.prototype.FormatAjax = function () {
+	if (this.length) {
+		for (var Index = 0, Names = this[0].split(','), Values = []; ++Index !== this.length;) {
+			for (var Value = this[Index], NewValue = {}, NameIndex = -1; ++NameIndex !== Names.length; NewValue[Names[NameIndex]] = Value[NameIndex])
+				;
+			Values.push(NewValue);
+		}
+		return Values;
+	}
+};
+Array.prototype.FormatView = function () {
+	return this.length > 1 ? fastCSharp.Pub.FormatAjaxs(fastCSharp.Pub.AjaxName(this[0], 0), this, 1) : [];
+};
+Array.prototype.Find = function (IsValue) {
+	for (var Values = [], Index = 0; Index !== this.length; ++Index) {
+		var Value = this[Index];
+		if (IsValue(Value))
+			Values.push(Value);
+	}
+	return Values;
+};
+Array.prototype.ToArray = function (GetValue) {
+	for (var Values = [], Index = 0; Index !== this.length; Values.push(GetValue(this[Index++])))
+		;
+	return Values;
+};
+Array.prototype.For = function (Function) {
+	for (var Index = 0; Index !== this.length; Function(this[Index++]))
+		;
+	return this;
+};
+Array.prototype.ToHash = function (Function) {
+	for (var Values = {}, Index = 0; Index !== this.length;) {
+		var Value = this[Index++];
+		Values[Function ? Function(Value) : Value] = Value;
+	}
+	return Values;
+};
+Array.prototype.Sort = function (GetKey) {
+	return this.sort(function (Left, Right) { return GetKey(Left) - GetKey(Right); });
+};
+Array.prototype.MakeString = function () {
+	return String.fromCharCode.apply(null, this);
+};
+String.prototype.Escape = function () {
+	return window['escape'](this.replace(/\xA0/g, ' ')).replace(/\+/g, '%2b');
+};
+String.prototype.ToHTML = function () {
+	return this.ToTextArea().replace(/ /g, '&nbsp;').replace(/"/g, '&#34;').replace(/'/g, '&#39;');
+};
+String.prototype.ToTextArea = function () {
+	return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+};
+String.prototype.Trim = function () {
+	return this.replace(/(^\s*)|(\s*$)/g, '');
+};
+String.prototype.PadLeft = function (Count, Char) {
+	var Value = '';
+	if ((Count -= this.length) > 0) {
+		for (Char = Char.charAt(0); Count; Char += Char, Count >>= 1) {
+			if (Count & 1)
+				Value += Char;
+		}
+	}
+	return Value + this;
+};
+String.prototype.Left = function (Length) {
+	for (var Value = 0, Index = -1; ++Index != this.length && Length > 0;)
+		if ((Length -= this.charCodeAt(Index) > 0xff ? 2 : 1) >= 0)
+			++Value;
+	return this.substring(0, Value);
+};
+String.prototype.Right = function (Length) {
+	return this.length > Length ? this.substring(this.Length - Length) : this;
+};
+String.prototype.ToLower = function () {
+	return this.substring(0, 1).toLowerCase() + this.substring(1);
+};
+String.prototype.Length = function () {
+	for (var Value = this.length, Index = 0; Index - this.length;)
+		if (this.charCodeAt(Index++) > 0xff)
+			++Value;
+	return Value;
+};
+String.prototype.SplitInt = function (Split) {
+	var Value = this.Trim();
+	return Value.length ? this.split(Split).ToArray(function (Value) { return parseInt(0 + Value); }) : [];
+};
+String.prototype.ParseDate = function () {
+	var Value = this.Trim();
+	if (Value) {
+		var DateValue = new Date(Value = Value.replace(/\-/g, '/'));
+		if (!isNaN(DateValue.getTime()))
+			return DateValue;
+		Value = Value.replace(/[ :\/]+/g, ' ').split(' ');
+		DateValue = new Date(Value[0], parseInt(Value[1]) - 1, Value[2], Value[3], Value[4], Value[5]);
+		if (!isNaN(DateValue.getTime()))
+			return DateValue;
+	}
+};
+Date.prototype.AddMilliseconds = function (Value) {
+	var NewDate = new Date;
+	NewDate.setTime(this.getTime() + Value);
+	return NewDate;
+};
+Date.prototype.AddMinutes = function (Value) {
+	return this.AddMilliseconds(Value * 1000 * 60);
+};
+Date.prototype.AddHours = function (Value) {
+	return this.AddMilliseconds(Value * 1000 * 60 * 60);
+};
+Date.prototype.AddDays = function (Value) {
+	return this.AddMilliseconds(Value * 1000 * 60 * 60 * 24);
+};
+Date.prototype.ToString = function (Format, IsFixed) {
+	if (IsFixed === void 0) { IsFixed = true; }
+	var Value = { y: this.getFullYear(), M: this.getMonth() + 1, d: this.getDate(), h: this.getHours(), m: this.getMinutes(), s: this.getSeconds(), S: this.getMilliseconds() };
+	Format = Format.replace(/Y/g, 'y').replace(/D/g, 'd').replace(/H/g, 'h').replace(/W/g, 'w');
+	if (IsFixed) {
+		Format += Value[Format.charAt(Format.length - 1)] ? '.' : 'y';
+		for (var Values = [], LastChar = '', LastIndex = 0, Index = -1; ++Index - Format.length; LastChar = Char) {
+			var Char = Format.charAt(Index);
+			if (Char != LastChar) {
+				if (Value[LastChar] != null) {
+					Values.push(Value[LastChar].toString().Right(Index - LastIndex).PadLeft(Index - LastIndex, '0'));
+					LastIndex = Index;
+				}
+				else if (Value[Char] != null)
+					Values.push(Format.substring(LastIndex, LastIndex = Index));
+			}
+		}
+		Format = Values.join('');
+	}
+	else {
+		for (var Name in Value)
+			Format = Format.replace(new RegExp(Name, 'g'), Value[Name].toString());
+	}
+	return Format.replace(/w/g, ['日', '一', '二', '三', '四', '五', '六'][this.getDay()]);
+};
+Date.prototype.ToDateString = function () { return this.ToString('yyyy/MM/dd'); };
+Date.prototype.ToTimeString = function () { return this.ToString('HH:mm:ss'); };
+Date.prototype.ToMinuteString = function () { return this.ToString('yyyy/MM/dd HH:mm'); };
+Date.prototype.ToSecondString = function () { return this.ToString('yyyy/MM/dd HH:mm:ss'); };
+Date.prototype.ToMinuteOrDateString = function () { return this.ToInt() == new Date().ToInt() ? this.ToString('HH:mm') : this.ToDateString(); };
+Date.prototype.ToInt = function () {
+	return (this.getFullYear() << 9) + ((this.getMonth() + 1) << 5) + this.getDate();
+};
+Number.prototype.IntToDate = function () { return new Date(this >> 9, ((this >> 5) & 15) - 1, this & 31); };
+Number.prototype.ToDisplay = function () { return this.toString() == '0' ? 'none' : ''; };
+Number.prototype.ToDisplayNone = function () { return this.toString() == '0' ? '' : 'none'; };
+Number.prototype.ToTrue = function () { return this.toString() != '0'; };
+Number.prototype.ToFalse = function () { return this.toString() == '0'; };
+Boolean.prototype.ToDisplay = function () { return this.toString() == 'true' ? '' : 'none'; };
+Boolean.prototype.ToDisplayNone = function () { return this.toString() == 'true' ? 'none' : ''; };
+Boolean.prototype.ToTrue = function () { return this.toString() == 'true'; };
+Boolean.prototype.ToFalse = function () { return this.toString() != 'true'; };
+var fastCSharp;
+(function (fastCSharp) {
+	var Pub = (function () {
+		function Pub() {
+		}
+		Pub.ToArray = function (Value, StartIndex) {
+			if (StartIndex === void 0) { StartIndex = 0; }
+			for (var Values = []; StartIndex < Value.length; ++StartIndex)
+				Values.push(Value[StartIndex]);
+			return Values;
+		};
+		Pub.SendError = function (Error) {
+			if (!this.Errors[Error]) {
+				this.Errors[Error] = Error;
+				HttpRequest.Get(new HttpRequestQuery('pub.Error', { error: Error.length > 512 ? Error.substring(0, 512) + '...' : Error }));
+			}
+		};
+		Pub.ThisFunction = function (This, Function, Arguments, IsArgument) {
+			if (Arguments === void 0) { Arguments = null; }
+			if (IsArgument === void 0) { IsArgument = true; }
+			if (Function) {
+				var Value = function () {
+					try {
+						return Function.apply(This, IsArgument ? Pub.ToArray(arguments).concat(Arguments || []) : Arguments);
+					}
+					catch (e) {
+						Pub.SendError((e ? e.toString() : '未知错误') + '\r\n' + Function.toString());
+					}
+				};
+				Value['Test'] = Function;
+				return Value;
+			}
+			Pub.SendError('Function is null\r\n' + window['caller']);
+		};
+		Pub.ThisEvent = function (This, Function, Arguments, Frame) {
+			if (Arguments === void 0) { Arguments = null; }
+			if (Frame === void 0) { Frame = null; }
+			if (Function) {
+				return function (Event) {
+					var Browser = new BrowserEvent(Pub.IE ? Frame ? Frame.event || event : event : Event);
+					try {
+						Function.apply(This, Arguments ? [Browser].concat(Arguments || []) : [Browser]);
+					}
+					catch (e) {
+						Pub.SendError((e ? e.toString() : '未知错误') + '\r\n' + Function.toString());
+					}
+					return Browser.Return;
+				};
+			}
+			Pub.SendError('Event is null\r\n' + window['caller']);
+		};
+		Pub.EvalJson = function (Text) {
+			var Value = eval(Text);
+			Pub.JsonLoopObjects.length = 0;
+			return Value;
+		};
+		Pub.Copy = function (Left, Right) {
+			for (var Name in Right)
+				Left[Name] = Right[Name];
+			return Left;
+		};
+		Pub.SetJsonLoop = function (Index, Value) {
+			var CacheValue = this.JsonLoopObjects[Index];
+			if (CacheValue) {
+				if (CacheValue instanceof Array)
+					CacheValue.push.apply(CacheValue, Value);
+				else
+					this.Copy(CacheValue, Value);
+				return CacheValue;
+			}
+			return this.JsonLoopObjects[Index] = Value;
+		};
+		Pub.GetJsonLoop = function (Index, Array) {
+			return this.JsonLoopObjects[Index] || (this.JsonLoopObjects[Index] = Array || {});
+		};
+		Pub.AjaxName = function (Name, StartIndex) {
+			for (var Values = { Names: [] }, Index = StartIndex; Index - Name.length;) {
+				var Code = Name.charCodeAt(Index);
+				if (Code === 91) {
+					var Value = this.AjaxName(Name, Index + 1);
+					Value.Name = Name.substring(StartIndex, Index);
+					StartIndex = Index = Value.Index;
+					Values.Names.push(Value);
+				}
+				else if (Code === 93) {
+					var SubName = Name.substring(StartIndex, Index++);
+					if (SubName)
+						Values.Names.push({ Name: SubName });
+					Values.Index = Index;
+					return Values;
+				}
+				else if (Code === 44) {
+					var SubName = Name.substring(StartIndex, Index++);
+					if (SubName) {
+						if (SubName.charCodeAt(0) === 64)
+							Values.ViewType = SubName.substring(1);
+						else
+							Values.Names.push({ Name: SubName });
+					}
+					StartIndex = Index;
+				}
+				else
+					++Index;
+			}
+			if (StartIndex - Name.length) {
+				var SubName = Name.substring(StartIndex);
+				if (SubName.charCodeAt(0) === 64)
+					Values.ViewType = SubName.substring(1);
+				else
+					Values.Names.push({ Name: SubName });
+			}
+			return Values;
+		};
+		Pub.FormatAjaxs = function (Name, Values, StartIndex) {
+			for (var Value = [], Index = StartIndex - 1; ++Index - Values.length; Value.push(Values[Index] ? this.FormatAjax(Name, Values[Index]) : null))
+				;
+			return Value;
+		};
+		Pub.FormatAjax = function (Name, Values) {
+			var Names = Name.Names;
+			if (Names && Names.length) {
+				if (Names[0].Name) {
+					for (var Value = {}, Index = Names.length; --Index >= 0;) {
+						Value[Names[Index].Name] = Values[Index] != null ? (Names[Index].Names && Names[Index].Names.length ? this.FormatAjax(Names[Index], Values[Index]) : Values[Index]) : null;
+					}
+					if (Name.ViewType) {
+						if (Name.ViewType.charAt(0) == '.')
+							Value = eval(Name.ViewType.substring(1) + '.Get(Value)');
+						else
+							Value = eval('new ' + Name.ViewType + '(Value)');
+					}
+					return Value;
+				}
+				else if (Values[0])
+					return this.FormatAjaxs(Names[0], Values[0], 0);
+			}
+			else
+				return Values;
+		};
+		Pub.AppendJs = function (Src, Charset, OnLoad, OnError) {
+			if (Charset === void 0) { Charset = fastCSharp.Loader.Charset; }
+			if (OnLoad === void 0) { OnLoad = null; }
+			if (OnError === void 0) { OnError = null; }
+			if (OnLoad || OnError)
+				new LoadJs(fastCSharp.Loader.CreateJavascipt(Src, Charset), OnLoad, OnError);
+			else
+				fastCSharp.Loader.AppendJavaScript(Src, Charset);
+		};
+		Pub.ToJson = function (Value, IsIgnore, Parents) {
+			if (IsIgnore === void 0) { IsIgnore = false; }
+			if (Parents === void 0) { Parents = null; }
+			if (Value != null) {
+				var Type = typeof (Value);
+				if (Type != 'function' && (!IsIgnore || Value)) {
+					if (Type == 'string')
+						return '"' + Value.toString().replace(/[\\"]/g, '\\$&').replace(/\n/g, '\\n') + '"';
+					if (Type == 'number' || Type == 'boolean')
+						return Value.toString();
+					Type = Object.prototype.toString.apply(Value);
+					if (Type == '[object Date]')
+						return 'new Date(' + Value.getTime() + ')';
+					if (!Parents)
+						Parents = [];
+					for (var Index = 0; Index - Parents.length; ++Index)
+						if (Parents[Index] == Value)
+							return 'null';
+					Parents.push(Value);
+					var Values = [];
+					if (Type == '[object Array]') {
+						for (var Index = 0; Index - Value.length; ++Index)
+							Values.push(this.ToJson(Value[Index], IsIgnore, Parents));
+						Parents.pop();
+						return '[' + Values.join(',') + ']';
+					}
+					for (var Name in Value) {
+						if (Name != '$') {
+							var NextValue = Value[Name];
+							if (NextValue !== undefined) {
+								if ((!IsIgnore || NextValue) && typeof (NextValue) != 'function') {
+									Values.push(this.ToJson(Name.toString()) + ':' + this.ToJson(NextValue, IsIgnore, Parents));
+								}
+							}
+						}
+					}
+					Parents.pop();
+					return '{' + Values.join(',') + '}';
+				}
+			}
+			return 'null';
+		};
+		Pub.ToQuery = function (Value, IsIgnore) {
+			if (IsIgnore === void 0) { IsIgnore = false; }
+			var Values = [];
+			for (var Name in Value) {
+				if (Value[Name] != null) {
+					var Type = typeof (Value[Name]);
+					if (Type != 'function' && (!IsIgnore || Value[Name]))
+						Values.push(Name.Escape() + '=' + Value[Name].toString().Escape());
+				}
+			}
+			return Values.join('&');
+		};
+		Pub.GetLocationSearch = function (Location) {
+			return (Location || location).search.toString().replace(/^\?/g, '');
+		};
+		Pub.GetLocationHash = function (Location) {
+			return (Location || location).hash.toString().replace(/^#(\!|\%21)?/g, '');
+		};
+		Pub.FillQuery = function (Value, Search) {
+			for (var Unescape = window['unescape'], Query = Search.split('&'), Index = Query.length; --Index >= 0;) {
+				var KeyValue = Query.pop().split('=');
+				Value[Unescape(KeyValue[0])] = KeyValue.length < 2 ? '' : Unescape(KeyValue[1]);
+			}
+		};
+		Pub.CreateQuery = function (Location) {
+			var Value = {}, Search = this.GetLocationSearch(Location), Hash = this.GetLocationHash(Location);
+			if (Hash.length && Hash.indexOf('=') + 1)
+				this.FillQuery(Value, Hash);
+			if (Search.length)
+				this.FillQuery(Value, Search);
+			return Value;
+		};
+		Pub.OnLoad = function (OnLoad, This, IsOnce) {
+			if (This === void 0) { This = null; }
+			if (IsOnce === void 0) { IsOnce = false; }
+			if (This)
+				OnLoad = this.ThisFunction(This, OnLoad);
+			if (!IsOnce)
+				this.OnLoadedHash.Add(OnLoad);
+			if (this.IsLoad)
+				OnLoad();
+			else
+				this.OnLoads.push(OnLoad);
+		};
+		Pub.LoadModule = function (Path) {
+			if (this.IsModules[Path] == null)
+				HttpRequest.Get(new HttpRequestQuery('pub.Error', { error: document.location.toString() + ' 加载了未知模块 ' + Path }));
+			else {
+				this.IsModules[Path] = true;
+				for (var Loads = this.LoadModules[Path], Index = Loads ? Loads.length : 0; --Index >= 0;) {
+					var Load = Loads[Index];
+					if (Load && Load.Paths[Path]) {
+						Load.Paths[Path] = 0;
+						if (--Load.Count == 0 && Load.OnLoad) {
+							if (Load.IsLoad)
+								this.OnLoad(Load.OnLoad);
+							else
+								Load.OnLoad();
+						}
+					}
+				}
+			}
+		};
+		Pub.OnModule = function (Paths, OnLoad, IsLoad, Version) {
+			if (IsLoad === void 0) { IsLoad = true; }
+			if (Version === void 0) { Version = fastCSharp.Loader.Version; }
+			for (var Index = Paths.length, Load = { IsLoad: IsLoad, OnLoad: OnLoad, Count: 0, Paths: {} }; Index;) {
+				var Path = Paths[--Index];
+				if (!this.IsModules[Path]) {
+					++Load.Count;
+					var Loads = this.LoadModules[Path];
+					if (!Loads)
+						this.LoadModules[Path] = Loads = [];
+					Load.Paths[Path] = 1;
+					Loads.push(Load);
+					this.LoadModuleWhenNull(Path, Version);
+				}
+			}
+			if (!Load.Count && OnLoad) {
+				if (IsLoad)
+					this.OnLoad(OnLoad);
+				else
+					OnLoad();
+			}
+		};
+		Pub.LoadModuleWhenNull = function (Path, Version) {
+			if (this.IsModules[Path] == null) {
+				this.IsModules[Path] = false;
+				this.AppendJs(fastCSharp.Loader.JsDomain + 'js/' + Path + '.js?v=' + (this.ModuleVersions[Path] || Version));
+			}
+		};
+		Pub.LoadView = function (View, IsReView) {
+			if (!View)
+				(View = new PageView).ErrorPath = '//www.51nod.com/index.html';
+			if (View.ErrorPath) {
+				var HashIndex = View.ErrorPath.indexOf('#');
+				if (HashIndex + 1) {
+					var Hash = View.ErrorPath.substring(HashIndex);
+					View.ErrorPath = View.ErrorPath.substring(0, HashIndex);
+					location.replace(View.ErrorPath + (View.ErrorPath.indexOf('?') + 1 ? '&' : '?') + 'url=' + (View.ReturnPath || location.toString()).Escape() + Hash);
+				}
+				else
+					location.replace(View.ErrorPath + '#url=' + (View.ReturnPath || location.toString()).Escape());
+			}
+			else if (View.LocationPath)
+				location.replace(View.LocationPath);
+			View.Client = this.ClientView;
+			View.Query = this.Query;
+			if (!IsReView) {
+				View.OnShowed = this.PageView.OnShowed;
+				View.OnSet = this.PageView.OnSet;
+				View.IsLoadView = View.IsLoad = View.IsView = true;
+				this.PageView = View;
+				this.ReadyState();
+			}
+		};
+		Pub.LoadError = function (Request) {
+			this.PageView.IsLoadView = this.PageView.IsLoad = this.PageView.IsView = this.PageView.LoadError = true;
+			this.ReadyState();
+		};
+		Pub.ReLoad = function () {
+			var ViewOver = document.getElementById('fastCSharpViewOver');
+			if (ViewOver)
+				ViewOver.innerHTML = '正在尝试重新加载视图数据...';
+			var Query = this.CreateLoadViewQuery();
+			Query.IsRandom = true;
+			HttpRequest.Get(Query);
+		};
+		Pub.LoadHash = function (PageView) {
+			this.OnBeforeUnLoad.Function();
+			var SkinValue = Skin.Body.Data;
+			for (var Name in PageView) {
+				var Value = PageView[Name];
+				if (Value == null || (!Value.ViewOnly && typeof (Value) != 'function'))
+					SkinValue[Name] = Value;
+			}
+			this.OnLoadHash.Function(SkinValue);
+			this.LoadView(SkinValue, true);
+			Skin.Body.Show(SkinValue);
+			Skin.ChangeHeader();
+			this.OnLoadedHash.Function();
+			HtmlElement.$SetScrollTop(0);
+		};
+		Pub.CheckHash = function (Event) {
+			var Hash = HtmlElement.$Hash();
+			if (Hash !== this.LocationHash) {
+				this.LocationHash = Hash;
+				this.Query = Pub.CreateQuery(location);
+				this.ReView();
+				Pub.OnQueryEvents.Function();
+			}
+			if (Pub.IE)
+				setTimeout(this.CheckHashFunction, 100);
+		};
+		Pub.ReView = function (IsReView) {
+			if (IsReView === void 0) { IsReView = false; }
+			var Query = new HttpRequestQuery(document.location.pathname + (IsReView ? '&v=' : ''), this.Query, this.ThisFunction(this, this.LoadHash));
+			Query.IsRandom = true;
+			HttpRequest.Get(Query);
+		};
+		Pub.ReadyState = function () {
+			var View = this.PageView, IsLoad = document.body && (document.readyState == null || document.readyState.toLowerCase() === 'complete');
+			if (IsLoad && !this.LoadComplete) {
+				HtmlElement.$('@body').To();
+				Skin.Create(View);
+				this.LoadComplete = true;
+			}
+			if (IsLoad && View.IsLoad) {
+				if (View.IsLoadView) {
+					if (View.LoadError) {
+						View.IsLoad = View.IsLoadView = View.LoadError = false;
+						var ViewOver = document.getElementById('fastCSharpViewOver');
+						if (ViewOver)
+							ViewOver.innerHTML = '错误：视图数据加载失败，稍后尝试重新加载';
+						document.title = 'Server Error';
+						setTimeout(this.ThisFunction(this, this.ReLoad), 2000);
+						return;
+					}
+					Skin.Body.Show(View);
+					Skin.ChangeHeader();
+				}
+				else {
+					document.body.innerHTML = document.body.innerHTML.replace(/ @(src|style)=/gi, ' $1=');
+					var ViewOver = document.getElementById('fastCSharpViewOver');
+					if (ViewOver)
+						document.body.removeChild(ViewOver);
+				}
+				this.OnReadyState();
+				this.IsLoad = true;
+				for (var Index = -1; ++Index - this.OnLoads.length; this.OnLoads[Index]())
+					;
+				this.OnLoads = this.ReadyFunction = null;
+			}
+			else
+				setTimeout(this.ReadyFunction, 1);
+		};
+		Pub.OnReadyState = function () {
+			this.DeleteElements = HtmlElement.$Create('div').Styles('padding,margin', '10px').Style('border', '10px solid red').Opacity(0).To();
+			this.IsBorder = this.DeleteElements.XY0().Left - 10;
+			this.DeleteElements.Styles('padding,margin,border', '0px');
+			this.IsBorder -= this.DeleteElements.XY0().Left;
+			if (this.IsBorder === 20)
+				this.IsPadding = true;
+			this.IsFixed = Pub.IE ? this.DeleteElements.Style('position', 'fixed').Style('left', '50%').Element0().offsetLeft : 1;
+			this.DeleteElements.Display(0);
+			this.LocationHash = HtmlElement.$Hash();
+			HtmlElement.$(document.body).AddEvent('focus', this.FocusEvents = new Events());
+			var Path = document.location.pathname, Index = Path.lastIndexOf('/'), EndIndex = Path.lastIndexOf('.');
+			if (EndIndex > Index)
+				Path = Path.substring(0, EndIndex);
+			if (Path.charCodeAt(Path.length - 1) === 47)
+				Path += 'index';
+			this.AppendJs(fastCSharp.Loader.JsDomain + Path.substring(1) + '.js?v=' + fastCSharp.Loader.Version);
+			if (Pub.IE)
+				setTimeout(this.CheckHashFunction = this.ThisFunction(this, this.CheckHash), 100);
+			else
+				window.onhashchange = this.ThisFunction(this, this.CheckHash);
+		};
+		Pub.CreateLoadViewQuery = function () {
+			var Query = new HttpRequestQuery(document.location.pathname, this.Query, this.ThisFunction(this, this.LoadView));
+			Query.OnError = this.ThisFunction(this, this.LoadError);
+			return Query;
+		};
+		Pub.LoadIE = function () {
+			Pub.IE = !arguments.length || navigator.appName == 'Microsoft Internet Explorer';
+			HttpRequest.Load();
+			Pub.Load();
+		};
+		Pub.Load = function () {
+			this.OnLoadHash = new Events();
+			this.OnLoadedHash = new Events();
+			this.OnBeforeUnLoad = new Events();
+			window.onbeforeunload = function (Event) { Pub.OnBeforeUnLoad.Function(Event); };
+			this.Query = this.CreateQuery(self.location);
+			this.PageView = new PageView();
+			this.ReadyFunction = this.ThisFunction(this, this.ReadyState);
+			if (fastCSharp.Loader.PageView) {
+				this.PageView.IsLoadView = true;
+				this.PageView.OnShowed = new Events();
+				this.PageView.OnSet = new Events();
+				HttpRequest.Get(this.CreateLoadViewQuery());
+			}
+			else
+				this.PageView.IsLoad = true;
+			if (!fastCSharp.Loader.PageView)
+				this.ReadyState();
+		};
+		Pub.GetParameter = function (Value, DefaultParameter, Parameter) {
+			if (Parameter === void 0) { Parameter = null; }
+			if (Parameter) {
+				for (var Name in DefaultParameter) {
+					var ParameterValue = Parameter[Name];
+					Value[Name] = ParameterValue == null ? DefaultParameter[Name] : ParameterValue;
+				}
+			}
+			else {
+				for (var Name in DefaultParameter)
+					Value[Name] = DefaultParameter[Name];
+			}
+		};
+		Pub.GetEvents = function (Value, DefaultEvents, Parameter) {
+			if (Parameter === void 0) { Parameter = null; }
+			if (Parameter) {
+				for (var Name in DefaultEvents) {
+					var Function = Parameter[Name], Event = new Events();
+					if (Function)
+						Event.Add(Function);
+					Value[Name] = Event;
+				}
+			}
+			else {
+				for (var Name in DefaultEvents)
+					Value[Name] = new Events();
+			}
+		};
+		Pub.LoadViewType = function (Type, Name) {
+			if (Name == null)
+				Name = 'Id';
+			Type.Views = {};
+			Type.Get = function (Value, IsGetOnly) {
+				if (IsGetOnly)
+					return Type.Views[Value[Name] || Value];
+				var Id = Value[Name];
+				if (Id) {
+					var ViewValue = Type.Views[Id];
+					if (ViewValue) {
+						var Values = [];
+						Pub.CopyView(ViewValue, Value, Values);
+						if (ViewValue.OnCopyView)
+							ViewValue.OnCopyView();
+						return ViewValue;
+					}
+					return Type.Views[Id] = new Type(Value);
+				}
+				return new Type(Value);
+			};
+		};
+		Pub.CopyView = function (Left, Right, Values) {
+			if (Left === Right)
+				return Left;
+			if (Values.IndexOfValue(Right) < 0) {
+				Values.push(Right);
+				for (var Name in Right) {
+					if (Name != 'ViewOnly') {
+						if (Left[Name] == null || Right[Name] == null || typeof (Left[Name]) != 'object')
+							Left[Name] = Right[Name];
+						else
+							this.CopyView(Left[Name], Right[Name], Values);
+					}
+				}
+				Values.pop();
+			}
+			return Left;
+		};
+		Pub.ViewFlagEnum = function (EnumString, Enum) {
+			var Value = {}, IntValue = parseInt(EnumString);
+			if (isNaN(IntValue)) {
+				IntValue = 0;
+				if (EnumString)
+					for (var Values = EnumString.split(','), Index = Values.length; Index; IntValue |= Enum[Values[--Index].Trim()] || 0)
+						;
+			}
+			for (var Name in Enum) {
+				var EnumValue = Enum[Name];
+				if (typeof (EnumValue) == 'number')
+					Value[Name] = (IntValue & EnumValue) == EnumValue ? EnumValue : 0;
+			}
+			return Value;
+		};
+		Pub.DisableZoom = function () {
+			if (navigator.appVersion && navigator.appVersion.indexOf('MicroMessenger') + 1) {
+				var Meta = document.createElement('meta');
+				Meta.name = 'viewport';
+				Meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;';
+				fastCSharp.Loader.DocumentHead.appendChild(Meta);
+			}
+		};
+		Pub.DefaultCallAjaxPost = function (Url, Send, Callback) {
+			if (Send === void 0) { Send = null; }
+			if (Callback === void 0) { Callback = null; }
+			fastCSharp.HttpRequest.Post(new fastCSharp.HttpRequestQuery(Url, Send, Callback));
+		};
+		Pub.GetAjaxPost = function () {
+			return this.CallAjaxPost || this.DefaultCallAjaxPost;
+		};
+		Pub.DefaultCallAjaxGet = function (Url, Send, Callback) {
+			if (Send === void 0) { Send = null; }
+			if (Callback === void 0) { Callback = null; }
+			fastCSharp.HttpRequest.Get(new fastCSharp.HttpRequestQuery(Url, Send, Callback));
+		};
+		Pub.GetAjaxGet = function () {
+			return this.CallAjaxGet || this.DefaultCallAjaxGet;
+		};
+		Pub.GetHtmlEditor = function (Element) {
+			return HtmlElement.$ElementName(Element, 'htmleditor');
+		};
+		Pub.Errors = {};
+		Pub.JsonLoopObjects = [];
+		Pub.OnLoads = [];
+		Pub.IsModules = {};
+		Pub.LoadModules = {};
+		Pub.ModuleVersions = { 'htmlEditor': '1', 'ace/ace': '2', 'highcharts/highcharts': '2', 'mathJax/MathJax': '2' };
+		Pub.ClientView = {};
+		Pub.Functions = {};
+		Pub.Identity = 0;
+		return Pub;
+	}());
+	fastCSharp.Pub = Pub;
+	var IndexPoolNode = (function () {
+		function IndexPoolNode() {
+		}
+		IndexPoolNode.prototype.Set = function (Value) {
+			(this.Value = Value).PoolIdentity = ++this.Identity;
+		};
+		IndexPoolNode.prototype.Pop = function (Value) {
+			if (Value.PoolIdentity === this.Identity) {
+				this.Value = null;
+				Value.PoolIdentity = 0;
+				return true;
+			}
+			return false;
+		};
+		IndexPoolNode.prototype.Get = function (Identity) {
+			return Identity === this.Identity ? this.Value : null;
+		};
+		return IndexPoolNode;
+	}());
+	var IndexPool = (function () {
+		function IndexPool() {
+		}
+		IndexPool.Push = function (Value) {
+			if (this.Indexs.length)
+				this.Nodes[Value.PoolIndex = this.Indexs.pop()].Set(Value);
+			else {
+				var Node = new IndexPoolNode();
+				Node.Identity = 0;
+				Node.Set(Value);
+				Value.PoolIndex = this.Nodes.length;
+				this.Nodes.push(Node);
+			}
+		};
+		IndexPool.Pop = function (Value) {
+			this.Nodes[Value.PoolIndex];
+			var Node = this.Nodes[Value.PoolIndex];
+			if (Node && Node.Pop(Value))
+				this.Indexs.push(Value.PoolIndex);
+		};
+		IndexPool.Get = function (Index, Identity) {
+			var Node = this.Nodes[Index];
+			return Node ? Node.Get(Identity) : null;
+		};
+		IndexPool.ToString = function (Value) {
+			return 'fastCSharp.IndexPool.Get(' + Value.PoolIndex + ',' + Value.PoolIdentity + ')';
+		};
+		IndexPool.Nodes = [];
+		IndexPool.Indexs = [];
+		return IndexPool;
+	}());
+	fastCSharp.IndexPool = IndexPool;
+	var LoadJs = (function () {
+		function LoadJs(Script, OnLoad, OnError) {
+			if (OnLoad === void 0) { OnLoad = null; }
+			if (OnError === void 0) { OnError = null; }
+			this.OnLoad = OnLoad;
+			this.OnError = OnError;
+			this.LoadFunction = Pub.ThisFunction(this, this.OnLoadJs);
+			this.ErrorFunction = Pub.ThisFunction(this, this.OnErrorJs);
+			(this.Script = Script).onload = this.LoadFunction;
+			Script.onerror = this.ErrorFunction;
+			fastCSharp.Loader.DocumentHead.appendChild(Script);
+		}
+		LoadJs.prototype.OnLoadJs = function (Event) {
+			if (this.OnLoad)
+				this.OnLoad(Event);
+			fastCSharp.Loader.DocumentHead.removeChild(this.Script);
+		};
+		LoadJs.prototype.OnErrorJs = function (Event) {
+			if (this.OnError)
+				this.OnError(Event);
+			fastCSharp.Loader.DocumentHead.removeChild(this.Script);
+		};
+		return LoadJs;
+	}());
+	fastCSharp.LoadJs = LoadJs;
+	var Events = (function () {
+		function Events(OnAdd, This) {
+			if (OnAdd === void 0) { OnAdd = null; }
+			if (This === void 0) { This = null; }
+			this.OnAdd = This ? Pub.ThisFunction(This, OnAdd) : OnAdd;
+			this.Functions = [];
+			this.Function = Pub.ThisFunction(this, this.Call);
+		}
+		Events.prototype.Call = function () {
+			for (var Argument = Pub.ToArray(arguments), Index = 0; Index - this.Functions.length; this.Functions[Index++].apply(null, Argument))
+				;
+		};
+		Events.prototype.Add = function (Function) {
+			if (Function && this.Functions.IndexOfValue(Function) < 0) {
+				this.Functions.push(Function);
+				if (this.OnAdd && this.OnAdd())
+					Function();
+			}
+			return this;
+		};
+		Events.prototype.AddEvent = function (Event) {
+			if (Event)
+				for (var Index = 0, Functions = Event.Functions; Index - Functions.length; this.Add(Functions[Index++]))
+					;
+			return this;
+		};
+		Events.prototype.Remove = function (Function) {
+			if (Function)
+				this.Functions.RemoveAt(this.Functions.IndexOfValue(Function));
+			return this;
+		};
+		Events.prototype.RemoveEvent = function (Event) {
+			if (Event)
+				for (var Index = 0, Functions = Event.Get(); Index - Functions.length; this.Remove(Functions[Index++]))
+					;
+			return this;
+		};
+		Events.prototype.Clear = function () {
+			this.Functions.length = 0;
+			return this;
+		};
+		Events.prototype.Get = function () {
+			return this.Functions;
+		};
+		return Events;
+	}());
+	fastCSharp.Events = Events;
+	Pub.OnQueryEvents = new Events();
+	var HttpRequestQuery = (function () {
+		function HttpRequestQuery(Url, Send, CallBack) {
+			if (Send === void 0) { Send = null; }
+			if (CallBack === void 0) { CallBack = null; }
+			this.Url = Url;
+			this.Send = Send;
+			this.CallBack = CallBack;
+		}
+		HttpRequestQuery.prototype.ToQueryInfo = function () {
+			var Query = new HttpRequestQueryInfo(null);
+			Query.CallBack = this.CallBack || HttpRequestQuery.NullCallBack;
+			Query.OnError = this.OnError;
+			Query.Url = this.Url;
+			Query.FormData = this.FormData;
+			Query.Send = this.Send;
+			Query.Method = this.Method;
+			Query.UserName = this.UserName;
+			Query.Password = this.Password;
+			Query.IsRandom = this.IsRandom;
+			Query.IsOnLoad = this.IsOnLoad;
+			return Query;
+		};
+		HttpRequestQuery.NullCallBack = function () { };
+		return HttpRequestQuery;
+	}());
+	fastCSharp.HttpRequestQuery = HttpRequestQuery;
+	var HttpRequestQueryInfo = (function (_super) {
+		__extends(HttpRequestQueryInfo, _super);
+		function HttpRequestQueryInfo() {
+			_super.apply(this, arguments);
+		}
+		return HttpRequestQueryInfo;
+	}(HttpRequestQuery));
+	var HttpRequest = (function () {
+		function HttpRequest(OnResponse) {
+			if (OnResponse === void 0) { OnResponse = null; }
+			this.Requesting = false;
+			this.WriteOrder = 0;
+			this.ReadOrder = -1;
+			this.Queue = [];
+			this.OnResponse = new Events().Add(OnResponse);
+			this.OnReadyStateChangeFunction = Pub.ThisFunction(this, this.OnReadyStateChange);
+		}
+		HttpRequest.prototype.Request = function (Request) {
+			if (Request.Send && !Request.FormData) {
+				Request.SendString = Pub.ToJson(Request.Send);
+				if (Request.SendString === '{}')
+					Request.SendString = '';
+			}
+			this.Queue[this.WriteOrder++] = Request;
+			if (!this.Requesting) {
+				this.Requesting = true;
+				this.MakeXMLHttpRequest();
+			}
+		};
+		HttpRequest.prototype.CallBack = function () {
+			var Request = this.Queue[this.ReadOrder];
+			this.NextRequest();
+			if (Request.CallBack) {
+				if (Request.IsOnLoad)
+					Pub.OnLoad(Pub.ThisFunction(this, this.OnLoad, [Request.CallBack, Pub.ToArray(arguments)]), null, true);
+				else
+					Request.CallBack.apply(null, Pub.ToArray(arguments));
+			}
+		};
+		HttpRequest.prototype.OnLoad = function (CallBack, Arguments) {
+			CallBack.apply(null, Arguments);
+		};
+		HttpRequest.prototype.OnReadyStateChange = function (Event) {
+			var Request = this.ReadXMLHttpRequest;
+			if (Request.readyState == 4) {
+				var Query = this.Queue[this.ReadOrder], IsError = true;
+				try {
+					if (Request.status == 200 || Request.status == 304) {
+						var Text = Request.responseText;
+						this.OnResponse.Function(Text);
+						if (Query.CallBack) {
+							Pub.EvalJson(Text);
+							IsError = false;
+						}
+						else {
+							this.NextRequest();
+							Pub.EvalJson(Text);
+							IsError = false;
+						}
+					}
+					else {
+						this.NextRequest();
+						if (Query.Url.substring(0, HttpRequest.ErrorPath.length) !== HttpRequest.ErrorPath) {
+							HttpRequest.Post(new HttpRequestQuery('pub.Error', { error: '服务器请求失败 : ' + location.toString() + '\r\n' + Query.Url + (Query.SendString && !Query.FormData ? ('\r\n' + Query.SendString.length + '\r\n' + Query.SendString.substring(0, 256)) : '') }));
+						}
+					}
+				}
+				finally {
+					IndexPool.Pop(Query);
+					if (IsError && Query.OnError)
+						Query.OnError(this);
+				}
+			}
+		};
+		HttpRequest.prototype.NextRequest = function () {
+			if (this.ReadOrder === this.WriteOrder - 1) {
+				this.WriteOrder = 0;
+				this.ReadOrder = -1;
+				this.Requesting = false;
+			}
+			else
+				this.MakeXMLHttpRequest();
+		};
+		HttpRequest.prototype.MakeXMLHttpRequest = function () {
+			var Request = this.ReadXMLHttpRequest = HttpRequest.CreateRequest(), Info = this.Queue[++this.ReadOrder];
+			var Url = Info.Url;
+			if (Info.Method == null || Info.FormData)
+				Info.Method = 'POST';
+			if (Info.SendString && !Info.FormData) {
+				if (Info.Method === 'GET') {
+					Url += (Url.indexOf('?') + 1 ? '&' : '?') + 'j=' + Info.SendString.Escape();
+					Info.SendString = null;
+				}
+				else
+					Info.SendString = Info.SendString.replace(/\xA0/g, ' ');
+			}
+			if (Info.IsRandom)
+				Url += (Url.indexOf('?') + 1 ? '&' : '?') + 't=' + (new Date).getTime();
+			Info.Request = Request;
+			if (!Pub.IE && Info.Method === 'GET' && !Info.UserName && !Info.IsOnLoad) {
+				Info.RetryCount = 2;
+				Pub.AppendJs(Url, fastCSharp.Loader.Charset, null, (Pub.AjaxAppendJs = Info).OnError);
+			}
+			else {
+				Request.onreadystatechange = this.OnReadyStateChangeFunction;
+				if (Info.UserName == null || Info.UserName === '')
+					Request.open(Info.Method, Url, true);
+				else
+					Request.open(Info.Method, Url, true, Info.UserName, Info.Password);
+				if (Info.Header) {
+					for (var Name in Info.Header)
+						Request.setRequestHeader(Name, Info.Header[Name]);
+				}
+				else if (Info.Method === 'POST' && !Info.FormData)
+					Request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+				Request.send(Info.FormData || Info.SendString);
+			}
+		};
+		HttpRequest.CreateRequest = function () {
+			if (Pub.IE) {
+				for (var Index = HttpRequest.MicrosoftXmlHttps.length; Index;) {
+					try {
+						return new ActiveXObject(HttpRequest.MicrosoftXmlHttps[--Index]);
+					}
+					catch (e) { }
+				}
+			}
+			else if (window['XMLHttpRequest'])
+				return new XMLHttpRequest;
+			alert('你的浏览器不支持服务器请求,请升级您的浏览器！');
+			return null;
+		};
+		HttpRequest.Post = function (HttpRequestQuery) {
+			HttpRequestQuery.Method = 'POST';
+			var Query = HttpRequestQuery.ToQueryInfo(), Request = new HttpRequest;
+			IndexPool.Push(Query);
+			Query.Url = '/ajax?n=' + Query.Url + '&c=' + IndexPool.ToString(Query).Escape() + '.CallBack';
+			Request.Request(Query);
+		};
+		;
+		HttpRequest.Get = function (HttpRequestQuery) {
+			HttpRequestQuery.Method = 'GET';
+			if (!Pub.IE && !HttpRequestQuery.IsRandom) {
+				var Query = HttpRequestQuery.ToQueryInfo();
+				Query.IsRandom = false;
+				Query.Url = '/ajax?n=' + Query.Url + '&c=fastCSharp.Pub.AjaxCallBack';
+				this.AjaxGetRequest.Request(Query);
+				return;
+			}
+			var Query = HttpRequestQuery.ToQueryInfo();
+			IndexPool.Push(Query);
+			Query.IsRandom = true;
+			Query.Url = '/ajax?n=' + Query.Url + '&c=' + IndexPool.ToString(Query).Escape() + '.CallBack';
+			(new HttpRequest).Request(Query);
+		};
+		HttpRequest.Load = function () {
+			if (Pub.IE)
+				this.MicrosoftXmlHttps = ['Microsoft.XMLHTTP', 'Msxml2.XMLHTTP'];
+			Pub.AjaxCallBack = Pub.ThisFunction(this.AjaxGetRequest = new HttpRequest, this.AjaxGetRequest.CallBack);
+		};
+		HttpRequest.ErrorPath = '/ajax?n=pub.Error&';
+		return HttpRequest;
+	}());
+	fastCSharp.HttpRequest = HttpRequest;
+	var HtmlElement = (function () {
+		function HtmlElement(Value, Parent) {
+			if (typeof (Value) == 'string') {
+				this.FilterString = Value;
+				this.Parent = Parent ? (Parent instanceof HtmlElement ? Parent.Element0() : Parent) : document.body;
+			}
+			else if (Value) {
+				if (Value instanceof HtmlElement) {
+					this.FilterString = Value.FilterString;
+					this.Parent = Value.Parent;
+					this.Elements = Value.Elements;
+				}
+				else
+					this.Elements = Value instanceof Array ? Value : [Value];
+			}
+			else
+				this.Elements = [];
+		}
+		HtmlElement.prototype.FilterId = function () {
+			var Id = this.FilterValue();
+			this.FilterBuilder.push('function(Element,Value){if(Element==this.Parent?Value.IsParent(Element=document.getElementById("');
+			this.FilterBuilder.push(Id);
+			this.FilterBuilder.push('")):Element.id=="');
+			this.FilterBuilder.push(Id);
+			this.FilterBuilder.push('")(');
+			this.FilterNext(true);
+		};
+		HtmlElement.prototype.FilterChildTag = function () {
+			if (this.FilterIndex === this.FilterString.length || this.FilterString.charCodeAt(this.FilterIndex) - 47) {
+				var Name = this.FilterValue();
+				this.FilterBuilder.push('function(Element,Value){for(var Elements=Element.childNodes,Index=0;Index-Elements.length;)if((Element=Elements[Index++])');
+				if (Name) {
+					this.FilterBuilder.push('.tagName&&Element.tagName.toLowerCase()=="');
+					this.FilterBuilder.push(Name.toLowerCase());
+					this.FilterBuilder.push('"');
+				}
+				this.FilterBuilder.push(')(');
+				this.FilterNext(true);
+			}
+			else {
+				++this.FilterIndex;
+				this.FilterTag();
+			}
+		};
+		HtmlElement.prototype.FilterTag = function () {
+			var Name = this.FilterValue();
+			if (Name)
+				this.FilterChildren('tagName', Name);
+			else {
+				this.FilterChildren();
+				this.FilterBuilder.push('if(Element=Childs[Index++])(');
+				this.FilterNext(true);
+			}
+		};
+		HtmlElement.prototype.FilterChildren = function (Name, Value) {
+			if (Name === void 0) { Name = null; }
+			if (Value === void 0) { Value = ''; }
+			this.FilterBuilder.push('function(Element,Value){var Elements=[],ElementIndex=-1;while(ElementIndex-Elements.length)for(var Childs=ElementIndex+1?Elements[ElementIndex++].childNodes:[arguments[++ElementIndex]],Index=0;Index-Childs.length;Elements.push(Element))');
+			if (Name) {
+				if (!Value)
+					Value = this.FilterValue();
+				this.FilterBuilder.push('if((Element=Childs[Index++]).');
+				this.FilterBuilder.push(Name);
+				this.FilterBuilder.push('&&Element.');
+				this.FilterBuilder.push(Name);
+				this.FilterBuilder.push('.toLowerCase()');
+				this.FilterBuilder.push('=="');
+				this.FilterBuilder.push(Value.toLowerCase());
+				this.FilterBuilder.push('")(');
+				this.FilterNext(true);
+			}
+		};
+		HtmlElement.prototype.FilterClass = function () {
+			this.FilterChildren();
+			this.FilterBuilder.push('if((Element=Childs[Index++]).className&&Element.className.split(" ").IndexOf("');
+			this.FilterBuilder.push(this.FilterValue());
+			this.FilterBuilder.push('")+1)(');
+			this.FilterNext(true);
+		};
+		HtmlElement.prototype.FilterAttribute = function () {
+			this.FilterChildren();
+			var Value = this.FilterValue().split('=');
+			if (Value.length == 1) {
+				this.FilterBuilder.push('if(fastCSharp.HtmlElement.$IsAttribute(Element=Childs[Index++],"');
+				this.FilterBuilder.push(Value[0]);
+				this.FilterBuilder.push('"))(');
+			}
+			else {
+				this.FilterBuilder.push('if(fastCSharp.HtmlElement.$Attribute(Element=Childs[Index++],"');
+				this.FilterBuilder.push(Value[0]);
+				this.FilterBuilder.push('")=="');
+				this.FilterBuilder.push(Value[1]);
+				this.FilterBuilder.push('")(');
+			}
+			this.FilterNext(true);
+		};
+		HtmlElement.prototype.FilterName = function () {
+			this.FilterChildren();
+			this.FilterBuilder.push('if(fastCSharp.HtmlElement.$Attribute(Element=Childs[Index++],"name")=="');
+			this.FilterBuilder.push(this.FilterValue());
+			this.FilterBuilder.push('")(');
+			this.FilterNext(true);
+		};
+		HtmlElement.prototype.FilterCss = function () {
+			this.FilterChildren();
+			var Value = this.FilterValue().split('=');
+			this.FilterBuilder.push('if(fastCSharp.HtmlElement.$GetStyle(Element=Childs[Index++],"');
+			this.FilterBuilder.push(Value[0]);
+			this.FilterBuilder.push('")=="');
+			this.FilterBuilder.push(Value[1]);
+			this.FilterBuilder.push('")(');
+			this.FilterNext(true);
+		};
+		HtmlElement.prototype.FilterValue = function () {
+			var Index = this.FilterIndex;
+			while (this.FilterIndex !== this.FilterString.length && !this.FilterCreator[this.FilterString.charCodeAt(this.FilterIndex)])
+				++this.FilterIndex;
+			return this.FilterString.substring(Index, this.FilterIndex);
+		};
+		HtmlElement.prototype.FilterNext = function (IsEnd) {
+			if (this.FilterIndex !== this.FilterString.length) {
+				var Creator = this.FilterCreator[this.FilterString.charCodeAt(this.FilterIndex)];
+				if (Creator) {
+					++this.FilterIndex;
+					Creator();
+				}
+				else
+					this.FilterTag();
+				if (IsEnd)
+					this.FilterBuilder.push(')(Element,Value);}');
+			}
+			else if (this.FilterBuilder.length)
+				this.FilterBuilder.push('Value.Elements.push)(Element);}');
+		};
+		HtmlElement.prototype.GetElements = function () {
+			if (this.Elements)
+				return this.Elements;
+			if (!this.Filter) {
+				var Filter = this.FilterString ? HtmlElement.FilterCache[this.FilterString] : HtmlElement.NullFilter;
+				if (!Filter) {
+					this.FilterIndex = 0;
+					this.FilterCreator = { 35: Pub.ThisFunction(this, this.FilterId), 42: Pub.ThisFunction(this, this.FilterName), 46: Pub.ThisFunction(this, this.FilterClass), 47: Pub.ThisFunction(this, this.FilterChildTag), 58: Pub.ThisFunction(this, this.FilterChildren, ['type']), 63: Pub.ThisFunction(this, this.FilterCss), 64: Pub.ThisFunction(this, this.FilterAttribute) };
+					this.FilterBuilder = [];
+					this.FilterNext(false);
+					eval('Filter=' + this.FilterBuilder.join('') + ';');
+					HtmlElement.FilterCache[this.FilterString] = Filter;
+					this.FilterBuilder = this.FilterCreator = null;
+				}
+				this.Filter = Filter;
+			}
+			this.Elements = [];
+			this.Filter(this.Parent, this);
+			return this.Elements;
+		};
+		HtmlElement.NullFilter = function (Parent, HtmlElement) { };
+		HtmlElement.prototype.Element0 = function () {
+			return this.GetElements()[0];
+		};
+		HtmlElement.prototype.AddEvent = function (Name, Value, IsStop) {
+			if (IsStop === void 0) { IsStop = !Pub.IE; }
+			return this.Event(Name, Value, IsStop, '$AddEvent');
+		};
+		HtmlElement.prototype.DeleteEvent = function (Name, Value, IsStop) {
+			if (IsStop === void 0) { IsStop = !Pub.IE; }
+			return this.Event(Name, Value, IsStop, '$DeleteEvent');
+		};
+		HtmlElement.prototype.Event = function (Name, Value, IsStop, CallName) {
+			var Elements = this.GetElements();
+			if (Elements.length) {
+				var Names = Name.split(',');
+				for (var Index = 0; Index - Elements.length; HtmlElement[CallName](Elements[Index++], Names, Value, IsStop))
+					;
+			}
+			return this;
+		};
+		HtmlElement.prototype.Value0 = function () {
+			var Elements = this.GetElements();
+			return Elements.length ? HtmlElement.$GetValue(Elements[0]) : null;
+		};
+		HtmlElement.prototype.Value = function (Value) {
+			for (var Index = 0, Elements = this.GetElements(); Index - Elements.length; HtmlElement.$SetValue(Elements[Index++], Value))
+				;
+			return this;
+		};
+		HtmlElement.prototype.Get0 = function (Name, Value) {
+			if (Value === void 0) { Value = null; }
+			var Elements = this.GetElements();
+			return Elements.length ? Elements[0][Name] : Value;
+		};
+		HtmlElement.prototype.Id0 = function () {
+			return this.Get0('id');
+		};
+		HtmlElement.prototype.Html0 = function () {
+			return this.Get0('innerHTML');
+		};
+		HtmlElement.prototype.TagName0 = function () {
+			return this.Get0('tagName');
+		};
+		HtmlElement.prototype.ScrollHeight0 = function () {
+			return this.Get0('scrollHeight', 0);
+		};
+		HtmlElement.prototype.Attribute0 = function (Name) {
+			var Elements = this.GetElements();
+			if (Elements.length)
+				return HtmlElement.$Attribute(Elements[0], Name);
+		};
+		HtmlElement.prototype.Name0 = function () {
+			return this.Attribute0('name');
+		};
+		HtmlElement.prototype.GetCall0 = function (CallName) {
+			var Elements = this.GetElements();
+			if (Elements.length)
+				return HtmlElement[CallName](Elements[0]);
+		};
+		HtmlElement.prototype.Text0 = function () {
+			return this.GetCall0('$GetText');
+		};
+		HtmlElement.prototype.Css0 = function () {
+			return this.GetCall0('$Css');
+		};
+		HtmlElement.prototype.Width0 = function () {
+			return this.GetCall0('$Width');
+		};
+		HtmlElement.prototype.Height0 = function () {
+			return this.GetCall0('$Height');
+		};
+		HtmlElement.prototype.Opacity0 = function () {
+			return this.GetCall0('$GetOpacity');
+		};
+		HtmlElement.prototype.XY0 = function () {
+			return this.GetCall0('$XY');
+		};
+		HtmlElement.prototype.Style0 = function (Name) {
+			var Css = this.Css0();
+			return Css ? Css[Name] : null;
+		};
+		HtmlElement.prototype.Parent0 = function () {
+			var Elements = this.GetElements();
+			return Elements.length ? HtmlElement.$(HtmlElement.$ParentElement(Elements[0])) : null;
+		};
+		HtmlElement.prototype.Next0 = function () {
+			var Elements = this.GetElements();
+			return Elements.length ? HtmlElement.$(HtmlElement.$NextElement(Elements[0])) : null;
+		};
+		HtmlElement.prototype.Previous0 = function () {
+			var Elements = this.GetElements();
+			return Elements.length ? HtmlElement.$(HtmlElement.$PreviousElement(Elements[0])) : null;
+		};
+		HtmlElement.prototype.Replace0 = function (Element) {
+			var Elements = this.GetElements();
+			if (Elements.length)
+				HtmlElement.$ParentElement(Elements[0]).replaceChild(Element, Elements[0]);
+			return this;
+		};
+		HtmlElement.prototype.Set = function (Name, Value) {
+			for (var Index = 0, Elements = this.GetElements(); Index - Elements.length; Elements[Index++][Name] = Value)
+				;
+			return this;
+		};
+		HtmlElement.prototype.Html = function (Html, IsToHtml) {
+			if (IsToHtml === void 0) { IsToHtml = false; }
+			return this.Set('innerHTML', IsToHtml ? Html.ToHTML() : Html);
+		};
+		HtmlElement.prototype.To = function (Parent) {
+			if (Parent === void 0) { Parent = document.body; }
+			var Elements = this.GetElements();
+			if (Elements.length) {
+				if (Parent instanceof HtmlElement)
+					Parent = Parent.Element0();
+				for (var Index = -1; ++Index - Elements.length;) {
+					if (HtmlElement.$ParentElement(Elements[Index]) != Parent)
+						Parent.appendChild(Elements[Index]);
+				}
+			}
+			return this;
+		};
+		HtmlElement.prototype.Child = function () {
+			for (var Nodes = [], Elements = this.GetElements(), Index = 0; Index - Elements.length; ++Index) {
+				var Childs = Elements[Index].childNodes;
+				if (Childs)
+					for (var NodeIndex = 0; NodeIndex !== Childs.length; Nodes.push(Childs[NodeIndex++]))
+						;
+			}
+			return new HtmlElement(Nodes, null);
+		};
+		HtmlElement.prototype.Childs = function (IsChild) {
+			if (IsChild === void 0) { IsChild = null; }
+			for (var Value = [], Elements = this.GetElements(), Index = 0; Index - Elements.length; ++Index) {
+				var Values = HtmlElement.$ChildElements(Elements[Index], IsChild);
+				if (Values)
+					Value.push(Values);
+			}
+			return HtmlElement.$(Value.concat.apply([], Value));
+		};
+		HtmlElement.prototype.InsertBefore = function (Element, Parent) {
+			if (Parent === void 0) { Parent = null; }
+			if (!Parent)
+				Parent = HtmlElement.$ParentElement(Element);
+			for (var Elements = this.GetElements(), Index = 0; Index !== Elements.length; Parent.insertBefore(Elements[Index++], Element))
+				;
+			return this;
+		};
+		HtmlElement.prototype.Delete = function () {
+			for (var Elements = this.GetElements(), Index = 0; Index !== Elements.length; HtmlElement.$Delete(Elements[Index++]))
+				;
+			return this;
+		};
+		HtmlElement.prototype.AddClass = function (Name) {
+			return this.Class(Name, '$AddClass');
+		};
+		HtmlElement.prototype.RemoveClass = function (Name) {
+			return this.Class(Name, '$RemoveClass');
+		};
+		HtmlElement.prototype.Class = function (Name, CallName) {
+			if (Name) {
+				var Elements = this.GetElements();
+				if (Elements.length) {
+					for (var Index = 0, Names = Name.split(' '); Index !== Elements.length; HtmlElement[CallName](Elements[Index++], Names))
+						;
+				}
+			}
+			return this;
+		};
+		HtmlElement.prototype.Style = function (Name, Value) {
+			for (var Elements = this.GetElements(), Index = Elements.length; Index; Elements[--Index].style[Name] = Value)
+				;
+			return this;
+		};
+		HtmlElement.prototype.Styles = function (Name, Value) {
+			var Elements = this.GetElements();
+			if (Elements.length) {
+				for (var ElementIndex = 0, Names = Name.split(','); ElementIndex - Elements.length;) {
+					for (var Element = Elements[ElementIndex++], Index = 0; Index - Names.length; Element.style[Names[Index++]] = Value)
+						;
+				}
+			}
+			return this;
+		};
+		HtmlElement.prototype.Display = function (IsShow) {
+			return this.Style('display', typeof (IsShow) == 'string' ? IsShow : (IsShow ? '' : 'none'));
+		};
+		HtmlElement.prototype.Disabled = function (Value) {
+			return this.Style('disabled', Value);
+		};
+		HtmlElement.prototype.Left = function (Value) {
+			return this.Style('left', Value + 'px');
+		};
+		HtmlElement.prototype.Top = function (Value) {
+			return this.Style('top', Value + 'px');
+		};
+		HtmlElement.prototype.ToXY = function (Left, Top) {
+			var Elements = this.GetElements();
+			if (Elements.length) {
+				for (var Index = Elements.length; Index; HtmlElement.$ToXY(Elements[--Index], Left, Top))
+					;
+			}
+			return this;
+		};
+		HtmlElement.prototype.Cursor = function (Value) {
+			return this.Style('cursor', Value);
+		};
+		HtmlElement.prototype.Opacity = function (Value) {
+			for (var Index = 0, Elements = this.GetElements(); Index - Elements.length; HtmlElement.$SetOpacity(Elements[Index++], Value))
+				;
+			return this;
+		};
+		HtmlElement.prototype.FirstElement = function (IsValue) {
+			return this.GetElements().First(IsValue);
+		};
+		HtmlElement.prototype.CssArray = function (Name) {
+			for (var Value = [], Elements = this.GetElements(), Index = 0; Index - Elements.length; Value.push(HtmlElement.$Css(Elements[Index++])[Name]))
+				;
+			return Value;
+		};
+		HtmlElement.prototype.TopIndex = function () {
+			if (this.CssArray('zIndex').MaxValue() != HtmlElement.ZIndex && this.Elements.length)
+				this.Style('zIndex', ++HtmlElement.ZIndex);
+			return this;
+		};
+		HtmlElement.prototype.Focus0 = function () {
+			var Elements = this.GetElements();
+			if (Elements.length)
+				Elements[0].focus();
+			return this;
+		};
+		HtmlElement.prototype.Blur0 = function () {
+			var Elements = this.GetElements();
+			if (Elements.length)
+				Elements[0].blur();
+			return this;
+		};
+		HtmlElement.prototype.ChangeBool = function (Name) {
+			for (var Index = 0, Elements = this.GetElements(); Index - Elements.length; ++Index)
+				Elements[Index][Name] = !Elements[Index][Name];
+			return this;
+		};
+		HtmlElement.$ = function (Value, Parent) {
+			if (Parent === void 0) { Parent = null; }
+			return new HtmlElement(Value, Parent);
+		};
+		HtmlElement.$Id = function (Id) {
+			return this.$(document.getElementById(Id));
+		};
+		HtmlElement.$IdElement = function (Id) {
+			return document.getElementById(Id);
+		};
+		HtmlElement.$AddEvent = function (Element, Names, Value, IsStop) {
+			if (IsStop === void 0) { IsStop = !Pub.IE; }
+			var IsBody = Pub.IE && (Element == document.body || (Element.tagName && Element.tagName.toLowerCase() == 'body'));
+			this.$DeleteEvent(Element, Names, Value, IsStop);
+			for (var Index = Names.length; --Index >= 0;) {
+				var Name = Names[Index].toLowerCase();
+				if (Pub.IE) {
+					if (Name.substring(0, 2) != 'on')
+						Name = 'on' + Name;
+					if (IsBody && Name == 'onfocus')
+						Name = 'onfocusin';
+					Element['attachEvent'](Name, Value);
+				}
+				else {
+					if (Name.substring(0, 2) === 'on')
+						Name = Name.substring(2);
+					Element.addEventListener(Name, Value, IsStop);
+				}
+			}
+		};
+		HtmlElement.$DeleteEvent = function (Element, Names, Value, IsStop) {
+			if (IsStop === void 0) { IsStop = !Pub.IE; }
+			var IsBody = Pub.IE && (Element == document.body || (Element.tagName && Element.tagName.toLowerCase() == 'body'));
+			for (var Index = Names.length; --Index >= 0;) {
+				var Name = Names[Index].toLowerCase();
+				if (Pub.IE) {
+					if (Name.substring(0, 2) != 'on')
+						Name = 'on' + Name;
+					if (IsBody && Name == 'onfocus')
+						Name = 'onfocusin';
+					Element['detachEvent'](Name, Value);
+				}
+				else {
+					if (Name.substring(0, 2) === 'on')
+						Name = Name.substring(2);
+					Element.removeEventListener(Name, Value, IsStop);
+				}
+			}
+		};
+		HtmlElement.$ParentElement = function (Element) {
+			return (Pub.IE ? Element.parentElement || Element.parentNode : Element.parentNode);
+		};
+		HtmlElement.$NextElement = function (Element) {
+			return Element ? Element.nextSibling : null;
+		};
+		HtmlElement.$PreviousElement = function (Element) {
+			return Element ? Element.previousSibling : null;
+		};
+		HtmlElement.$Delete = function (Element, Parent) {
+			if (Parent === void 0) { Parent = null; }
+			if (Element != null)
+				(Parent || HtmlElement.$ParentElement(Element)).removeChild(Element);
+		};
+		HtmlElement.$ChildElements = function (Element, IsElement) {
+			if (IsElement === void 0) { IsElement = null; }
+			var Value = [], Elements = [Element], ElementIndex = 0;
+			while (ElementIndex < Elements.length) {
+				for (var Childs = Elements[ElementIndex++].childNodes, Index = -1; ++Index - Childs.length;) {
+					if (IsElement == null || IsElement(Childs[Index]))
+						Value.push(Childs[Index]);
+					Elements.push(Childs[Index]);
+				}
+			}
+			return Value;
+		};
+		HtmlElement.$Create = function (TagName, Document) {
+			if (Document === void 0) { Document = document; }
+			return this.$(Document.createElement(TagName));
+		};
+		HtmlElement.$CreateElement = function (TagName, Document) {
+			if (Document === void 0) { Document = document; }
+			return Document.createElement(TagName);
+		};
+		HtmlElement.$GetValueById = function (Id) {
+			return this.$GetValue(this.$IdElement(Id));
+		};
+		HtmlElement.$GetValue = function (Element) {
+			if (Element) {
+				if (Element.tagName.toLowerCase() === 'select') {
+					if (Element.selectedIndex >= 0)
+						return Element.options[Element.selectedIndex].value;
+					return null;
+				}
+				return Element.value;
+			}
+		};
+		HtmlElement.$SetValue = function (Element, Value) {
+			if (Element) {
+				if (Element.tagName.toLowerCase() == 'select') {
+					for (var Index = Element.options.length; Index;) {
+						if (Element.options[--Index].value == Value)
+							break;
+					}
+					Element.selectedIndex = Index;
+				}
+				else
+					Element.value = Value;
+			}
+		};
+		HtmlElement.$SetValueById = function (Id, Value) {
+			var Element = this.$IdElement(Id);
+			this.$SetValue(Element, Value);
+			return Element;
+		};
+		HtmlElement.$IntById = function (Id, DefaultValue) {
+			if (DefaultValue === void 0) { DefaultValue = null; }
+			var Value = this.$GetValueById(Id);
+			return Value ? parseInt(Value, 10) : (DefaultValue || 0);
+		};
+		HtmlElement.$FloatById = function (Id, DefaultValue) {
+			if (DefaultValue === void 0) { DefaultValue = null; }
+			var Value = this.$GetValueById(Id);
+			return Value ? parseFloat(Value) : (DefaultValue || 0);
+		};
+		HtmlElement.$GetCheckedById = function (Id) {
+			var Element = this.$IdElement(Id);
+			return Element && Element['checked'];
+		};
+		HtmlElement.$SetCheckedById = function (Id, Checked) {
+			var Element = this.$IdElement(Id);
+			if (Element)
+				Element['checked'] = Checked;
+			return Element;
+		};
+		HtmlElement.$GetText = function (Element) {
+			return Pub.IE ? Element.nodeType == 3 ? Element.nodeValue : Element.innerText : Element.textContent;
+		};
+		HtmlElement.$AddClass = function (Element, Names) {
+			if (Names) {
+				if (Element.classList) {
+					for (var Index = Names.length; Index; Element.classList.add(Names[--Index]))
+						;
+				}
+				else {
+					var OldName = Element.className;
+					if (OldName) {
+						for (var Index = Names.length, OldNames = OldName.split(' '); --Index >= 0;)
+							if (OldNames.IndexOfValue(Names[Index]) < 0)
+								OldNames.push(Names[Index]);
+						Names = OldNames;
+					}
+					Element.className = Names.join(' ');
+				}
+			}
+		};
+		HtmlElement.$RemoveClass = function (Element, Names) {
+			if (Names) {
+				if (Element.classList) {
+					for (var Index = Names.length; Index; Element.classList.remove(Names[--Index]))
+						;
+				}
+				else {
+					var OldName = Element.className;
+					if (OldName) {
+						for (var Index = Names.length, OldNames = OldName.split(' '); Index; OldNames.RemoveAtEnd(OldNames.IndexOfValue(Names[--Index])))
+							;
+						Element.className = OldNames.length ? OldNames.join(' ') : '';
+					}
+				}
+			}
+		};
+		HtmlElement.$Css = function (Element) {
+			return Pub.IE ? Element['currentStyle'] : document.defaultView.getComputedStyle(Element);
+		};
+		HtmlElement.$GetStyle = function (Element, Name) {
+			var Css = this.$Css(Element);
+			return Css ? Css[Name] : null;
+		};
+		HtmlElement.$SetStyle = function (Element, Name, Value) {
+			Element.style[Name] = Value;
+		};
+		HtmlElement.$AttributeOrStyle = function (Element, Name) {
+			return this.$Attribute(Element, Name) || this.$GetStyle(Element, Name);
+		};
+		HtmlElement.$Attribute = function (Element, Name) {
+			var Value = Element[Name];
+			return Value == undefined && Element.attributes && (Value = Element.attributes[Name]) ? Value.value : Value;
+		};
+		HtmlElement.$IsAttribute = function (Element, Name) {
+			return Element[Name] !== undefined || (Element.attributes != null && Element.attributes[Name] !== undefined);
+		};
+		HtmlElement.$ElementName = function (Element, Name, Value) {
+			if (Value === void 0) { Value = null; }
+			if (Value == null) {
+				while (Element && HtmlElement.$Attribute(Element, Name) == null)
+					Element = HtmlElement.$ParentElement(Element);
+			}
+			else
+				while (Element && HtmlElement.$Attribute(Element, Name) != Value)
+					Element = HtmlElement.$ParentElement(Element);
+			return Element;
+		};
+		HtmlElement.$Transform_matrix = function (a, b, c, d, Left, Top) {
+			return { Left: Left, Top: Top };
+		};
+		HtmlElement.$XY = function (Element) {
+			for (var Left = 0, Top = 0; Element != null && Element != document.body; Element = Element.offsetParent) {
+				Left += Element.offsetLeft;
+				Top += Element.offsetTop;
+				if (Pub.IsFixed) {
+					var Css = this.$Css(Element), Transform = Css['transform'] || Css['-webkit-transform'];
+					if (Css['position'] == 'fixed') {
+						Left += this.$GetScrollLeft();
+						Top += this.$GetScrollTop();
+					}
+					var XY = this.$Transform(Transform);
+					if (XY) {
+						if (XY.Left)
+							Left += XY.Left;
+						if (XY.Top)
+							Top += XY.Top;
+					}
+				}
+				if (Pub.IsBorder) {
+					var Css = this.$Css(Element);
+					Left -= parseInt(0 + Css['border-left-width'], 10);
+					Top -= parseInt(0 + Css['border-top-width'], 10);
+					if (Pub.IsPadding) {
+						Left -= parseInt(0 + Css['padding-left'], 10);
+						Top -= parseInt(0 + Css['padding-top'], 10);
+					}
+				}
+			}
+			return { Left: Left, Top: Top };
+		};
+		HtmlElement.$Transform = function (Transform) {
+			if (Transform && Transform.indexOf('matrix(') != -1)
+				return eval('HtmlElement.$Transform_' + Transform);
+		};
+		HtmlElement.$ToXY = function (Element, Left, Top) {
+			var Value = this.$XY(Element['offsetParent']);
+			Element.style.left = (Left - Value.Left) + 'px';
+			Element.style.top = (Top - Value.Top) + 'px';
+			return Element;
+		};
+		HtmlElement.$Width = function (Element) {
+			if (Element === void 0) { Element = null; }
+			if (Element == null)
+				return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			return this.$Offset(Element, 'offsetWidth');
+		};
+		HtmlElement.$Height = function (Element) {
+			if (Element === void 0) { Element = null; }
+			if (Element == null)
+				return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+			return this.$Offset(Element, 'offsetHeight');
+		};
+		HtmlElement.$Offset = function (Element, Name) {
+			while (Element) {
+				var Value = Element[Name];
+				if (Value != null)
+					return Value;
+				var Elements = Element.children;
+				if (Elements == null)
+					return 0;
+				Element = Elements[0];
+			}
+			return 0;
+		};
+		HtmlElement.$GetScrollLeft = function () {
+			return document.body.scrollLeft || document.documentElement.scrollLeft;
+		};
+		HtmlElement.$SetScrollLeft = function (Left) {
+			return document.body.scrollLeft = document.documentElement.scrollLeft = Left;
+		};
+		HtmlElement.$GetScrollTop = function () {
+			return document.body.scrollTop || document.documentElement.scrollTop;
+		};
+		HtmlElement.$SetScrollTop = function (Top) {
+			document.body.scrollTop = document.documentElement.scrollTop = Top;
+		};
+		HtmlElement.$ScrollTopById = function (Id) {
+			var Element = this.$IdElement(Id);
+			if (Element)
+				this.$SetScrollTop(this.$XY(Element).Top);
+		};
+		HtmlElement.$SetOpacity = function (Element, Value) {
+			if (Pub.IE)
+				Element.style.filter = 'alpha(opacity=' + Value + ')';
+			else
+				Element.style.opacity = Element.style['MozOpacity'] = (Value / 100).toString();
+		};
+		HtmlElement.$GetOpacity = function (Element) {
+			if (Pub.IE)
+				return Element.style.filter['alphas'].opacity;
+			var Value = this.$Css(Element).opacity;
+			return Value ? parseFloat(Value) * 100 : null;
+		};
+		HtmlElement.$Name = function (Value, Element) {
+			if (Element === void 0) { Element = null; }
+			if (Pub.IE)
+				return HtmlElement.$(HtmlElement.$ChildElements(Element || document.body, function (Element) { return HtmlElement.$Attribute(Element, 'name') == Value; }));
+			return HtmlElement.$(Element ? HtmlElement.$ChildElements(Element, function (Element) { return HtmlElement.$Attribute(Element, 'name') == Value; }) : Pub.ToArray(document.getElementsByName(Value)));
+		};
+		HtmlElement.$Hash = function (Location) {
+			if (Location === void 0) { Location = location; }
+			return Location.hash.toString().replace(/^#(\!|\%21)?/g, '');
+		};
+		HtmlElement.$Paste = function (Element, Text, IsAll) {
+			if (Pub.IE) {
+				var Selection = Element['document'].selection.createRange();
+				if (IsAll && Selection.text == '')
+					Element.value = Text;
+				else {
+					Selection.text = Text;
+					Selection.moveStart('character', 0);
+					Selection.select();
+				}
+			}
+			else {
+				var StartIndex = Element.selectionStart, EndIndex = Element.selectionEnd;
+				if (IsAll && StartIndex == EndIndex) {
+					Element.value = Text;
+					StartIndex = 0;
+				}
+				else {
+					var OldText = Element.value;
+					Element.value = OldText.substring(0, StartIndex) + Text + OldText.substring(EndIndex);
+				}
+				Element.selectionStart = Element.selectionEnd = StartIndex + Text.length;
+			}
+		};
+		HtmlElement.$SelectOption = function (Id) {
+			var Element = this.$IdElement(Id);
+			if (Element && Element.selectedIndex >= 0)
+				return Element.options[Element.selectedIndex];
+		};
+		HtmlElement.FilterCache = {};
+		HtmlElement.OverZIndex = 100;
+		HtmlElement.ZIndex = 10000;
+		return HtmlElement;
+	}());
+	fastCSharp.HtmlElement = HtmlElement;
+	var SkinReShowType;
+	(function (SkinReShowType) {
+		SkinReShowType[SkinReShowType["None"] = 0] = "None";
+		SkinReShowType[SkinReShowType["ReShow"] = 1] = "ReShow";
+		SkinReShowType[SkinReShowType["PushArray"] = 2] = "PushArray";
+		SkinReShowType[SkinReShowType["RemoveArray"] = 3] = "RemoveArray";
+	})(SkinReShowType || (SkinReShowType = {}));
+	var SkinViewNode = (function () {
+		function SkinViewNode(Node, Parent, Data) {
+			if (Data === void 0) { Data = null; }
+			this.Parent = Parent;
+			this.Node = Node;
+			this.ReShowType = SkinReShowType.None;
+			if (Data)
+				this.SetView(Data);
+		}
+		SkinViewNode.prototype.CreateView = function () {
+			var Expressions = this.Node.Expressions;
+			if (Expressions) {
+				this.Views = [];
+				for (var Index = 0; Index !== Expressions.length; this.Views.push(Expressions[Index++].CreateView(this)))
+					;
+			}
+			else
+				this.SetView(this.Node.Skin.Datas[this.Node.Skin.Datas.length - 1]);
+		};
+		SkinViewNode.prototype.SetView = function (Data) {
+			this.Views = [new SkinView([Data])];
+			this.SetData(Data);
+		};
+		SkinViewNode.prototype.SetData = function (Data) {
+			if (Data.$Nodes)
+				Data.$Nodes.push(this);
+			else
+				Data.$Nodes = [this];
+		};
+		SkinViewNode.prototype.Create = function () {
+			this.SkinNoMark = this.Node.Skin.NoMark;
+			this.SkinNoOutput = this.Node.Skin.NoOutput;
+			switch (this.Node.TypeIndex) {
+				case 0:
+					this.Mark(true);
+					this.CreateNodes();
+					this.Mark(false);
+					break;
+				case 1:
+					this.CreateIf();
+					break;
+				case 2:
+					this.CreateNot();
+					break;
+				case 3:
+					this.CreateLoop();
+					break;
+				case 4:
+					this.CreateValue();
+					break;
+				case 5:
+					this.CreateNoMark();
+					break;
+				case 6:
+					SkinViewNode.CreateHtml(this.Node);
+					break;
+				case 7:
+					this.CreateAt();
+					break;
+			}
+		};
+		SkinViewNode.prototype.GetMarkId = function (IsStart) {
+			return '_' + this.Identity + (IsStart ? '_MARKSTART_' : '_MARKEND_');
+		};
+		SkinViewNode.DeleteMark = function (Span) {
+			var Id = Span.id;
+			if (Id && Id.length > 10) {
+				if (Id.substring(Id.length - 9) == '_MARKEND_' || Id.substring(Id.length - 11) == '_MARKSTART_')
+					HtmlElement.$Delete(Span);
+			}
+		};
+		SkinViewNode.prototype.Mark = function (IsStart) {
+			var Skin = this.Node.Skin;
+			if ((Skin.NoOutput | Skin.NoMark) === 0 && !this.NoMark) {
+				if (!this.Identity)
+					this.Identity = ++SkinViewNode.NodeIdentity;
+				Skin.Htmls.push('<span id="' + this.GetMarkId(IsStart) + '" style="display:none"></span>');
+			}
+		};
+		SkinViewNode.prototype.CreateNodes = function () {
+			var Nodes = this.Node.Nodes;
+			if (Nodes)
+				for (var Index = 0; Index !== Nodes.length; ++Index) {
+					var Node = Nodes[Index];
+					if (Node.TypeIndex == 6)
+						SkinViewNode.CreateHtml(Node);
+					else
+						new SkinViewNode(Node, this).Create();
+				}
+		};
+		SkinViewNode.prototype.CreateIf = function () {
+			this.CreateView();
+			this.CreateLogic(this.CheckLogic());
+		};
+		SkinViewNode.prototype.CreateNot = function () {
+			this.CreateView();
+			this.CreateLogic(!this.CheckLogic());
+		};
+		SkinViewNode.prototype.CreateLogic = function (IsOutput) {
+			this.Mark(true);
+			if (!IsOutput)
+				++this.Node.Skin.NoOutput;
+			this.CreateNodes();
+			if (!IsOutput)
+				--this.Node.Skin.NoOutput;
+			this.Mark(false);
+		};
+		SkinViewNode.prototype.CheckLogic = function () {
+			for (var Index = this.Views.length; Index;) {
+				var Expression = this.Node.GetExpression(--Index), Value = this.Views[Index].CheckLogic(Expression);
+				if (Expression.IsNot ? !Value : Value) {
+					if (this.Node.IsOrExpression)
+						return true;
+				}
+				else if (!this.Node.IsOrExpression)
+					return false;
+			}
+			return !this.Node.IsOrExpression;
+		};
+		SkinViewNode.prototype.CreateLoop = function () {
+			if (this.IsLoopValue) {
+				this.SkinNoMark = this.Node.Skin.NoMark;
+				this.SkinNoOutput = this.Node.Skin.NoOutput;
+				this.Mark(true);
+				var Data = this.Views[0].GetData();
+				if (Data && Data.$Data != null) {
+					this.Node.Skin.Datas.push(Data);
+					this.CreateNodes();
+					this.Node.Skin.Datas.pop();
+				}
+			}
+			else {
+				this.CreateView();
+				this.Mark(true);
+				if (this.LoopNodes)
+					this.LoopNodes.length = 0;
+				else
+					this.LoopNodes = [];
+				this.CreateLoopOnly();
+			}
+			this.Mark(false);
+		};
+		SkinViewNode.prototype.CreateLoopOnly = function () {
+			var Data = this.Views[0].GetData();
+			if (Data) {
+				var Value = Data.$Data;
+				if (Value instanceof Array && Value.length) {
+					this.Node.Skin.Datas.push(Data);
+					if (!this.LoopNodes)
+						this.LoopNodes = [];
+					for (var Index = this.LoopNodes.length; Index < Value.length; ++Index) {
+						var Node = new SkinViewNode(this.Node, this, Data.$Get(Index));
+						Node.IsLoopValue = true;
+						this.LoopNodes.push(Node);
+						Node.CreateLoop();
+					}
+					this.Node.Skin.Datas.pop();
+				}
+			}
+		};
+		SkinViewNode.prototype.CreateValue = function () {
+			this.CreateView();
+			this.Mark(true);
+			var Data = this.Views[0].GetData();
+			if (Data && Data.$Data != null) {
+				this.Node.Skin.Datas.push(Data);
+				this.CreateNodes();
+				this.Node.Skin.Datas.pop();
+			}
+			this.Mark(false);
+		};
+		SkinViewNode.prototype.CreateNoMark = function () {
+			++this.Node.Skin.NoMark;
+			this.CreateNodes();
+			--this.Node.Skin.NoMark;
+		};
+		SkinViewNode.CreateHtml = function (Node) {
+			if (Node.Skin.NoOutput === 0)
+				Node.Skin.Htmls.push(Node.Html);
+		};
+		SkinViewNode.prototype.CreateAt = function () {
+			this.CreateView();
+			if (this.Node.Skin.NoOutput === 0) {
+				if (this.Node.IsIdentity) {
+					if (!this.Identity)
+						this.Identity = ++SkinViewNode.NodeIdentity;
+					this.Node.Skin.Htmls.push(this.Identity.toString());
+					if (this.Parent != null && !this.IsSetSearchNode)
+						this.Parent.SetSearchNode(this);
+				}
+				else if (this.Node.IsLoopIndex)
+					this.Node.Skin.Htmls.push(this.GetLoopIndex().toString());
+				else {
+					if (!this.Node.NoMarkAt)
+						this.Mark(true);
+					var Data = this.Views[0].GetData();
+					if (Data && Data.$Data != null) {
+						var Value = Data.$Data.toString();
+						this.Node.Skin.Htmls.push(this.Node.IsHtml ? Value.ToHTML() : (this.Node.IsTextArea ? Value.ToTextArea() : Value));
+					}
+					if (!this.Node.NoMarkAt)
+						this.Mark(false);
+				}
+			}
+		};
+		SkinViewNode.prototype.GetLoopIndex = function () {
+			if (this.Node.TypeIndex == 3 && this.IsLoopValue) {
+				var Data = this.Views[0].GetData();
+				return Data ? Data.$Name : -1;
+			}
+			return this.Parent ? this.Parent.GetLoopIndex() : -1;
+		};
+		SkinViewNode.prototype.SetSearchNode = function (Node) {
+			Node.IsSetSearchNode = true;
+			if (this.SearchNodes)
+				this.SearchNodes.push(Node);
+			else
+				this.SearchNodes = [Node];
+			if (this.Parent != null && !this.IsSetSearchNode)
+				this.Parent.SetSearchNode(this);
+		};
+		SkinViewNode.prototype.SearchNode = function (Identity) {
+			if (this.Identity == Identity)
+				return this;
+			if (this.SearchNodes) {
+				for (var Index = this.SearchNodes.length; Index;) {
+					var Node = this.SearchNodes[--Index].SearchNode(Identity);
+					if (Node)
+						return Node;
+				}
+			}
+		};
+		SkinViewNode.prototype.ClearSearchNode = function (IsStart) {
+			if (!IsStart)
+				this.IsSetSearchNode = false;
+			if (this.SearchNodes) {
+				for (var Index = this.SearchNodes.length; Index; this.SearchNodes[--Index].ClearSearchNode(false))
+					;
+				this.SearchNodes.length = 0;
+			}
+		};
+		SkinViewNode.prototype.TryShow = function (Type) {
+			if (!this.SkinNoOutput) {
+				if (this.Identity) {
+					if (this.ReShowType == SkinReShowType.None) {
+						this.ReShowType = Type;
+						SkinViewNode.ReShowNodes.push(this);
+						if (!SkinViewNode.IsReShowTask) {
+							SkinViewNode.IsReShowTask = true;
+							setTimeout(SkinViewNode.ReShowTask, 0);
+						}
+					}
+					else if (this.ReShowType != Type)
+						this.ReShowType = SkinReShowType.ReShow;
+				}
+				else if (this.Parent)
+					this.Parent.TryShow(SkinReShowType.ReShow);
+			}
+		};
+		SkinViewNode.prototype.ReShow = function () {
+			var MarkStart = HtmlElement.$IdElement(this.GetMarkId(true)), ReShowType = this.ReShowType;
+			this.ReShowType = SkinReShowType.None;
+			if (MarkStart) {
+				var MarkEndId = this.GetMarkId(false), MarkEnd = HtmlElement.$IdElement(MarkEndId);
+				if (MarkEnd) {
+					for (var Parent = this.Parent, Parents = []; Parent != null; Parent = Parent.Parent) {
+						if (Parent.Node.TypeIndex == 3 || Parent.Node.TypeIndex == 4)
+							Parents.push(Parent);
+					}
+					for (var Index = Parents.length, Datas = this.Node.Skin.ResetNode(this); Index; Datas.push(Parents[--Index].Views[0].GetData()))
+						;
+					switch (ReShowType) {
+						case SkinReShowType.ReShow:
+							this.ReShowOnly(MarkStart, MarkEnd, MarkEndId);
+							break;
+						case SkinReShowType.PushArray:
+							this.ReShowPushArray(MarkStart, MarkEnd);
+							break;
+						case SkinReShowType.RemoveArray:
+							this.ReShowRemoveArray(MarkStart, MarkEnd, MarkEndId);
+							break;
+					}
+					return this.Node.Skin;
+				}
+			}
+			this.IsExpired = true;
+			return null;
+		};
+		SkinViewNode.prototype.RemoveLoop = function (Index, WriteIndex) {
+			if (this.LoopNodes)
+				this.LoopNodes[WriteIndex] = this.LoopNodes[Index];
+		};
+		SkinViewNode.prototype.SetRemoveLoopLength = function (Length) {
+			if (this.LoopNodes && this.LoopNodes.length > Length)
+				this.LoopNodes.length = Length;
+		};
+		SkinViewNode.prototype.ReShowOnly = function (MarkStart, MarkEnd, MarkEndId) {
+			this.NoMark = true;
+			this.ClearSearchNode(true);
+			this.Create();
+			this.NoMark = false;
+			for (var MarkParent = HtmlElement.$ParentElement(MarkStart), Element = HtmlElement.$NextElement(MarkStart); Element && Element.id != MarkEndId; Element = HtmlElement.$NextElement(MarkStart))
+				HtmlElement.$Delete(Element, MarkParent);
+			Pub.DeleteElements.Html(this.Node.Skin.EndHtml()).Child().InsertBefore(MarkEnd, MarkParent);
+		};
+		SkinViewNode.prototype.ReShowPushArray = function (MarkStart, MarkEnd) {
+			this.CreateView();
+			this.CreateLoopOnly();
+			Pub.DeleteElements.Html(this.Node.Skin.EndHtml()).Child().InsertBefore(MarkEnd, HtmlElement.$ParentElement(MarkStart));
+		};
+		SkinViewNode.prototype.ReShowRemoveArray = function (MarkStart, MarkEnd, MarkEndId) {
+			this.ClearSearchNode(true);
+			for (var MarkParent = HtmlElement.$ParentElement(MarkStart), Element = HtmlElement.$NextElement(MarkStart); Element && Element.id != MarkEndId; Element = HtmlElement.$NextElement(MarkStart))
+				HtmlElement.$Delete(Element, MarkParent);
+			HtmlElement.$Delete(MarkStart, MarkParent);
+			HtmlElement.$Delete(MarkEnd, MarkParent);
+		};
+		SkinViewNode.ReShowTask = function () {
+			for (var NodeHash = {}, Index = SkinViewNode.ReShowNodes.length; Index;) {
+				var Node = SkinViewNode.ReShowNodes[--Index];
+				if (Node.ReShowType != SkinReShowType.None) {
+					if (Node.SkinNoOutput)
+						Node.ReShowType = SkinReShowType.None;
+					else
+						NodeHash[Node.Identity] = Node;
+				}
+			}
+			for (var Nodes = [], Index = SkinViewNode.ReShowNodes.length; Index;) {
+				var Node = SkinViewNode.ReShowNodes[--Index];
+				if (Node.ReShowType != SkinReShowType.None) {
+					for (var Parent = Node.Parent; Parent != null; Parent = Parent.Parent) {
+						var ParentNode = NodeHash[Parent.Identity];
+						if (ParentNode) {
+							if (ParentNode === SkinViewNode.NullNode)
+								Parent = null;
+							break;
+						}
+						NodeHash[Parent.Identity] = SkinViewNode.NullNode;
+					}
+					if (Parent == null)
+						Nodes.push(Node);
+					else
+						Node.ReShowType = SkinReShowType.None;
+				}
+			}
+			SkinViewNode.ReShowNodes = [];
+			SkinViewNode.IsReShowTask = false;
+			for (var SkinArray = [], Skins = {}, Index = Nodes.length; Index;) {
+				var Skin = Nodes[--Index].ReShow();
+				if (Skin && !Skins[Skin.Identity]) {
+					Skins[Skin.Identity] = Skin;
+					SkinArray.push(Skin);
+				}
+			}
+			Pub.DeleteElements.Html('');
+			for (var Index = SkinArray.length; Index; SkinArray[--Index].OnSet.Function())
+				;
+		};
+		SkinViewNode.NodeIdentity = 0;
+		SkinViewNode.ReShowNodes = [];
+		SkinViewNode.NullNode = new SkinViewNode(null, null, null);
+		return SkinViewNode;
+	}());
+	var SkinView = (function () {
+		function SkinView(Datas, ClientData) {
+			if (ClientData === void 0) { ClientData = null; }
+			this.Datas = Datas;
+			this.ClientData = ClientData;
+		}
+		SkinView.prototype.GetData = function () {
+			return this.ClientData || (this.Datas ? this.Datas[0] : null);
+		};
+		SkinView.prototype.CheckLogic = function (Expression) {
+			var Data = this.GetData();
+			if (Data == null)
+				return false;
+			var Value = Data.$Data;
+			if (Value == null)
+				return false;
+			var Member = Expression.Get();
+			return Member.Value == null ? !!Value : (Value.toString() === Member.Value);
+		};
+		return SkinView;
+	}());
+	var SkinData = (function () {
+		function SkinData(Parent, Name, Data, Function) {
+			if (Data != null)
+				SkinDatas.SetDatas(this, Data);
+			this.$Parent = Parent;
+			this.$Name = Name;
+			this.$Data = Data;
+			this.$Function = Function;
+		}
+		SkinData.prototype.$ReShow = function (Type) {
+			if (Type === void 0) { Type = SkinReShowType.ReShow; }
+			if (this.$Nodes) {
+				var Nodes = this.$Nodes;
+				this.$Nodes = null;
+				for (var Index = Nodes.length; Index; Nodes[--Index].TryShow(Type))
+					;
+			}
+		};
+		SkinData.prototype.$Get = function (Name) {
+			if (this.$Data == null)
+				return null;
+			var Value = this.$Data[Name];
+			if (Value === undefined)
+				return null;
+			var Data = this[Name], Function = null;
+			if (Value != null && typeof (Value) == 'function')
+				Value = (Function = Value).apply(this.$Data);
+			return Data && Data.$Data === Value && Data.$Function === Function ? Data : this[Name] = new SkinData(this, Name, Value, Function);
+		};
+		SkinData.prototype.$Set = function (Data, IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			if (!this.$Function) {
+				if (arguments.length) {
+					var IsData, ParentData;
+					if (this.$Parent) {
+						if ((ParentData = this.$Parent.$Data) == null) {
+							if (this.$Data != null) {
+								SkinDatas.RemoveDatas(this);
+								this.$Data = null;
+							}
+						}
+						else
+							IsData = true;
+					}
+					else
+						IsData = true;
+					if (IsData) {
+						if (this.$Data == null) {
+							if (Data != null)
+								SkinDatas.SetDatas(this, Data);
+						}
+						else if (Data == null)
+							SkinDatas.RemoveDatas(this);
+						else
+							SkinDatas.ReplaceDatas(this, Data);
+						this.$Data = Data;
+						if (ParentData != null)
+							ParentData[this.$Name] = Data;
+					}
+					if (IsReShow)
+						this.$ReShow(SkinReShowType.ReShow);
+				}
+				else
+					this.$ReShow(SkinReShowType.ReShow);
+			}
+		};
+		SkinData.prototype.$Add = function (Data, IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			this.$Set(this.$Data == null ? Data : this.$Data + Data, IsReShow);
+		};
+		SkinData.prototype.$Not = function (IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			this.$Set(!this.$Data, IsReShow);
+			return this.$Data;
+		};
+		SkinData.prototype.$Copy = function (Data, IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			if (Data)
+				this.$Set(this.$Data == null ? Data : Pub.Copy(this.$Data, Data), IsReShow);
+		};
+		SkinData.prototype.$Array = function () {
+			var Data = this.$Data, Datas = [];
+			if (Data instanceof Array) {
+				for (var Index = 0; Index !== Data.length; Datas.push(this[Index++]))
+					;
+			}
+			return Datas;
+		};
+		SkinData.prototype.$For = function (Function) {
+			var Data = this.$Data;
+			if (Data instanceof Array) {
+				for (var Index = 0; Index !== Data.length; Function(this[Index++]))
+					;
+			}
+		};
+		SkinData.prototype.$Find = function (IsValue) {
+			var Data = this.$Data, Datas = [];
+			if (Data instanceof Array) {
+				for (var Index = -1; ++Index !== Data.length;) {
+					if (IsValue(Data[Index]))
+						Datas.push(this[Index]);
+				}
+			}
+			return Datas;
+		};
+		SkinData.prototype.$Remove = function (IsValue, IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			var Data = this.$Data, Datas = [];
+			if (Data instanceof Array) {
+				for (var Index = 0; Index !== Data.length; ++Index) {
+					if (IsValue(Data[Index])) {
+						Skin.Refresh();
+						this.$RemoveIndex(Index);
+						for (var WriteIndex = Index; ++Index !== Data.length;) {
+							if (IsValue(Data[Index]))
+								this.$RemoveIndex(Index);
+							else {
+								Data[WriteIndex] = Data[Index];
+								this.$MoveIndex(Index, WriteIndex++);
+							}
+						}
+						Data.length = WriteIndex;
+						this.$RemoveFinally();
+						return;
+					}
+				}
+			}
+		};
+		SkinData.prototype.$RemoveIndex = function (Index) {
+			var RemoveData = this[Index];
+			if (RemoveData)
+				RemoveData.$ReShow(SkinReShowType.RemoveArray);
+		};
+		SkinData.prototype.$MoveIndex = function (Index, WriteIndex) {
+			var MoveData = this[Index];
+			if (MoveData)
+				(this[WriteIndex] = MoveData).$Name = Index;
+			if (this.$Nodes) {
+				for (var Index = this.$Nodes.length; Index; this.$Nodes[--Index].RemoveLoop(Index, WriteIndex))
+					;
+			}
+		};
+		SkinData.prototype.$RemoveFinally = function () {
+			if (this.$Nodes) {
+				for (var Index = this.$Nodes.length; Index; this.$Nodes[--Index].SetRemoveLoopLength(this.$Data.length))
+					;
+			}
+			Skin.Refresh();
+		};
+		SkinData.prototype.$RemoveAt = function (Index, Count, IsReShow) {
+			if (Count === void 0) { Count = 1; }
+			if (IsReShow === void 0) { IsReShow = true; }
+			var Data = this.$Data;
+			if (Data instanceof Array && Index < Data.length) {
+				Skin.Refresh();
+				if (Count = Data.splice(Index, Count).length) {
+					var WriteIndex = Index;
+					for (Index += Count; Index !== WriteIndex; this.$RemoveIndex(--Index))
+						;
+					Index += Count;
+					for (var EndIndex = Data.length + Count; Index != EndIndex; this.$MoveIndex(Index++, WriteIndex++))
+						;
+					this.$RemoveFinally();
+				}
+			}
+		};
+		SkinData.prototype.$Replace = function (Value, IsValue, IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			var Data = this.$Data;
+			if (Data instanceof Array) {
+				for (var Index = 0; Index !== Data.length; ++Index) {
+					if (IsValue(Data[Index])) {
+						Data[Index] = Value;
+						var ReplaceData = this[Index];
+						if (ReplaceData)
+							ReplaceData.$Set(Value, IsReShow);
+					}
+				}
+			}
+		};
+		SkinData.prototype.$Push = function (Value, IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			var Data = this.$Data;
+			if (Data == null)
+				this.$Set([Value], IsReShow);
+			else if (Data instanceof Array) {
+				Skin.Refresh();
+				Data.push(Value);
+				if (IsReShow)
+					this.$ReShow(SkinReShowType.PushArray);
+				Skin.Refresh();
+			}
+		};
+		SkinData.prototype.$Pushs = function (Datas, IsReShow) {
+			if (IsReShow === void 0) { IsReShow = true; }
+			if (Datas && Datas.length) {
+				var Data = this.$Data;
+				if (Data == null)
+					this.$Set(Datas, IsReShow);
+				else if (Data instanceof Array) {
+					Skin.Refresh();
+					for (var Index = 0; Index !== Datas.length; Data.push(Datas[Index++]))
+						;
+					if (IsReShow)
+						this.$ReShow(SkinReShowType.PushArray);
+					Skin.Refresh();
+				}
+			}
+		};
+		SkinData.prototype.$Sort = function (Function) {
+			var Data = this.$Data;
+			if (Data instanceof Array)
+				this.$Set(Data.sort(Function));
+		};
+		SkinData.prototype.$ = function (Name) {
+			return this[Name];
+		};
+		return SkinData;
+	}());
+	fastCSharp.SkinData = SkinData;
+	var SkinDatas = (function () {
+		function SkinDatas(Data) {
+			this.Datas = [Data];
+		}
+		SkinDatas.prototype.Remove = function (SkinData) {
+			this.Datas.RemoveAtEnd(this.Datas.IndexOfValue(SkinData));
+		};
+		SkinDatas.prototype.ReShowName = function (Name) {
+			for (var Datas = this.Datas.Copy(), Index = Datas.length; Index;) {
+				var Data = Datas[--Index][Name];
+				if (Data)
+					Data.$ReShow();
+			}
+		};
+		SkinDatas.RemoveDatas = function (SkinData) {
+			var Datas = SkinData.$Data['$'];
+			if (Datas)
+				Datas.Remove(SkinData);
+		};
+		SkinDatas.ReplaceDatas = function (SkinData, Data) {
+			var OldDatas = SkinData.$Data['$'], NewDatas = Data['$'];
+			if (OldDatas) {
+				if (NewDatas == OldDatas)
+					return;
+				OldDatas.Remove(SkinData);
+			}
+			this.Push(NewDatas, SkinData, Data);
+		};
+		SkinDatas.SetDatas = function (SkinData, Data) {
+			var Datas = Data['$'];
+			this.Push(Datas, SkinData, Data);
+		};
+		SkinDatas.Push = function (Datas, SkinData, Data) {
+			if (Datas)
+				Datas.Datas.push(SkinData);
+			else {
+				try {
+					Data['$'] = 1;
+					if (Data['$'])
+						Data['$'] = new SkinDatas(SkinData);
+				}
+				catch (e) { }
+			}
+		};
+		return SkinDatas;
+	}());
+	var SkinMemberName = (function () {
+		function SkinMemberName(Html, StartIndex, EndIndex, IsLogic) {
+			this.Depth = 0;
+			if (StartIndex !== EndIndex) {
+				this.Names = [];
+				while (StartIndex !== EndIndex && Html.charCodeAt(StartIndex) === 46) {
+					++this.Depth;
+					++StartIndex;
+				}
+				for (var Index = StartIndex; Index !== EndIndex;) {
+					var Code = Html.charCodeAt(Index);
+					if (IsLogic && Code === 61) {
+						this.Names.push(Html.substring(StartIndex, Index));
+						this.Value = Html.substring(Index + 1, EndIndex);
+						return;
+					}
+					if (Code === 46) {
+						this.Names.push(Html.substring(StartIndex, Index));
+						StartIndex = ++Index;
+					}
+					else
+						++Index;
+				}
+				if (StartIndex !== EndIndex)
+					this.Names.push(Html.substring(StartIndex, EndIndex));
+			}
+		}
+		SkinMemberName.prototype.CreateData = function (Node, IsClient) {
+			var Datas = Node.Node.Skin.Datas, ParentIndex = Math.max(Datas.length - this.Depth, 1);
+			if (!this.Names) {
+				var Data = Datas[ParentIndex - 1];
+				Node.SetData(Data);
+				return Data;
+			}
+			var NameDatas = [], ClientDatas;
+			while (ParentIndex) {
+				NameDatas.length = 0;
+				var ParentData = Datas[--ParentIndex], NameIndex = 0;
+				do {
+					var Data = ParentData.$Get(this.Names[NameIndex]);
+					if (Data == null)
+						break;
+					NameDatas.push(ParentData);
+					if (++NameIndex === this.Names.length) {
+						NameDatas.push(Data);
+						return this.SetData(Node, NameDatas);
+					}
+					ParentData = Data;
+				} while (true);
+				if (IsClient && NameDatas.length >= (ClientDatas ? ClientDatas.length : 0)) {
+					ClientDatas = ParentIndex ? NameDatas.Copy() : NameDatas;
+					ClientDatas.push(ParentData);
+				}
+			}
+			if (IsClient) {
+				var ParentData = ClientDatas[NameIndex = ClientDatas.length - 1], Value = ParentData.$Data;
+				if (Value != null) {
+					var Name = this.Names[NameIndex];
+					Value[Name] = null;
+					ClientDatas.push(ParentData.$Get(Name));
+					return this.SetData(Node, ClientDatas);
+				}
+			}
+			return null;
+		};
+		SkinMemberName.prototype.SetData = function (Node, Datas) {
+			if (Datas) {
+				for (var Index = 1; Index !== Datas.length; Node.SetData(Datas[Index++]))
+					;
+				return Datas[Index - 1];
+			}
+		};
+		return SkinMemberName;
+	}());
+	var SkinExpression = (function () {
+		function SkinExpression(Names, ClientName, IsNot) {
+			this.Names = Names;
+			this.ClientName = ClientName;
+			this.IsNot = IsNot;
+		}
+		SkinExpression.prototype.Get = function () {
+			return this.ClientName || this.Names[0];
+		};
+		SkinExpression.prototype.CreateView = function (Node) {
+			var Views;
+			if (this.Names) {
+				Views = [];
+				for (var Index = 0; Index !== this.Names.length; Views.push(Data)) {
+					var Data = this.Names[Index++].CreateData(Node, false);
+					if (Data)
+						Node.SetData(Data);
+				}
+			}
+			return new SkinView(Views, this.ClientName ? this.ClientName.CreateData(Node, true) : null);
+		};
+		SkinExpression.NullExpression = new SkinExpression(null, new SkinMemberName('', 0, 0, false), false);
+		return SkinExpression;
+	}());
+	var SkinNode = (function () {
+		function SkinNode(Skin, TypeIndex) {
+			this.Skin = Skin;
+			this.TypeIndex = TypeIndex;
+			this.TypeSize = SkinBuilder.TypeSizes[TypeIndex];
+		}
+		SkinNode.prototype.GetExpression = function (Index) {
+			return this.Expressions ? this.Expressions[Index] : SkinExpression.NullExpression;
+		};
+		return SkinNode;
+	}());
+	var Skin = (function () {
+		function Skin(Id, Html, OnShowed, OnSet) {
+			if (Id === void 0) { Id = null; }
+			if (Html === void 0) { Html = null; }
+			if (OnShowed === void 0) { OnShowed = null; }
+			if (OnSet === void 0) { OnSet = null; }
+			this.OnShowed = OnShowed || new Events;
+			this.OnSet = OnSet || new Events;
+			this.Id = Id;
+			this.Identity = ++Pub.Identity;
+			(this.Node = new SkinNode(this, 0)).Nodes = new SkinBuilder(this, Html || (Id ? HtmlElement.$Id(Id) : HtmlElement.$(document.body)).Html0().replace(/ @(src|style)=/gi, ' $1=').replace(/select@/gi, 'select')).Nodes;
+		}
+		Skin.prototype.Reset = function (Value) {
+			if (this.Datas == null || this.Data != Value) {
+				var Data = new SkinData(null, null, this.Data = Value, null);
+				this.Datas = [Data];
+				this.ViewNode = new SkinViewNode(this.Node, null, Data);
+			}
+			else {
+				this.Data = Value;
+				this.Datas.length = 1;
+			}
+			this.Htmls = [];
+			this.NoOutput = 0;
+		};
+		Skin.prototype.ToHtml = function (Data, IsMark) {
+			if (IsMark === void 0) { IsMark = false; }
+			this.NoMark = IsMark ? 0 : 1;
+			this.Reset(Data);
+			this.ViewNode.ClearSearchNode(true);
+			this.ViewNode.Create();
+			return this.EndHtml();
+		};
+		Skin.prototype.EndHtml = function () {
+			var Html = this.Htmls.join('').replace(/ src="=@[^"]+"/gi, '').replace(/ @check="true"/g, ' checked="checked"');
+			this.Datas.length = 1;
+			this.Htmls = null;
+			return location.protocol == 'https:' ? Html.replace(/http\:\/\/img.51nod.com\//g, 'https://img.51nod.com/') : Html;
+		};
+		Skin.prototype.ResetNode = function (Node) {
+			this.NoMark = Node.SkinNoMark || 0;
+			this.NoOutput = 0;
+			this.Datas.length = 1;
+			this.Htmls = [];
+			return this.Datas;
+		};
+		Skin.prototype.Show = function (Data, IsMark) {
+			if (IsMark === void 0) { IsMark = true; }
+			(this.Id ? HtmlElement.$Id(this.Id) : HtmlElement.$(document.body)).Html(this.ToHtml(Data, IsMark)).Display(1);
+			this.OnShowed.Function(Data);
+			this.OnSet.Function(Data);
+		};
+		Skin.prototype.SetHtml = function (Data, IsMark) {
+			if (IsMark === void 0) { IsMark = true; }
+			(this.Id ? HtmlElement.$Id(this.Id) : HtmlElement.$(document.body)).Html(this.ToHtml(Data, IsMark));
+			this.OnSet.Function(Data);
+		};
+		Skin.prototype.SkinData = function (Name) {
+			if (Name === void 0) { Name = null; }
+			var Data = this.Datas[0];
+			return Name ? Data.$(Name) : Data;
+		};
+		Skin.prototype.SearchData = function (Identity) {
+			if (this.ViewNode) {
+				var Node = this.ViewNode.SearchNode(Identity);
+				if (Node)
+					return Node.Views[0].GetData();
+			}
+		};
+		Skin.prototype.Hide = function () {
+			(this.Id ? HtmlElement.$Id(this.Id) : HtmlElement.$(document.body)).Display(0);
+		};
+		Skin.Refresh = function () {
+			SkinViewNode.ReShowTask();
+		};
+		Skin.BodyData = function (Name) {
+			if (Name === void 0) { Name = null; }
+			return this.Body.SkinData(Name);
+		};
+		Skin.ChangeHeader = function () {
+			document.title = this.Header.ToHtml(this.Body.Data, false);
+		};
+		Skin.Create = function (PageView) {
+			for (var Childs = HtmlElement.$('@skin').GetElements(), Index = Childs.length; Index; this.Skins[Id] = new Skin(Id)) {
+				var Child = Childs[--Index], Id = Child.id;
+				if (!Id)
+					Child.id = Id = HtmlElement.$Attribute(Child, 'skin');
+			}
+			if (PageView.IsLoadView) {
+				this.Header = new Skin(null, document.title.replace(/\=@@/g, '=@'));
+				var ViewOver = document.getElementById('fastCSharpViewOver');
+				if (ViewOver) {
+					var Display = ViewOver.style.display;
+					ViewOver.style.display = 'none';
+					this.Body = new Skin(null, null, PageView.OnShowed, PageView.OnSet);
+					ViewOver.style.display = Display || '';
+				}
+				else
+					this.Body = new Skin(null, null, PageView.OnShowed, PageView.OnSet);
+			}
+		};
+		Skin.SearchIdentity = function (Identity) {
+			var Data = this.Body.SearchData(Identity);
+			if (Data == null) {
+				for (var Name in this.Skins) {
+					var Skin = this.Skins[Name];
+					if (Skin && Skin.SearchData && (Data = Skin.SearchData(Identity)))
+						break;
+				}
+			}
+			return Data;
+		};
+		Skin.DeleteMark = function (Span) {
+			SkinViewNode.DeleteMark(Span);
+		};
+		Skin.Skins = {};
+		return Skin;
+	}());
+	fastCSharp.Skin = Skin;
+	var SkinBuilder = (function () {
+		function SkinBuilder(Skin, Html) {
+			this.Skin = Skin;
+			this.Html = Html;
+			this.Nodes = [];
+			var EndIndex = this.HtmlIndex = 0;
+			do {
+				var Index = this.Html.indexOf('<!--', EndIndex);
+				if (Index < 0)
+					break;
+				var TypeIndex = this.GetType(Index += 4);
+				if (TypeIndex) {
+					EndIndex = this.Html.indexOf('-->', Index);
+					if (EndIndex < 0)
+						break;
+					var TypeSize = SkinBuilder.TypeSizes[TypeIndex], IsExpression = EndIndex - Index - TypeSize;
+					if (IsExpression !== 0 && this.Html.charCodeAt(Index + TypeSize) !== 58) {
+						EndIndex += 3;
+						continue;
+					}
+					this.At(Index - 4);
+					var Node = new SkinNode(Skin, TypeIndex);
+					Node.StartIndex = Index;
+					Node.EndIndex = EndIndex;
+					if (this.CheckRound(Node)) {
+						if (IsExpression !== 0) {
+							switch (TypeIndex) {
+								case 1:
+								case 2:
+									this.LogicExpression(Node);
+									break;
+								case 3:
+								case 4:
+									this.ValueExpression(Node);
+									break;
+							}
+						}
+						this.Nodes.push(Node);
+						this.CheckIndex = this.Nodes.length;
+					}
+					this.HtmlIndex = (EndIndex += 3);
+				}
+				else {
+					EndIndex = this.Html.indexOf('-->', Index - 2);
+					if (EndIndex < 0)
+						break;
+					EndIndex += 3;
+				}
+			} while (true);
+			this.At(this.Html.length);
+			var ErrorQuery;
+			while (this.CheckIndex) {
+				var Node = this.Nodes[--this.CheckIndex];
+				if (Node.StartIndex && !Node.Nodes) {
+					if (!ErrorQuery)
+						HttpRequest.Post(new HttpRequestQuery('pub.Error', { error: navigator.appName + ' : ' + navigator.appVersion + '\r\nSkin解析失败: ' + document.location.toString() + '\r\nId[' + Skin.Id + '] ' + this.Html.substring(0, Node.StartIndex).split('\n').length + ' <!--' + this.Html.substring(Node.StartIndex, Node.EndIndex) + '-->' }));
+					Node.Nodes = this.Nodes.slice(this.CheckIndex + 1, this.Nodes.length);
+					this.Nodes.length = this.CheckIndex + 1;
+				}
+			}
+		}
+		SkinBuilder.prototype.GetType = function (Index) {
+			switch (this.Html.charCodeAt(Index) - 72) {
+				case 73 - 72:
+					if (this.Html.charCodeAt(Index + 1) === 102)
+						return 1;
+					break;
+				case 76 - 72:
+					if (this.Html.charCodeAt(Index + 1) === 111 && this.Html.charCodeAt(Index + 2) === 111 && this.Html.charCodeAt(Index + 3) === 112)
+						return 3;
+					break;
+				case 78 - 72:
+					if (this.Html.charCodeAt(Index + 2) === 116) {
+						if (this.Html.charCodeAt(Index + 1) === 111)
+							return 2;
+					}
+					else if (this.Html.charCodeAt(Index + 1) === 111 && this.Html.charCodeAt(Index + 2) === 77 && this.Html.charCodeAt(Index + 3) === 97 && this.Html.charCodeAt(Index + 4) === 114 && this.Html.charCodeAt(Index + 5) === 107)
+						return 5;
+					break;
+				case 86 - 72:
+					if (this.Html.charCodeAt(Index + 1) === 97 && this.Html.charCodeAt(Index + 2) === 108 && this.Html.charCodeAt(Index + 3) === 117 && this.Html.charCodeAt(Index + 4) === 101)
+						return 4;
+					break;
+			}
+			return 0;
+		};
+		SkinBuilder.prototype.CheckRound = function (NewNode) {
+			while (this.CheckIndex) {
+				var Node = this.Nodes[--this.CheckIndex];
+				if (Node.StartIndex && !Node.Nodes) {
+					if (Node.EndIndex - Node.StartIndex === NewNode.EndIndex - NewNode.StartIndex && Node.TypeIndex === NewNode.TypeIndex) {
+						var Start = Node.StartIndex + Node.TypeSize, NewStart = NewNode.StartIndex + Node.TypeSize;
+						while (Start != Node.EndIndex) {
+							if (this.Html.charCodeAt(NewStart++) !== this.Html.charCodeAt(Start++))
+								return true;
+						}
+						Node.Nodes = this.Nodes.slice(this.CheckIndex + 1, this.Nodes.length);
+						this.Nodes.length = this.CheckIndex + 1;
+						return false;
+					}
+					break;
+				}
+			}
+			return true;
+		};
+		SkinBuilder.prototype.At = function (EndIndex) {
+			for (var NoMark = false, Index = this.HtmlIndex + 1; Index < EndIndex; ++Index) {
+				if (this.Html.charCodeAt(Index) === 64) {
+					if (this.Html.charCodeAt(Index - 1) === 61) {
+						if (this.HtmlIndex !== Index - 1)
+							NoMark = this.PushHtml(Index - 1, NoMark);
+						var Node = new SkinNode(this.Skin, 7);
+						Node.NoMarkAt = NoMark;
+						if (++Index !== EndIndex) {
+							var Code = this.Html.charCodeAt(Index);
+							if (Code == 36) {
+								Node.IsIdentity = true;
+								++Index;
+							}
+							else if (Code == 91) {
+								if (this.Html.charCodeAt(Index + 1) == 93) {
+									Node.IsLoopIndex = true;
+									Index += 2;
+								}
+							}
+							else {
+								if (Code === 64)
+									Node.IsHtml = true;
+								if (Code === 42)
+									Node.IsTextArea = true;
+								if (Node.IsHtml || Node.IsTextArea || Node.IsIdentity)
+									++Index;
+								if (Index !== EndIndex) {
+									var Names = null, ClientName = null, NameIndex = Index;
+									do {
+										while (Index !== EndIndex && SkinBuilder.ValueMap[this.Html.charCodeAt(Index)])
+											++Index;
+										if (NameIndex === Index)
+											break;
+										if (!Names)
+											Names = [];
+										Names.push(new SkinMemberName(this.Html, NameIndex, Index, false));
+										if (this.Html.charCodeAt(Index) !== 124)
+											break;
+										NameIndex = ++Index;
+									} while (true);
+									if (Index !== EndIndex) {
+										if (this.Html.charCodeAt(Index) === 35) {
+											for (NameIndex = ++Index; Index !== EndIndex && SkinBuilder.ValueMap[this.Html.charCodeAt(Index)]; ++Index)
+												;
+											ClientName = new SkinMemberName(this.Html, NameIndex, Index, false);
+										}
+										if (Index !== EndIndex && this.Html.charCodeAt(Index) === 36)
+											++Index;
+									}
+									if (Names || ClientName)
+										Node.Expressions = [new SkinExpression(Names, ClientName, false)];
+								}
+							}
+						}
+						this.Nodes.push(Node);
+						this.HtmlIndex = Index;
+					}
+					else
+						++Index;
+				}
+			}
+			if (this.HtmlIndex < EndIndex)
+				this.PushHtml(EndIndex, NoMark);
+		};
+		SkinBuilder.prototype.PushHtml = function (EndIndex, NoMark) {
+			var Node = new SkinNode(this.Skin, 6);
+			Node.Html = this.Html.substring(this.HtmlIndex, EndIndex);
+			this.Nodes.push(Node);
+			var Start = Node.Html.lastIndexOf('<'), End = Node.Html.lastIndexOf('>');
+			return Start >= 0 ? End < 0 || Start > End : (End < 0 && NoMark);
+		};
+		SkinBuilder.prototype.LogicExpression = function (Node) {
+			Node.Expressions = [];
+			var StartIndex = Node.StartIndex + Node.TypeSize + 1, EndIndex = Node.EndIndex;
+			for (var Index = StartIndex; Index !== EndIndex;) {
+				var Code = this.Html.charCodeAt(Index);
+				if (Code === 124) {
+					Node.IsOrExpression = true;
+					Node.Expressions.push(this.ParseExpression(StartIndex, Index, true));
+					StartIndex = ++Index;
+				}
+				else if (Code === 38) {
+					Node.Expressions.push(this.ParseExpression(StartIndex, Index, true));
+					StartIndex = ++Index;
+				}
+				else
+					++Index;
+			}
+			Node.Expressions.push(this.ParseExpression(StartIndex, EndIndex, true));
+		};
+		SkinBuilder.prototype.ValueExpression = function (Node) {
+			Node.Expressions = [this.ParseExpression(Node.StartIndex + Node.TypeSize + 1, Node.EndIndex)];
+		};
+		SkinBuilder.prototype.ParseExpression = function (StartIndex, EndIndex, IsLogic) {
+			if (IsLogic === void 0) { IsLogic = false; }
+			var Names = null, ClientName = null, IsNot = false;
+			if (StartIndex != EndIndex) {
+				if (IsLogic && this.Html.charCodeAt(StartIndex) === 33) {
+					IsNot = true;
+					++StartIndex;
+				}
+				for (var HashIndex = EndIndex; HashIndex !== StartIndex;) {
+					if (this.Html.charCodeAt(--HashIndex) === 35) {
+						ClientName = new SkinMemberName(this.Html, HashIndex + 1, EndIndex, IsLogic);
+						EndIndex = HashIndex;
+						break;
+					}
+				}
+				if (StartIndex !== EndIndex) {
+					Names = [];
+					for (var Index = StartIndex; Index !== EndIndex;) {
+						if (this.Html.charCodeAt(Index) === 44) {
+							Names.push(new SkinMemberName(this.Html, StartIndex, Index, IsLogic));
+							StartIndex = ++Index;
+						}
+						else
+							++Index;
+					}
+					if (StartIndex !== EndIndex)
+						Names.push(new SkinMemberName(this.Html, StartIndex, EndIndex, IsLogic));
+				}
+			}
+			return new SkinExpression(Names, ClientName, IsNot);
+		};
+		SkinBuilder.TypeSizes = [0, 2, 3, 4, 5, 6, 4, 2];
+		SkinBuilder.ValueMap = new Array(0x7b);
+		return SkinBuilder;
+	}());
+	for (var Index = 0x30; Index !== 0x3a; SkinBuilder.ValueMap[Index++] = true)
+		;
+	for (var Index = 0x41; Index !== 0x5b; SkinBuilder.ValueMap[Index++] = true)
+		;
+	for (var Index = 0x61; Index !== 0x7b; SkinBuilder.ValueMap[Index++] = true)
+		;
+	SkinBuilder.ValueMap[0x2e] = SkinBuilder.ValueMap[0x5f] = true;
+	var PageView = (function () {
+		function PageView() {
+		}
+		return PageView;
+	}());
+	window.onerror = function (message, filename, lineno, colno, error) {
+		if (Pub.IE) {
+			var Location = document.location.toString();
+			if ((message != '语法错误' && message != 'Syntax error' && message != '語法錯誤') || Location.substring(0, filename.length) != filename) {
+				Pub.SendError(navigator.appName + ' : ' + navigator.appVersion + '\r\n' + Location + '\r\n' + filename + ' [' + lineno + ',' + colno + '] ' + message);
+			}
+		}
+		else {
+			if ((lineno || message != 'Script error.') && (lineno != 1 || message != 'Error loading script')) {
+				if (lineno == 1) {
+					var Ajax = Pub.AjaxAppendJs;
+					if (Ajax.RetryCount && document.location.origin + Ajax.Url == filename && --Ajax.RetryCount) {
+						Pub.AppendJs(Ajax.Url, fastCSharp.Loader.Charset, null, Ajax.OnError);
+						return;
+					}
+				}
+				Pub.SendError(navigator.appName + ' : ' + navigator.appVersion + '\r\n' + document.location.toString() + '\r\n' + filename + ' [' + lineno + ',' + colno + '] ' + message);
+			}
+		}
+	};
+	var BrowserEvent = (function () {
+		function BrowserEvent(Event) {
+			if (this.Event = Event || event) {
+				this.srcElement = this.target = (Pub.IE ? this.Event.srcElement : this.Event.target);
+				this.clientX = this.pageX = Pub.IE ? this.Event.clientX : this.Event.pageX;
+				this.clientY = this.pageY = Pub.IE ? this.Event.clientY : this.Event.pageY;
+				this.keyCode = this.which = Pub.IE ? this.Event.keyCode : this.Event.which;
+			}
+			this.Return = true;
+		}
+		BrowserEvent.prototype.CancelBubble = function () {
+			this.Return = false;
+			if (Pub.IE)
+				this.Event.returnValue = false;
+			else
+				this.Event.preventDefault();
+		};
+		BrowserEvent.prototype.$Name = function (Name, Value) {
+			if (Value === void 0) { Value = null; }
+			return HtmlElement.$ElementName(this.srcElement, Name, Value);
+		};
+		return BrowserEvent;
+	}());
+	fastCSharp.BrowserEvent = BrowserEvent;
+	var DeclareEvent = (function (_super) {
+		__extends(DeclareEvent, _super);
+		function DeclareEvent(Id, IsGetOnly) {
+			if (Id === void 0) { Id = null; }
+			if (IsGetOnly === void 0) { IsGetOnly = true; }
+			if (Id) {
+				var Element = HtmlElement.$IdElement(Id);
+				_super.call(this, { srcElement: Element, target: Element });
+				this.DeclareId = Id;
+			}
+			this.IsGetOnly = IsGetOnly;
+		}
+		DeclareEvent.Default = new DeclareEvent();
+		return DeclareEvent;
+	}(BrowserEvent));
+	fastCSharp.DeclareEvent = DeclareEvent;
+	var Declare = (function () {
+		function Declare(Function, Name, EventName, Type) {
+			this.Type = Type;
+			this.EventName = EventName;
+			this.LowerName = (this.Name = Name).toLowerCase();
+			this.fastCSharpName = Name + 's';
+			Pub.Functions[Name] = Function;
+			Declare.Getters[this.Name] = Pub.ThisFunction(this, this.Get);
+			Pub.OnLoad(this.Load, this, true);
+		}
+		Declare.prototype.Load = function () {
+			Declare.Declares[this.fastCSharpName] = {};
+			HtmlElement.$(document.body).AddEvent(this.EventName, Pub.ThisEvent(this, this[this.Type]));
+		};
+		Declare.prototype.NewDeclare = function (Parameter) {
+			return new Pub.Functions[this.Name](Parameter);
+		};
+		Declare.prototype.Src = function (Event) {
+			var Element = Event.srcElement, ParameterString = HtmlElement.$Attribute(Element, this.LowerName);
+			if (ParameterString != null) {
+				var Id = Element.id;
+				if (Id) {
+					var Values = Declare.Declares[this.fastCSharpName], Value = Values[Id];
+					if (Value)
+						Value.Start(Event);
+					else
+						Values[Id] = Value = this.NewDeclare(Declare.GetParameter(ParameterString, Event, Id));
+					return Value;
+				}
+				return this.NewDeclare(Declare.GetParameter(ParameterString, Event));
+			}
+			return Declare.Declares[this.fastCSharpName][Event.DeclareId];
+		};
+		Declare.prototype.AttributeName = function (Event) {
+			var Element = Event.$Name(this.LowerName);
+			if (Element) {
+				var Id = Element.id;
+				if (Id) {
+					var Values = Declare.Declares[this.fastCSharpName], Value = Values[Id];
+					if (Value)
+						Value.Start(Event);
+					else
+						Values[Id] = Value = this.NewDeclare(Declare.GetParameter(HtmlElement.$Attribute(Element, this.LowerName), Event, Id));
+					return Value;
+				}
+				return this.NewDeclare(Declare.GetParameter(HtmlElement.$Attribute(Element, this.LowerName), Event));
+			}
+			return Declare.Declares[this.fastCSharpName][Event.DeclareId];
+		};
+		Declare.prototype.ParameterId = function (Event) {
+			var Element = Event.$Name(this.LowerName);
+			if (Element) {
+				var Parameter = eval('(' + HtmlElement.$Attribute(Element, this.LowerName) + ')');
+				if (Parameter.Id) {
+					Element = HtmlElement.$IdElement(Parameter.Id);
+					if (!Element)
+						return Declare.Declares[this.fastCSharpName][Parameter.Id];
+					Parameter = null;
+				}
+				var Id = Element.id, Values = Declare.Declares[this.fastCSharpName], Value;
+				if (Id)
+					Value = Values[Id];
+				else
+					Element.id = Id = Declare.NextId();
+				if (Value)
+					Value.Start(Event);
+				else {
+					if (Parameter == null)
+						Parameter = eval('(' + HtmlElement.$Attribute(Element, this.LowerName) + ')');
+					Parameter.Event = Event;
+					Values[Parameter.Id = Id] = Value = this.NewDeclare(Parameter);
+				}
+				return Value;
+			}
+			return Declare.Declares[this.fastCSharpName][Event.DeclareId];
+		};
+		Declare.prototype.Get = function (Id, IsGetOnly) {
+			if (IsGetOnly === void 0) { IsGetOnly = true; }
+			return this[this.Type](new DeclareEvent(Id, IsGetOnly));
+		};
+		Declare.NextId = function () {
+			return '_' + (++Pub.Identity) + '_DECLARE_';
+		};
+		Declare.GetParameter = function (ParameterString, Event, Id) {
+			if (Id === void 0) { Id = null; }
+			var Parameter = (ParameterString ? eval('(' + ParameterString + ')') : {});
+			Parameter.Id = Id || Declare.NextId();
+			Parameter.Event = Event;
+			return Parameter;
+		};
+		Declare.Getters = {};
+		Declare.Declares = {};
+		return Declare;
+	}());
+	fastCSharp.Declare = Declare;
+	var ServerTime = (function () {
+		function ServerTime(Time) {
+			this.Time = -(new Date().getTime() - Time.Now.getTime());
+		}
+		ServerTime.prototype.Now = function () {
+			return new Date().AddMilliseconds(this.Time);
+		};
+		return ServerTime;
+	}());
+	fastCSharp.ServerTime = ServerTime;
+})(fastCSharp || (fastCSharp = {}));
+fastCSharp.GetViewTitle=function()	{	return '=@noticeHeader '+document.title;	};
+fastCSharp.Pub.GetHtmlEditor=function(Element)	{	return fastCSharp.HtmlElement.$ElementName(Element,'mentioneditor');	};
+
+Number.prototype.To1024=function()
+	{
+	if(this<10000)	return this;
+	if(this<1000*1000)	return Math.floor(this/1000)+'k';
+	if(this<1000*1000*10)	return Math.floor(this/100000)/10+'m';
+	if(this<1000*1000*1000)	return Math.floor(this/1000000)+'m';
+	if(this<1000*1000*1000*10)	return Math.floor(this/100000000)/10+'g';
+	return Math.floor(this/1000000000)+'g';
+	};
+Number.prototype.ToYuan=function()	{	return (this/100).toFixed(2);	};
+
+var diantou={};
+diantou.page=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.PageCount=Math.floor((this.Count+this.Size-1)/this.Size);
+	if(this.Page>1)
+		{
+		if(this.Page>this.PageCount)	this.Page=this.PageCount||1;
+		}
+	else this.Page=1;
+	this.IsPrevious=this.Page>1;
+	this.IsNext=this.Page<this.PageCount;
+	this.Pages=[];
+	var Start=this.Page-5,End=this.Page+5;
+	if(Start<=0)	End-=Start;
+	if(End>=this.PageCount)
+		{
+		Start-=End-this.PageCount;
+		End=this.PageCount;
+		}
+	if(Start<=0)	Start=1;
+	while(Start<=End)	this.Pages.push(Start++);
+	fastCSharp.Pub.Copy(diantou.page.PageInfo,this);
+	};
+diantou.page.PageInfo={};
+diantou.page.prototype={
+IsPages:function()	{	return this.Pages.length;	},
+SetQuery:function(Name,Value,IsShow)
+	{
+	fastCSharp.Pub.Query[Name]=Value;
+	if(IsShow==null||IsShow)	this.ShowPage(1);
+	},
+ChangeQuery:function(Name)
+	{
+	fastCSharp.Pub.Query[Name]=fastCSharp.Pub.Query[Name]==null?0:(fastCSharp.Pub.Query[Name]=='false'||fastCSharp.Pub.Query[Name]=='0'||!fastCSharp.Pub.Query[Name]);
+	this.ShowPage(1);
+	},
+ShowPage:function(Page)
+	{
+	fastCSharp.Pub.Query.page=Page<1?1:(this.PageCount&&Page>this.PageCount?this.PageCount:Page);
+	location='#!'+(fastCSharp.Pub.LocationHash=fastCSharp.Pub.ToQuery(fastCSharp.Pub.Query));
+	fastCSharp.Pub.ReView(1);
+	}
+		};
+
+diantou.path=function()
+	{
+	this.TodayQuestion='/today.html';
+	this.OnlineJudgeAllProblemPath='/onlineJudge/problemList.html';
+	this.OnlineJudgeExpiredProblemPath='/onlineJudge/expiredProblemList.html';
+	this.OnlineJudgeStatusPath='/onlineJudge/judgeStatus.html';
+	this.OnlineJudgeRankPath='/onlineJudge/rankList.html';
+	this.ContestListPath='/contest/list.html';
+	this.ContestRankPath='/contest/rankList.html';
+	this.ExternalContestEdit='/contest/edit.html';
+	this.ExternalContestListPath='/contest/externalList.html';
+	this.TutorialListPath='/tutorial/list.html';
+	this.EnterpriseIndex='/enterprise/index.html';
+	this.EnterpriseLoginError='/enterprise/error.html';
+	this.EnterpriseLoginErrorIgnoreLoad=1;
+	this.EnterpriseRadioEdit='/enterprise/singleEdit.html';
+	this.EnterpriseMultipleChoiceEdit='/enterprise/mutiEdit.html';
+	this.EnterpriseQuestionEdit='/enterprise/qaEdit.html';
+	this.EnterpriseRadioList='/enterprise/singleList.html';
+	this.EnterpriseMultipleChoiceList='/enterprise/mutiList.html';
+	this.EnterpriseQuestionList='/enterprise/qaList.html';
+	this.EnterpriseProblemList='/enterprise/problemList.html';
+	this.EnterprisePrivateProblemList='/enterprise/privateProblemList.html';
+	this.EnterpriseExamEdit='/enterprise/examDescription.html';
+	this.EnterpriseExamList='/enterprise/examList.html';
+	this.EnterpriseReviewUserList='/enterprise/examinerList.html';
+	this.EnterpriseJobEdit='/enterprise/jobEdit.html';
+	this.EnterpriseJobList='/enterprise/jobList.html';
+	this.EnterpriseMailList='/enterprise/mailList.html';
+	this.EnterpriseMailEdit='/enterprise/mailEdit.html';
+	};
+
+diantou.httpLinkEmpty={
+Check:function(Link)
+	{
+	if(Link.Value)
+		{
+		if(Link.Value.substring(0,2)=='//')	return true;
+		var Http=Link.Value.substring(0,8).toLowerCase();
+		return Http.substring(0,7)=='http://'||Http=='https://';
+		}
+	return true;
+	}
+		};
+
+diantou.image=function(Value)
+	{
+	this.Type=Value.Type;
+	if(this.Value=Value.Value)	this.IsFull=diantou.httpLinkEmpty.Check(this);
+	};
+diantou.image.prototype={
+Set:function(Type,Target)
+	{
+	this.Type=Type;
+	this.Target=Target;
+	},
+GetDomain:function()	{	return this.Type=='examUser'?'//photo.51nod.com/':'//img.51nod.com/';	},
+Full:function()
+	{
+	if(this.Value)	return this.IsFull?this.Value:null;
+	switch(this.Type)
+		{
+		case 'user':	return '//file.51nod.com/Images/Default/'+(this.Target.Sex=='Female'?'female':'male')+'.jpg';
+		case 'topic':	return '//file.51nod.com/Images/Default/topic.png';
+		case 'enterprise':	return '//file.51nod.com/Images/Default/companylogo.png';
+		case 'examUser':	return '//file.51nod.com/Images/Default/'+(this.Target.Sex=='女'?'female':'male')+'.jpg';
+		case 'exam':	return '//file.51nod.com/images/exam/exambg.jpg';
+		}
+	},
+Src:function()	{	return this.Full()||(this.GetDomain()+this.Value);	},
+P25:function()	{	return this.Full()||(this.GetDomain()+'ti_25_25/'+this.Value);	},
+P40:function()	{	return this.Full()||(this.GetDomain()+'ti_40_40/'+this.Value);	},
+P50:function()	{	return this.Full()||(this.GetDomain()+'ti_50_50/'+this.Value);	},
+P100:function()	{	return this.Full()||(this.GetDomain()+'ti_100_100/'+this.Value);	},
+P150:function()	{	return this.Full()||(this.GetDomain()+'ti_150_150/'+this.Value);	},
+P200:function()	{	return this.Full()||(this.GetDomain()+'ti_200_200/'+this.Value);	},
+W100:function()	{	return this.Full()||(this.GetDomain()+'ti_100_/'+this.Value);	},
+W100H150:function()	{	return this.Full()||(this.GetDomain()+'ti_100_150/'+this.Value);	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.answer=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Index:'/answer/index.html#!answerId='+this.Id,
+		Agree:'/answer/agree.html#!answerId='+this.Id,
+		Favorite:'/answer/favorite.html#!answerId='+this.Id
+		};
+	this.isShowComment=0;
+	this.comments=[];
+	if(this.CommentCount==0)	this.isComments=1;
+	});
+diantou.answer.prototype={
+IsMoreAgree5:function()	{	return this.AgreeCount>5;	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userAnswer=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userAnswer.prototype={
+GetValue:function()	{	return diantou.answer.Get(this.Id,1);	},
+IsFilter:function()
+	{
+	var SkinValue=fastCSharp.Skin.Body.Data;
+	return !SkinValue.isFilter||this.IsFocus||this.IsAgree||diantou.answer.Get(this.Id,1).Remote.User.Id==SkinValue.currentUser.Id;
+	}
+		};
+
+diantou.bestAnswer=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.GoldClass=this.Rank==1?'Gold':(this.Rank==2?'Silver':(this.Rank===3?'Bronze':null));
+	};
+fastCSharp.Pub.LoadViewType(diantou.contest=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	var RandomCode=fastCSharp.Pub.Query.randomCode||this.RandomCode||'';
+	if(RandomCode)	RandomCode='&randomCode='+RandomCode;
+	this.Path={
+		Index:'/contest/index.html#!contestId='+this.Id+RandomCode,
+		Description:'/contest/description.html#!contestId='+this.Id+RandomCode,
+		ProblemList:'/contest/problemList.html#!contestId='+this.Id+RandomCode,
+		Favorite:'/contest/favorite.html#!contestId='+this.Id+RandomCode,
+		JoinUser:'/contest/joinUser.html#!contestId='+this.Id+RandomCode,
+		PointRank:'/contest/pointRank.html#!contestId='+this.Id+RandomCode,
+		JudgeList:'/contest/judgeList.html#!contestId='+this.Id+RandomCode,
+		ExternalEdit:'/contest/edit.html#!contestId='+this.Id+RandomCode,
+		ExportUser:'/contest/contestUser/Export?contestId='+this.Id,
+		ExportUserIgnoreLoad:1,
+		Register:'/contest/register/c'+this.Id+'.html',
+		RegisterIgnoreLoad:1
+		};
+	if(RandomCode)	this.Path.Register+='#!'+RandomCode.substring(1);
+	});
+diantou.contest.prototype={
+QuestionPath:function()	{	return diantou.question.Get({Id:this.QuestionId}).Path.Index;	},
+NodUserIdString:function()	{	return this.Remote.NodUserIds.join(',');	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userContest=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+fastCSharp.Pub.LoadViewType(diantou.contestJudge=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,new diantou.judgeState(Value));
+	this.Path={
+		SubmitDetail:'/contest/submitDetail.html#!judgeId='+this.Id,
+		CompileError:'/contest/judge/CompileError?judgeId='+this.Id
+		};
+	});
+diantou.contestJudge.prototype={
+IsRank:function()	{	return this.AfterRank-this.BeforeRank;	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userContestJudge=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userContestJudge.prototype={
+GetValue:function()	{	return diantou.contestJudge.Get(this.Id,1);	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.contestRating=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.DateString=this.Date.IntToDate().ToDateString();
+	this.ContestPath=new diantou.contest({Id:this.Id}).Path.Index;
+	});
+fastCSharp.Pub.LoadViewType(diantou.course=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Index:'/tutorial/course.html#!courseId='+this.Id
+		};
+	this.TutorialPath=new diantou.tutorial({Id:this.TutorialId}).Path.Index;
+	});
+
+fastCSharp.Pub.LoadViewType(diantou.userCourse=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userCourse.prototype={
+PassPercentage:function()	{	return Math.floor(this.PassPageCount*100/diantou.course.Get(this.Id,1).PageCount);	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.coursePage=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+fastCSharp.Pub.LoadViewType(diantou.enterpriseJob=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Edit:'/enterprise/jobEdit.html#!jobId='+this.Id,
+		ExamList:'/enterprise/jobExam.html#!jobId='+this.Id
+		};
+	});
+diantou.enterpriseJob.Address='北京 上海 深圳 广州 杭州 成都 南京 武汉 西安 厦门 长沙 苏州 天津 重庆 郑州 青岛 合肥 福州 济南 大连 珠海 无锡 佛山 东莞 宁波 常州 沈阳 石家庄 昆明 南昌 南宁 哈尔滨 海口 中山 惠州 贵阳 长春 太原 嘉兴 泰安 昆山 烟台 兰州 泉州'.split(' ');
+diantou.enterpriseJob.Salary=[{Value:'_2k以下',Text:'2k以下'},{Value:'_2k_5k',Text:'2k-5k'},{Value:'_5k_10k',Text:'5k-10k'},{Value:'_10k_15k',Text:'10k-15k'},{Value:'_15k_25k',Text:'15k-25k'},{Value:'_25k_50k',Text:'25k-50k'},{Value:'_50k以上',Text:'50k以上'}];
+diantou.enterpriseJob.Experience=[{Value:'应届毕业生',Text:'应届毕业生'},{Value:'_1年以下',Text:'1年以下'},{Value:'_1_3年',Text:'1-3年'},{Value:'_3_5年',Text:'3-5年'},{Value:'_5_10年',Text:'5-10年'},{Value:'_10年以上',Text:'10年以上'}];
+diantou.enterpriseJob.Education='大专 本科 硕士 博士'.split(' ');
+diantou.enterpriseJob.WorkNature='全职 兼职 实习'.split(' ');
+diantou.enterpriseJob.prototype={
+SalaryString:function()	{	return this.Salary.replace(/^_/g,'').replace(/_/g,'-');	},
+ExperienceString:function()	{	return this.Experience.replace(/^_/g,'').replace(/_/g,'-');	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.enterpriseMail=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Edit:'/enterprise/mailEdit.html#!mailId='+this.Id
+		};
+	});
+diantou.enterpriseMail.Menu=[{Value:'Name',Text:'姓名'},{Value:'Email',Text:'邮箱'},{Value:'Mobile',Text:'手机号'},{Value:'UserId',Text:'用户ID'}];
+diantou.enterpriseMail.PreviewUser={UserId:1,Mobile:13688888888,Name:'李四',Email:'user@51nod.com'};
+diantou.enterpriseMail.PreviewContent=function(Text,User)	{	return Text.replace(/=@(UserId|Mobile|Name|Email)/g,function(Value){return (User||diantou.enterpriseMail.PreviewUser)[Value.substring(2)];}).ToHTML().replace(/\n/g,'<br />');	};
+fastCSharp.Pub.LoadViewType(diantou.enterpriseNotice=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.enterpriseNotice.prototype={
+RechargeYuan:function()	{	return this.ExamId/100;	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.exam=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Index:'https://exam.51nod.com/exam/index.html?examId='+this.Id,
+		Start:'https://exam.51nod.com/exam/register.html?examId='+this.Id,
+		Register:'https://exam.51nod.com/exam/register.html?examId='+this.Id,
+		Preview:'/exam/index.html?isPreview=1&examId='+this.Id,
+		Description:'/exam/description.html#!examId='+this.Id,
+		Problem:'/exam/problem.html#!examId='+this.Id,
+		Setting:'/exam/setting.html#!examId='+this.Id,
+		Edit:'/enterprise/examDescription.html#!examId='+this.Id,
+		Copy:'/enterprise/examDescription.html#!copyId='+this.Id,
+		UserList:'/enterprise/examineeList.html#!examId='+this.Id,
+		ReviewUserList:'/enterprise/examiner.html#!examId='+this.Id,
+		PaperEdit:'/enterprise/examPaper.html#!examId='+this.Id,
+		PaperList:'/enterprise/paperList.html#!examId='+this.Id,
+		DownloadReportLink:'/enterprise/exam/DownloadReportLink?examId='+this.Id,
+		DownloadReport:'/enterprise/exam/DownloadReport?examId='+this.Id,
+		DownloadRegister:'/enterprise/exam/DownloadRegister?examId='+this.Id,
+		SendEmail:'/enterprise/sendEmail.html#!examId='+this.Id,
+		Invitation:'/enterprise/invitation.html#!examId='+this.Id,
+		ReInvite:'/enterprise/reInvite.html#!examId='+this.Id,
+		InvitationList:'/enterprise/invitationList.html#!examId='+this.Id
+		};
+	this.OnCopyView();
+	});
+diantou.exam.prototype={
+OnCopyView:function()
+	{
+	if(this.Image)	this.Image.Set('exam',this);
+	},
+FreeInvitationCount:function()	{	return Math.max(this.MaxUserCount-this.InvitationCount,0);	},
+TitleLength:function()	{	return (this.Title.Length()-1)>>5;	},
+RadioPoint:function()	{	return this.RadioCount*5;	},
+RadioPercentage:function()	{	return this.Point==0?0:Math.floor(this.RadioPoint()*100/this.Point);	},
+MultipleChoicePoint:function()	{	return this.MultipleChoiceCount*10;	},
+MultipleChoicePercentage:function()	{	return this.Point==0?0:Math.floor(this.MultipleChoicePoint()*100/this.Point);	},
+ChoiceCount:function()	{	return this.RadioCount+this.MultipleChoiceCount;	},
+ChoicePoint:function()	{	return this.RadioPoint()+this.MultipleChoicePoint();	},
+ChoicePercentage:function()	{	return this.Point==0?0:Math.floor(this.ChoicePoint()*100/this.Point);	},
+QuestionPercentage:function()	{	return this.Point==0?0:Math.floor(this.QuestionPoint*100/this.Point);	},
+ProblemPercentage:function()	{	return this.Point==0?0:Math.floor(this.ProblemPoint*100/this.Point);	},
+TotalPrice:function()
+	{
+	var Price=fastCSharp.Skin.Body.Data.examPrice;
+	return (Price.Paper+(this.ProblemJudgeSetting=='运行所有测试'?Price.ProblemJudgeSetting:0)+(this.IsCamera?Price.Camera:0)+(this.IsLog?Price.Log:0)+(this.IsCheckProgram?Price.CheckProgram:0)).ToYuan();
+	},
+StatusString:function()
+	{
+	switch(this.Status)
+		{
+		case 'None':	return '编辑中';
+		case 'Published':	return this.StartTime>new Date().getTime()?'即将开始':this.EndTime>new Date().getTime()?'进行中':'已结束';
+		}
+	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userExam=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userExam.prototype={
+AnswerPercentage:function()	{	return Math.floor(this.AnswerPoint*100/this.Exam.Point);	},
+AnswerLeft:function()	{	return Math.floor(this.AnswerPoint*490/this.Exam.Point);	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.examInvitation=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		ReInvite:'/enterprise/reInvite.html#!invitationId='+this.Id
+		};
+	});
+fastCSharp.Pub.LoadViewType(diantou.examProblem=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Preview:'/enterprise/problemPreview.html#!problemId='+this.Id,
+		Description:'/enterprise/problemDescription.html#!problemId='+this.Id
+		};
+	});
+diantou.examProblem.prototype={
+MemoryLimitKB:function()	{	return this.MemoryLimit>>10; },
+ClientAutoShowTime:function()	{	return (this.AutoShowTime.ToInt()==(1900<<9)+(1<<5)+1?(new Date).ToInt().IntToDate().AddHours(9+30*24):this.AutoShowTime).ToSecondString();	},
+IsAutoShowTime:function()	{	return this.AutoShowTime.ToInt()!=(1900<<9)+(1<<5)+1;	},
+ProblemPath:function()	{	return diantou.problem.Get({Id:this.ProblemId}).Path;	},
+UserJudge:function()
+	{
+	for(var Judges=fastCSharp.Skin.Body.Data.judges||[],Index=Judges.length;Index;)
+		{
+		var Judge=Judges[--Index];
+		if(Judge.Judge.ProblemId==this.Id)	return Judge;
+		}
+	},
+UserJudgeItems:function()
+	{
+	var Judge=this.UserJudge();
+	return Judge?Judge.Items:null;
+	},
+UserAnswer:function()
+	{
+	var User=fastCSharp.Skin.Body.Data.user;
+	if(User&&User.Remote&&User.Remote.Answers)
+		{
+		for(var Answers=User.Remote.Answers,Index=Answers.length;Index;)
+			{
+			var Answer=Answers[--Index];
+			if(Answer.Type=='Problem'&&Answer.QuestionId==this.Id)	return Answer;
+			}
+		}
+	},
+JudgePoint:function()
+	{
+	var Answer=this.UserAnswer();
+	return Answer?Answer.JudgePoint:0;
+	},
+AddPoint:function()
+	{
+	var Answer=this.UserAnswer();
+	return Answer?Answer.Point:0;
+	},
+ResultPoint:function()
+	{
+	var Answer=this.UserAnswer();
+	return Answer?Answer.JudgePoint+Answer.Point:0;
+	},
+IsUserLog:function()
+	{
+	var Ids=fastCSharp.Skin.Body.Data.user.LogProblemIds;
+	if(Ids)	for(var Index=Ids.length;Index;)	if(Ids[--Index]==this.Id)	return 1;
+	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.examQuestion=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		RadioEdit:'/enterprise/singleEdit.html#!questionId='+this.Id,
+		MultipleChoiceEdit:'/enterprise/mutiEdit.html#!questionId='+this.Id,
+		QuestionEdit:'/enterprise/qaEdit.html#!questionId='+this.Id
+		};
+	this.IsShowAnswer=0;
+	});
+diantou.examQuestion.prototype={
+ClientAutoShowTime:function()	{	return this.AutoShowTime.ToInt()==(1900<<9)+(1<<5)+1?'':this.AutoShowTime.ToSecondString();	},
+IsAutoShowTime:function()	{	return this.AutoShowTime.ToInt()!=(1900<<9)+(1<<5)+1;	},
+RadioAnswers:function()
+	{
+	if(this.Type=='Radio'&&!this.RadioAnswerArray)
+		{
+		this.RadioAnswerArray=[];
+		this.IsUserAnswer=this.UserAnswer();
+		for(var Answers=this.Answers,Index=0;Index-Answers.length;++Index)	this.RadioAnswerArray.push({Content:Answers[Index],Index:Index,IsAnswer:this.Answer==Index,IsUserAnswer:this.IsUserAnswer&&(this.IsUserAnswer.Answer==Index)?1:0});
+		if(this.IsUserAnswer)	this.IsRight=this.IsUserAnswer.Answer==this.Answer;
+		}
+	return this.RadioAnswerArray;
+	},
+MultipleAnswers:function()
+	{
+	if(this.Type=='MultipleChoice'&&!this.MultipleAnswerArray)
+		{
+		this.MultipleAnswerArray=[];
+		this.IsUserAnswer=this.UserAnswer();
+		for(var Answers=this.Answers,UserAnswerArray=this.IsUserAnswer?this.IsUserAnswer.Content.split(','):[],UserAnswerHash=UserAnswerArray.ToHash(),AnswerIndexs=this.AnswerContent?this.AnswerContent.split(','):[],AnswerHash=AnswerIndexs.ToHash(),Index=0;Index-Answers.length;++Index)	this.MultipleAnswerArray.push({Content:Answers[Index],Index:Index,IsAnswer:AnswerHash[Index.toString()]!=null,IsUserAnswer:UserAnswerHash[Index.toString()]!=null});
+		if(this.IsUserAnswer&&(this.IsAnyRight=this.IsUserAnswer.Point))	this.IsRight=this.IsAnyRight==(this.Point||10);
+		}
+	return this.MultipleAnswerArray;
+	},
+UserAnswer:function()
+	{
+	var User=fastCSharp.Skin.Body.Data.user;
+	if(User&&User.Remote&&User.Remote.Answers)
+		{
+		for(var Answers=User.Remote.Answers,Index=Answers.length;Index;)
+			{
+			var Answer=Answers[--Index];
+			if(Answer.Type==this.Type&&Answer.QuestionId==this.Id)
+				{
+				if(this.Type=='Radio'&&this.IsRight)	Answer.Point=5;
+				return Answer;
+				}
+			}
+		}
+	},
+PointPercentage:function()
+	{
+	var Answer=this.UserAnswer();
+	if(Answer&&this.Point)	return Answer.Point*100/this.Point;
+	return 0;
+	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.examUser=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Report:'/enterprise/report.html?userId='+this.Id,
+		ExamLog:'/enterprise/examLog.html#!userId='+this.Id,
+		SendMessage:'/enterprise/sendMessage.html#!userId='+this.Id,
+		ExamReport:'/exam/report.html#!userId='+this.Id,
+		Resume:'/enterprise/exam/Resume?userId='+this.Id
+	};
+	this.OnCopyView();
+	});
+diantou.examUser.prototype={
+OnCopyView:function()
+	{
+	if(this.Icon)	this.Icon.Set('examUser',this);
+	},
+BirthdayString:function()	{	return this.Birthday.Value?this.Birthday.Value.IntToDate().ToDateString():'';	},
+Age:function()	{	return this.Birthday.Value?new Date().getFullYear()-this.Birthday.Value.IntToDate().getFullYear():'*';	},
+ExamMinutes:function()	{	return Math.floor((this.SubmitTime.getTime()-this.ExamTime.getTime()+(1000*60-1))/(1000*60));	},
+Images:function()
+	{
+	if(!this.images)
+		{
+		this.images=[];
+		for(var Path='/upload/examUser/'+(this.Id>>10)+'/'+(this.Id&1023)+'/',Index=0;Index-this.ImageCount;this.images.push(new diantou.image({Value:Path+(Index++)+'.jpg'})));
+		}
+	return this.images;
+	},
+RadioPoint:function()	{	return this.RadioRightCount*5;	},
+ChoicePoint:function()	{	return this.RadioPoint()+this.MultipleChoicePoint;	},
+ExamPoint:function()	{	return this.ChoicePoint+this.QuestionPoint+this.ProblemPoint;	},
+GetExamJudgeLogPath:function(ProblemId)	{	return '/enterprise/examJudgeLog.html#!userId='+this.Id+'&problemId='+ProblemId;	},
+ResumeExtensionName:function()	{	return this.Resume?this.Resume.substring(this.Resume.lastIndexOf('.')+1):'';	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.favorite=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Index:'/favorite/index.html#!favoriteId='+this.Id,
+		Focus:'/favorite/focus.html#!favoriteId='+this.Id,
+		Log:'/favorite/log.html#!favoriteId='+this.Id,
+		Favorite:'/favorite/favorite.html#!favoriteId='+this.Id
+		};
+	this.isShowComment=0;
+	this.comments=[];
+	if(this.CommentCount==0)	this.isComments=1;
+	});
+diantou.favorite.TypeNames={Answer:'答案',Topic:'话题',Question:'问题',User:'用户',Favorite:'收藏夹',Problem:'问题',Contest:'比赛'};
+diantou.favorite.prototype={
+TypeName:function()	{	return diantou.favorite.TypeNames[this.Type];	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userFavorite=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.groupProblem=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.IsHide=this.IsTitle=0;
+	this.Problems=(this.LeftProblems=diantou.groupProblem.ToProblem(this.LeftProblems)).concat(this.RightProblems=diantou.groupProblem.ToProblem(this.RightProblems));
+	this.Rows=[];
+	for(var Index=0;Index<this.Problems.length;Index+=5)	this.Rows.push(this.Problems.slice(Index,Index+5));
+	};
+diantou.groupProblem.ToProblem=function(Problems)
+	{
+	for(var Values=[],Index=0;Index-Problems.length;Values.push(Problem))
+		{
+		var Problem=new diantou.problem(Problems[Index++]);
+		Problem.IsAccepted=Problem.AcceptedPercentage==100;
+		Problem.NotAccepted=Problem.AcceptedPercentage>=0;
+		}
+	return Values;
+	};
+var ImageSize=	{
+Set:function(Image)
+	{
+	if(Image.width>500)
+		{
+		Image.className='ContentImg';
+		fastCSharp.HtmlElement.$AddEvent(Image,['click'],fastCSharp.Pub.ThisEvent(this,this.Open,[Image.src]));
+		}
+	},
+Open:function(Event,Src)
+	{
+	open(Src,'_blank');
+	}
+		};
+diantou.item=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.IsNoFocus=0;
+	};
+fastCSharp.Pub.LoadViewType(diantou.question=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Index:'/question/index.html#!questionId='+this.Id,
+		Log:'/question/log.html#!questionId='+this.Id,
+		Focus:'/question/focus.html#!questionId='+this.Id,
+		Favorite:'/question/favorite.html#!questionId='+this.Id
+		};
+	this.Path.IndexComment=this.Path.Index+'&isAutoComment=1';
+	this.isShowComment=0;
+	this.comments=[];
+	if(this.CommentCount==0)	this.isComments=1;
+	});
+diantou.question.prototype={
+ProblemPath:function()	{	return diantou.problem.Get({Id:this.ProblemId}).Path.CodeJudge;	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userQuestion=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.IsEditor=!this.Answer||!this.Answer.Content;
+	});
+
+fastCSharp.Pub.LoadViewType(diantou.judge=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,new diantou.judgeState(Value));
+	this.Path={
+		SubmitDetail:'/onlineJudge/submitDetail.html#!judgeId='+this.Id,
+		CompileError:'/onlineJudge/judge/CompileError?judgeId='+this.Id
+		};
+	});
+diantou.judge.Languages=[
+	{Type:'C',ShowName:'C',Value:1,AceMode:'c_cpp',TimeBase:2,MemoryBase:2,QuestionPath:new diantou.question({Id:1178}).Path.Index},
+	{Type:'C11',ShowName:'C 11',Value:2,AceMode:'c_cpp',TimeBase:2,MemoryBase:2,QuestionPath:new diantou.question({Id:1178}).Path.Index},
+	{Type:'CPlus',ShowName:'C++',Value:11,AceMode:'c_cpp',TimeBase:2,MemoryBase:2,QuestionPath:new diantou.question({Id:1178}).Path.Index},
+	{Type:'CPlus11',ShowName:'C++ 11',Value:12,AceMode:'c_cpp',TimeBase:2,MemoryBase:2,QuestionPath:new diantou.question({Id:1178}).Path.Index},
+	{Type:'VCPlus',ShowName:'Visual C++',Value:111,AceMode:'c_cpp',TimeBase:2,MemoryBase:2,QuestionPath:new diantou.question({Id:1178}).Path.Index},
+	{Type:'CSharp',ShowName:'C#',Value:21,AceMode:'csharp',TimeBase:3,MemoryBase:3,QuestionPath:new diantou.question({Id:1179}).Path.Index},
+	{Type:'Java',ShowName:'Java',Value:31,AceMode:'java',TimeBase:6,MemoryBase:4,QuestionPath:new diantou.question({Id:1180}).Path.Index},
+	{Type:'Python2',ShowName:'Python2',Value:41,AceMode:'python',TimeBase:10,MemoryBase:4,QuestionPath:new diantou.question({Id:1182}).Path.Index},
+	{Type:'Python3',ShowName:'Python3',Value:42,AceMode:'python',TimeBase:10,MemoryBase:4,QuestionPath:new diantou.question({Id:1182}).Path.Index},
+	{Type:'PyPy2',ShowName:'PyPy2',Value:45,AceMode:'python',TimeBase:6,MemoryBase:4,QuestionPath:new diantou.question({Id:1182}).Path.Index},
+	{Type:'PyPy3',ShowName:'PyPy3',Value:46,AceMode:'python',TimeBase:6,MemoryBase:4,QuestionPath:new diantou.question({Id:1182}).Path.Index},
+	{Type:'Ruby',ShowName:'Ruby',Value:51,AceMode:'ruby',TimeBase:10,MemoryBase:4,QuestionPath:new diantou.question({Id:1183}).Path.Index},
+	{Type:'Php',ShowName:'PHP',Value:61,AceMode:'php',TimeBase:9,MemoryBase:4,QuestionPath:new diantou.question({Id:1185}).Path.Index},
+	{Type:'Haskell',ShowName:'Haskell',Value:71,AceMode:'haskell',TimeBase:5,MemoryBase:4,QuestionPath:new diantou.question({Id:1188}).Path.Index},
+	{Type:'Scala',ShowName:'Scala',Value:81,AceMode:'scala',TimeBase:7,MemoryBase:4,QuestionPath:new diantou.question({Id:1187}).Path.Index},
+	{Type:'Javascript',ShowName:'Javascript',Value:91,AceMode:'javascript',TimeBase:10,MemoryBase:4,QuestionPath:new diantou.question({Id:1184}).Path.Index},
+	{Type:'Go',ShowName:'Go',AceMode:'golang',Value:101,TimeBase:4,MemoryBase:4,QuestionPath:new diantou.question({Id:1186}).Path.Index},
+	{Type:'OC',ShowName:'Objective-C',Value:121,AceMode:'objectivec',TimeBase:2,MemoryBase:2,QuestionPath:new diantou.question({Id:1178}).Path.Index},
+	{Type:'Pascal',ShowName:'Pascal',Value:131,AceMode:'pascal',TimeBase:2,MemoryBase:2,QuestionPath:new diantou.question({Id:1362}).Path.Index}
+	];
+diantou.judge.GetLanguage=function(Type)
+	{
+	if(!this.LanguageTypes)	this.LanguageTypes=this.Languages.ToHash(function(Value){return Value.Type;});
+	return this.LanguageTypes[Type];
+	};
+
+fastCSharp.Pub.LoadViewType(diantou.userJudge=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userJudge.prototype={
+GetValue:function()	{	return diantou.judge.Get(this.Id,1);	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.judgeItem=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.StateString=diantou.judgeState.GetStateString(this.JudgeValue);
+	});
+diantou.judgeItem.prototype={
+MemoryUseKB:function()	{	return this.MemoryUse>>10; },
+TutorialDownloadInputPath:function()	{	return '/tutorial/problemTestData/Download?isInput=1&testId='+this.TestId;	},
+TutorialDownloadOutputPath:function()	{	return '/tutorial/problemTestData/Download?testId='+this.TestId;	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.judgeState=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.isShowComment=0;
+	this.comments=[];
+	if(this.CommentCount==0)	this.isComments=1;
+	});
+diantou.judgeState.prototype={
+MemoryUseKB:function()	{	return this.MemoryUse>>10; },
+ShowLanguage:function()	{	return diantou.judge.GetLanguage(this.Language).ShowName;	},
+ProblemPath:function()	{	return new diantou.problem({Id:this.ProblemId}).Path.CodeJudge+'&judgeId='+this.Id;	},
+ContestProblemPath:function()	{	return new diantou.problem({Id:this.ProblemId}).Path.Contest+'&judgeId='+this.Id;	},
+AcceptedRankDays:function()	{	return Math.floor((this.SubmitTime.getTime()-diantou.problem.Get(this.ProblemId,1).FristTime.getTime())/(1000*60*60*24));	},
+AcceptedRankHours:function()	{	return Math.floor((this.SubmitTime.getTime()-diantou.problem.Get(this.ProblemId,1).FristTime.getTime())%(1000*60*60*24)/(1000*60*60));	},
+AcceptedRankMinutes:function()	{	return Math.floor((this.SubmitTime.getTime()-diantou.problem.Get(this.ProblemId,1).FristTime.getTime())%(1000*60*60)/(1000*60));	},
+AcceptedRankSeconds:function()	{	return Math.floor((this.SubmitTime.getTime()-diantou.problem.Get(this.ProblemId,1).FristTime.getTime())%(1000*60)/1000);	},
+StateString:function()	{	return diantou.judgeState.GetStateString(this.JudgeValue);	},
+JudgeDetailPoint:function()
+	{
+	if(this.IsFinished&&this.TestCount&&this.ErrorCount<31)
+		{
+		var Point=fastCSharp.Skin.Body.Data.problem.BasePoint>>this.ErrorCount;
+		if(Point>=5)	return Point;
+		}
+	return 0;
+	},
+ContestPoint:function()
+	{
+	if(this.TestCount&&this.ErrorCount<31)
+		{
+		var Point=diantou.problem.Get({Id:this.Remote.ContestProblem.Id},1).BasePoint>>this.ErrorCount;
+		if(Point>=5)	return Point;
+		}
+	return 0;
+	}
+		};
+
+diantou.judgeState.GetStateString=function(JudgeValue)
+	{
+	switch(JudgeValue)
+		{
+		case 'WrongAnswer':	return 'Wrong answer';
+		case 'TimeLimitExceed':	return 'Time limit exceeded';
+		case 'MemoryLimitExceed':	return 'Memory limit exceeded';
+		case 'RunTimeError':	return 'Runtime error';
+		case 'CompileError':	return 'Compilation error';
+		case 'JudgeError':	return 'Judge error';
+		}
+	return JudgeValue;
+	};
+fastCSharp.Pub.LoadViewType(diantou.log=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.log.prototype={
+Image:function(Value,Type)
+	{
+	var Image=new diantou.image({Value:Value});
+	Image.Set(Type,this.logUser);
+	return Image;
+	},
+UserHistoryImage:function()	{	return this.Image(this.Remote.HistoryContent,'user');	},
+TopicHistoryImage:function()	{	return this.Image(this.Remote.HistoryContent,'topic');	},
+UserNewImage:function()	{	return this.Image(this.Remote.NewContent,'user');	},
+TopicNewImage:function()	{	return this.Image(this.Remote.NewContent,'topic');	},
+AnswerPath:function()	{	return new diantou.answer({Id:this.AnswerId}).Path.Index;	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.medal=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+fastCSharp.Pub.LoadViewType(diantou.message=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.message.prototype={
+MessageUser:function()	{	return diantou.user.Get(this.UserId,1);	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userMessage=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userMessage.prototype={
+SendPath:function()	{	return new diantou.user({Id:this.IsSelf?this.Message.ReceiveId:this.Message.UserId}).Path.UserMessage;	},
+EnterpriseSendPath:function()	{	return new diantou.user({Id:this.IsSelf?this.Message.ReceiveId:this.Message.UserId}).Path.EnterpriseUserMessage;	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.notice=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.notice.prototype={
+AnswerPath:function()	{	return new diantou.answer({Id:this.AnswerId}).Path.Index;	},
+JudgePath:function()	{	return this.ContestId?new diantou.contestJudge({Id:this.JudgeId}).Path.SubmitDetail:new diantou.judge({Id:this.JudgeId}).Path.SubmitDetail;	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.payProductOrder=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.payProductOrder.prototype={
+Price100:function()	{	return this.Price/100;	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.problem=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		AcceptedUser:'/onlineJudge/solutionRank.html#!problemId='+this.Id,
+		AcceptedUserSubmit:'/onlineJudge/acceptedRank.html#!problemId='+this.Id,
+		Judge:'/onlineJudge/problemJudge.html#!problemId='+this.Id,
+		CodeJudge:'/onlineJudge/questionCode.html#!problemId='+this.Id,
+		Favorite:'/onlineJudge/favorite.html#!problemId='+this.Id,
+		Contest:'/contest/problem.html#!problemId='+this.Id,
+		Solution:'/onlineJudge/problemSolution.html#!problemId='+this.Id,
+		ContestSolution:'/contest/problemSolution.html#!problemId='+this.Id,
+		ContestAcceptedUser:'/contest/solutionRank.html#!problemId='+this.Id,
+		ContestAcceptedUserSubmit:'/contest/acceptedRank.html#!problemId='+this.Id,
+		ContestRank:'/contest/problemRank.html#!problemId='+this.Id,
+		ContestJudge:'/contest/problemJudge.html#!problemId='+this.Id,
+		Test:'/management/problemCode.html#!problemId='+this.Id
+		};
+	});
+diantou.problem.prototype={
+SecondLimit:function()	{	return this.TimeLimit/1000;	},
+MemoryLimitKB:function()	{	return this.MemoryLimit>>10; },
+UserSubmitPath:function()	{	return new diantou.user({Id:fastCSharp.Skin.Body.Data.user.Id}).OnlineJudgeProblemSubmit(this.Id);	},
+Contest:function()	{	return this.ContestId?diantou.contest.Get(this.ContestId,1):null;	},
+IsShowTopic:function()	{	return fastCSharp.Cookie&&!fastCSharp.Cookie.Default.Read('ojTopic',0);	},
+QuestionPath:function()	{	return diantou.question.Get({Id:this.QuestionId}).Path.Index;	},
+ClientAutoShowTime:function()	{	return (this.AutoShowTime.ToInt()==(1900<<9)+(1<<5)+1?(new Date).ToInt().IntToDate().AddHours(9+30*24):this.AutoShowTime).ToSecondString();	},
+IsAutoShowTime:function()	{	return this.AutoShowTime.ToInt()!=(1900<<9)+(1<<5)+1;	},
+SetExamUserJudge:function()
+	{
+	if(this.ExamJudge)
+		{
+		if(this.ExamJudge!=1)	return this.ExamJudge;
+		}
+	else	{
+		for(var Judges=fastCSharp.Skin.Body.Data.judges||[],Index=Judges.length;Index;)
+			{
+			var Judge=Judges[--Index];
+			if(Judge.ProblemId==this.Id)	return this.ExamJudge=Judge;
+			}
+		this.ExamJudge=1;
+		}
+	},
+ExamUserJudge:function()
+	{
+	var Judge=this.SetExamUserJudge();
+	return Judge?Judge.Judge:null;
+	},
+ExamUserJudgeItems:function()
+	{
+	var Judge=this.SetExamUserJudge();
+	return Judge?Judge.Items:null;
+	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userProblem=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+fastCSharp.Pub.LoadViewType(diantou.problemGroup=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={List:'/onlineJudge/problemList.html#!groupId='+this.Id};
+	});
+fastCSharp.Pub.LoadViewType(diantou.problemJudge=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.IsShowJudge=0;
+	this.judges=[];
+	if(this.Count==0)	this.IsJudges=1;
+	});
+fastCSharp.Pub.LoadViewType(diantou.topic=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Index:this.GetIndex(),
+		Focus:'/topic/focus.html#!topicId='+this.Id,
+		Favorite:'/topic/favorite.html#!topicId='+this.Id,
+		Log:'/topic/log.html#!topicId='+this.Id,
+		Hot:'/topic/hot.html#!topicId='+this.Id,
+		BestAnswer:'/topic/bestAnswer.html#!topicId='+this.Id,
+		Friend:'/topic/friend.html#!topicId='+this.Id,
+		ProblemList:'/onlineJudge/topicProblem.html#!topicId='+this.Id,
+		EnterpriseProblemList:'/enterprise/topicProblem.html#!topicId='+this.Id
+		};
+	this.OnCopyView();
+	});
+diantou.topic.prototype={
+GetIndex:function()
+	{
+	if(this.Name)
+		{
+		var Code=this.Name.charCodeAt(0);
+		return '/topic/#!='+(Code>=0x31&&Code<=0x39?'_':'')+this.Name.replace(/[\u0100-\uffff]/g,function(Char){return '&#'+Char.charCodeAt(0)+';';});
+		}
+	return '/topic/index.html#!topicId='+this.Id;
+	},
+OnCopyView:function()
+	{
+	if(this.Icon)	this.Icon.Set('topic',this);
+	},
+MyAnswerPath:function()
+	{
+	var User=fastCSharp.Skin.Body.Data.currentUser;
+	return User?'/topic/userAnswer.html#!topicId='+this.Id+'&userId='+User.Id:null;
+	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userTopic=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+fastCSharp.Pub.LoadViewType(diantou.tutorial=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		Index:'/tutorial/index.html#!tutorialId='+this.Id,
+		UserList:'/tutorial/userList.html#!tutorialId='+this.Id,
+		PassUserList:'/tutorial/userList.html#!tutorialId='+this.Id+'&isPass=1'
+		};
+	});
+diantou.tutorial.prototype={
+RealPoint:function()	{	return this.Point*5;	},
+QuestionPath:function()	{	return diantou.question.Get({Id:this.QuestionId}).Path.Index;	}
+		};
+
+fastCSharp.Pub.LoadViewType(diantou.userTutorial=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+fastCSharp.Pub.LoadViewType(diantou.user=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	this.Path={
+		NewFocus:'/focus.html',Message:'/message.html',Setting:'/setting/index.html',DepictSetting:'/setting/description.html',PasswordSetting:'/setting/account.html',NoticeSetting:'/setting/notice.html',Payment:'/payment.html',Blacklist:'/blacklist.html',Notice:'/notice.html',EnterpriseSetting:'/enterprise/setting.html',EnterpriseMessage:'/enterprise/message.html',EnterpriseNotice:'/enterprise/notice.html',EnterpriseAccount:'/enterprise/account.html',
+		Index:'/user/index.html#!userId='+this.Id,
+		Focus:'/user/focus.html#!userId='+this.Id,
+		FocusUser:'/user/focusUser.html#!userId='+this.Id,
+		FocusTopic:'/user/focusTopic.html#!userId='+this.Id,
+		JoinTopic:'/user/joinTopic.html#!userId='+this.Id,
+		UserMention:'/user/mention.html#!userId='+this.Id,
+		UserMessage:'/messageList.html#!userId='+this.Id,
+		EnterpriseUserMessage:'/enterprise/messageList.html#!userId='+this.Id,
+		Question:'/user/question.html#!userId='+this.Id,
+		Answer:'/user/answer.html#!userId='+this.Id,
+		Log:'/user/log.html#!userId='+this.Id,
+		FocusQuestion:'/user/focusQuestion.html#!userId='+this.Id,
+		Favorite:'/user/favorite.html#!userId='+this.Id,
+		NewFavorite:'/user/newFavorite.html#!userId='+this.Id,
+		FocusFavorite:'/user/focusFavorite.html#!userId='+this.Id,
+		OnlineJudge:'/onlineJudge/user.html#!userId='+this.Id,
+		OnlineJudgeSubmit:'/onlineJudge/submitList.html#!userId='+this.Id,
+		OnlineJudgeFocusProblem:'/onlineJudge/focusProblem.html#!userId='+this.Id,
+		OnlineJudgeMedal:'/onlineJudge/medalList.html#!userId='+this.Id,
+		Contest:'/contest/user.html#!userId='+this.Id,
+		ContestSubmit:'/contest/userSubmitList.html#!userId='+this.Id,
+		WinxinQrCode:'//file.51nod.com/upload/weixin/'+(this.Id>>12)+'/'+(this.Id&4095)+'.png'
+		};
+	this.Poll=diantou.user.Poll;
+	this.EnterprisePoll=diantou.user.EnterprisePoll;
+	this.FavoriteNewCount=0;
+	this.OnCopyView();
+	});
+diantou.user.Flags={FocusAnswerQuestion:1};
+diantou.user.NoticeFlags={FocusQuestionAnswer:4,QuestionRework:8,ReceiveFocus:0x10,TopicRework:0x20,ReceiveAgreeAnswer:0x40,FavoriteAnswer:0x80,FocusFavorite:0x200,Comment:0x400,ReceiveAgreeJudge:0x800,ReceiveAgreeComment:0x1000,ReceiveCommentAnswer:0x2000,ReceiveCommentJudge:0x4000,ReceiveBulkEmail:0x8000};
+diantou.user.Poll={IsNoticeMessage:0,NewFocusCount:0,FriendCount:0,NewLogs:[],Favorite:0,Notice:0,Problem:0,Tutorial:0,Contest:0,ContestId:0,Notices:[],CurrentContestPath:new diantou.path().ContestListPath};
+diantou.user.EnterprisePoll={Radio:0,MultipleChoice:0,Problem:0,Question:0,Notice:0,Notices:[]};
+diantou.user.Permission={OnlineJudgeEditor:1,TutorialEditor:4,ExamEditor:8,ContestEditor:0x10,Admin:-1};
+diantou.user.CompanySize=[{Value:'_15人以下',Text:'15人以下'},{Value:'_15_50人',Text:'15-50人'},{Value:'_50_150人',Text:'50-150人'},{Value:'_150_500人',Text:'150-500人'},{Value:'_500_1500人',Text:'500-1500人'},{Value:'_1500人以上',Text:'1500人以上'}],
+diantou.user.CompanyStage='初创型 成长型 成熟型 已上市'.split(' ');
+diantou.user.Industry='移动互联网 电子商务 金融企业 服务教育 文化娱乐 游戏 O2O 硬件 社交网络 旅游 医疗健康 生活服务 信息安全 数据服务 广告营销 分类信息 招聘'.split(' ');
+diantou.user.Welfare='岗位晋升 五险一金 绩效奖金 带薪年假 节日礼物 技能培训 年度旅游 扁平管理 股票期权 弹性工作 管理规范 定期体检 帅哥多 美女多 通讯津贴 年终奖 午餐补助 交通补助 周末双休'.split(' ');
+diantou.user.prototype={
+OnCopyView:function()
+	{
+	if(this.Icon)	this.Icon.Set('user',this);
+	if(this.EnterpriseIcon)	this.EnterpriseIcon.Set('enterprise',this);
+	},
+PermissionFlag:function()
+	{
+	return this.PermissionFlagObject||(this.PermissionFlagObject=fastCSharp.Pub.ViewFlagEnum(this.Permission,diantou.user.Permission));
+	},
+OnlineJudgeProblemSubmit:function(ProblemId)	{	return '/onlineJudge/submitList.html#!userId='+this.Id+'&problemId='+ProblemId;	},
+Name18:function()	{	return this.Name.Left(18);	},
+EnterpriseName18:function()	{	return this.EnterpriseName.Left(18);	},
+RemarkNotNull:function()	{	return this.Remark||'暂无';	},
+EnterpriseRemarkNotNull:function()	{	return this.EnterpriseRemark||'暂无';	},
+RealEmail:function()	{	return this.Email.indexOf('@')+1?(this.Email.substring(this.Email.length-6)=='@51nod'?this.Email.substring(0,this.Email.Length-6):this.Email):'';	},
+CompanySizeString:function()	{	return this.CompanySize.replace(/^_/g,'').replace(/_/g,'-');	},
+OnlineJudgeGoldSilverBronzeCount:function()	{	return this.OnlineJudgeGoldCount+this.OnlineJudgeSilverCount+this.OnlineJudgeBronzeCount;	},
+ContestGoldSilverBronzeCount:function()	{	return this.ContestGoldCount+this.ContestSilverCount+this.ContestBronzeCount;	},
+TotalPoint:function()	{	return 10+this.NodPoint+this.Remote.AddPoint+this.OnlineJudgeAcceptedProblemCount*2+this.Remote.ContestAcceptedProblemCount*5+this.Grade0*(this.Grade0+1)+(this.Mobile?4:0);	},
+EnterpriseBalanceYuan:function()	{	return this.EnterpriseBalance/100;	},
+MobileX:function()
+	{
+	var Value=this.Mobile.toString();
+	return Value.substring(0,3)+'xxxx'+Value.substring(7);
+	},
+MessageType:function()
+	{
+	var Value=this.MessageFlagObject;
+	if(!Value)	(Value=this.MessageFlagObject={AllUser:0,FocusUser:0,Friend:0})[this.MessageFlag]=1;
+	return Value;
+	},
+NoticeFlag:function()
+	{
+	return this.NoticeFlagObject||(this.NoticeFlagObject=fastCSharp.Pub.ViewFlagEnum(this.NoticeFlags,diantou.user.NoticeFlags));
+	},
+Flag:function()
+	{
+	return this.FlagObject||(this.FlagObject=fastCSharp.Pub.ViewFlagEnum(this.Flags,diantou.user.Flags));
+	},
+CurrentEnterpriseWelfare:function()
+	{
+	if(!this.CurrentWelfare)	this.CurrentWelfare=this.Remote.EnterpriseWelfare?this.Remote.EnterpriseWelfare.split(','):[];
+	return this.CurrentWelfare;
+	},
+OtherEnterpriseWelfare:function()
+	{
+	var CurrentWelfare=this.CurrentEnterpriseWelfare();
+	if(CurrentWelfare.length)
+		{
+		for(var Welfares=[],CurrentWelfare=CurrentWelfare.ToHash(),Index=0;Index-diantou.user.Welfare.length;++Index)
+			{
+			if(!CurrentWelfare[diantou.user.Welfare[Index]])	Welfares.push(diantou.user.Welfare[Index]);
+			}
+		return Welfares;
+		}
+	return diantou.user.Welfare;
+	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.userComment=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userComment.prototype={
+GetValue:function()	{	return diantou.judge.Get(this.Id,1);	}
+		};
+fastCSharp.Pub.LoadViewType(diantou.userRelation=function(Value)
+	{
+	fastCSharp.Pub.Copy(this,Value);
+	});
+diantou.userRelation.prototype={
+IsBlackAny:function()	{	return this.RelationMap>0&&(this.RelationMap&0x11);	},
+IsFriend:function()	{	return this.RelationMap>0&&(this.RelationMap&0x8);	},
+IsUserFriend:function()	{	return this.RelationMap>0&&(this.RelationMap&0x80);	},
+IsIdol:function()	{	return this.RelationMap>0&&(this.RelationMap&0x4);	},
+IsUserIdol:function()	{	return this.RelationMap>0&&(this.RelationMap&0x40);	},
+IsFocus:function()	{	return this.RelationMap>0&&(this.RelationMap&0x2);	},
+IsUserFocus:function()	{	return this.RelationMap>0&&(this.RelationMap&0x20);	},
+IsFocusAny:function()	{	return this.RelationMap>0&&(this.RelationMap&0xe);	},
+IsUserFocusAny:function()	{	return this.RelationMap>0&&(this.RelationMap&0xe0);	},
+IsShowRelation:function()	{	return this.IsFocusAny()||this.IsUserFocusAny();	}
+		};
+setTimeout(fastCSharp.Pub.LoadIE, 0, 'javascript');

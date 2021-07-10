@@ -1,0 +1,147 @@
+BODY {
+	SCROLLBAR-FACE-COLOR: #80b3cc; SCROLLBAR-HIGHLIGHT-COLOR: #80b3cc; SCROLLBAR-SHADOW-COLOR: #80b3cc; COLOR: #ffffff; SCROLLBAR-3DLIGHT-COLOR: #006699; SCROLLBAR-ARROW-COLOR: #006699; SCROLLBAR-TRACK-COLOR: #006699; FONT-FAMILY: Tahoma; SCROLLBAR-DARKSHADOW-COLOR: #006699; BACKGROUND-COLOR: #006699
+}
+TD {
+	FONT-SIZE: 11px; FONT-FAMILY: Tahoma
+}
+TABLE {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; VERTICAL-ALIGN: bottom; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+A:link {
+	COLOR: #ffffff; TEXT-DECORATION: underline
+}
+A:active {
+	COLOR: #c0c0c0; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #ffffff; TEXT-DECORATION: underline
+}
+A:hover {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.inline:link {
+	FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-DECORATION: underline
+}
+A.inline:active {
+	FONT-WEIGHT: bold; COLOR: #c0c0c0; TEXT-DECORATION: none
+}
+A.inline:visited {
+	FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-DECORATION: underline
+}
+A.inline:hover {
+	FONT-WEIGHT: bold; COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.menu:link {
+	COLOR: #ff9900; TEXT-DECORATION: none
+}
+A.menu:active {
+	COLOR: #ff9900; TEXT-DECORATION: none
+}
+A.menu:visited {
+	COLOR: #ff9900; TEXT-DECORATION: none
+}
+A.menu:hover {
+	COLOR: #ff9900; TEXT-DECORATION: none
+}
+.tableLeft {
+	BORDER-RIGHT: #ff9900 3px solid; BORDER-TOP: #ff9900 3px; BORDER-LEFT: #ff9900 3px; COLOR: #006699; BORDER-BOTTOM: #ff9900 3px; BACKGROUND-COLOR: #ffffff
+}
+.tableNews {
+	BORDER-RIGHT: #80b3cc 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #80b3cc 1px; PADDING-LEFT: 4px; VERTICAL-ALIGN: top; BORDER-LEFT: #80b3cc 1px; WIDTH: 150px; BORDER-BOTTOM: #80b3cc 1px
+}
+.tableContent {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; VERTICAL-ALIGN: top
+}
+.table {
+	BORDER-RIGHT: #80b3cc 1px; BORDER-TOP: #80b3cc 1px solid; BORDER-LEFT: #80b3cc 1px solid; BORDER-BOTTOM: #80b3cc 1px
+}
+.table_data {
+	BORDER-RIGHT: #80b3cc 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #80b3cc 1px; PADDING-LEFT: 5px; PADDING-BOTTOM: 3px; VERTICAL-ALIGN: top; BORDER-LEFT: #80b3cc 1px; PADDING-TOP: 3px; BORDER-BOTTOM: #80b3cc 1px solid
+}
+.table_inside_cell {
+	BORDER-RIGHT: #80b3cc 1px; PADDING-RIGHT: 2px; BORDER-TOP: #80b3cc 1px; PADDING-LEFT: 2px; PADDING-BOTTOM: 3px; VERTICAL-ALIGN: top; BORDER-LEFT: #80b3cc 1px; PADDING-TOP: 3px; BORDER-BOTTOM: #80b3cc 1px solid
+}
+.bordered_div {
+	BORDER-RIGHT: #80b3cc 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #80b3cc 1px; PADDING-LEFT: 4px; BORDER-LEFT: #80b3cc 1px solid; BORDER-BOTTOM: #80b3cc 1px
+}
+.Clock {
+	BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; FONT-SIZE: 12px; BORDER-LEFT: 0px; COLOR: #ffffff; BORDER-BOTTOM: 0px; FONT-FAMILY: Tahoma; BACKGROUND-COLOR: #006699
+}
+P {
+	MARGIN-TOP: 8px; FONT-SIZE: 12px; MARGIN-BOTTOM: 0px
+}
+P.desc {
+	TEXT-INDENT: 10px
+}
+P.descT {
+	FONT-WEIGHT: bold; TEXT-INDENT: 10px
+}
+P.title {
+	MARGIN-TOP: 0px; FONT-WEIGHT: bold; FONT-SIZE: 13px; MARGIN-BOTTOM: 10px
+}
+P.list {
+	MARGIN-TOP: 0px; PADDING-LEFT: 40px; MARGIN-BOTTOM: 0px; TEXT-INDENT: -10px
+}
+P.pnews {
+	MARGIN-TOP: 0px; FONT-SIZE: 11px; TEXT-INDENT: 0px
+}
+.code {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; FONT-FAMILY: Courier New
+}
+P.pForm {
+	text-size: 11px
+}
+SELECT {
+	BORDER-RIGHT: #80b3cc 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #80b3cc 1px solid; PADDING-LEFT: 4px; FONT-SIZE: 11px; VERTICAL-ALIGN: middle; BORDER-LEFT: #80b3cc 1px solid; COLOR: #ffffff; BORDER-BOTTOM: #80b3cc 1px solid; FONT-FAMILY: Tahoma; BACKGROUND-COLOR: #408cb2
+}
+INPUT {
+	BORDER-RIGHT: #80b3cc 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #80b3cc 1px solid; PADDING-LEFT: 4px; FONT-SIZE: 11px; VERTICAL-ALIGN: middle; BORDER-LEFT: #80b3cc 1px solid; COLOR: #ffffff; BORDER-BOTTOM: #80b3cc 1px solid; FONT-FAMILY: Tahoma; BACKGROUND-COLOR: #408cb2
+}
+TEXTAREA {
+	BORDER-RIGHT: #80b3cc 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #80b3cc 1px solid; PADDING-LEFT: 4px; FONT-SIZE: 11px; VERTICAL-ALIGN: middle; BORDER-LEFT: #80b3cc 1px solid; COLOR: #ffffff; BORDER-BOTTOM: #80b3cc 1px solid; FONT-FAMILY: Tahoma; BACKGROUND-COLOR: #408cb2
+}
+.radioButton {
+	BORDER-RIGHT: medium none; PADDING-RIGHT: 0px; BORDER-TOP: medium none; PADDING-LEFT: 0px; VERTICAL-ALIGN: middle; BORDER-LEFT: medium none; COLOR: #ffffff; BORDER-BOTTOM: medium none; HEIGHT: 16px; BACKGROUND-COLOR: #006699
+}
+.inputButton {
+	BORDER-RIGHT: #ffffff 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #ffffff 1px solid; PADDING-LEFT: 0px; FONT-SIZE: 10px; VERTICAL-ALIGN: middle; BORDER-LEFT: #ffffff 1px solid; COLOR: #ffffff; BORDER-BOTTOM: #ffffff 1px solid; FONT-FAMILY: Tahoma; BACKGROUND-COLOR: #408cb2
+}
+.selectOnly {
+	COLOR: #999999; BACKGROUND-COLOR: #eeeeee
+}
+.textareaOnly {
+	SCROLLBAR-FACE-COLOR: #80b3cc; SCROLLBAR-HIGHLIGHT-COLOR: #80b3cc; VERTICAL-ALIGN: top; SCROLLBAR-SHADOW-COLOR: #408cb2; SCROLLBAR-3DLIGHT-COLOR: #408cb2; SCROLLBAR-ARROW-COLOR: #408cb2; SCROLLBAR-TRACK-COLOR: #408cb2; SCROLLBAR-DARKSHADOW-COLOR: #408cb2
+}
+.formHolder {
+	BORDER-RIGHT: #eeeeee 1px solid; PADDING-RIGHT: 3px; BORDER-TOP: #eeeeee 1px solid; PADDING-BOTTOM: 2px; BORDER-LEFT: #eeeeee 1px solid; WIDTH: 312px; PADDING-TOP: 2px; BORDER-BOTTOM: #eeeeee 1px solid; TEXT-ALIGN: right
+}
+.unbold {
+	FONT-WEIGHT: normal
+}
+.background-color-dark {
+	BACKGROUND-COLOR: #006699
+}
+.background-color-medium {
+	BACKGROUND-COLOR: #408cb2
+}
+.background-color-light {
+	BACKGROUND-COLOR: #80b3cc
+}
+.background-color-invert {
+	BACKGROUND-COLOR: #ff9900
+}
+.color-dark {
+	COLOR: #006699
+}
+.color-medium {
+	COLOR: #408cb2
+}
+.color-light {
+	COLOR: #80b3cc
+}
+.color-invert {
+	COLOR: #ff9900
+}

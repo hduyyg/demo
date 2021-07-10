@@ -1,0 +1,294 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0045)http://ace.delos.com/TESTDATA/JAN07.schul.htm -->
+<HTML><HEAD><TITLE>USACO JAN07 schul Analysis</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<CENTER><IMG height=118 src="schul.files/cow1.jpg" width=742></CENTER>
+<H2>USACO JAN07 Problem 'schul' Analysis</H2>
+<H4>by Bruce Merry / Richard Peng</H4>
+<P>Suppose that for a particular value of D, using the teacher's choices gives a 
+ratio of M, and Bessie wants to improve this ratio. If she things of every test 
+as being M plus or minus some number of marks (not percent), then she will want 
+to drop the tests with the minimum number of marks over M, and keep those with 
+the most marks over M. If it happens that the teacher's choice is different, 
+then she can switch some of the tests to get more than 0 over M and thus improve 
+her score.</P>
+<P>A first attempt would be to verify this independently for each D. That is, 
+for each D, determine the teacher-assigned mark, and look for the worst test 
+kept in by the teacher and the best test dropped by the teacher ("better" 
+meaning more marks above M). If substituting one for the other improves Bessie's 
+score, then save this value of D. This gives an O(N^2) solution.</P>
+<P>Quite a few contestants tried to insert heuristics into their code to improve 
+runtime. Most of these relied on some assumption about the 'density' of the 
+solution points and the locations where the min/max occurs. It was rather 
+difficult to construct a data which fails both heuristics based on upper and 
+lower bound, so two contestants still manged to get by with heuristic 
+solutions.</P>
+<P>There are several ways to go from here to get down to a O(nlogn) solution. 
+First notice that the problem essentially reduces to finding the maximum/minimum 
+values of the linear combination of a set of two variables. It suffices to 
+consider the minimum case since the maximum case is a mirror equivalent. This 
+can be thought as of either the x-intercepts of points on a plane or as the 
+position where a certain line intersect a vertical line with a fixed x value. In 
+both methods of visualization, it can be noticed that if a point is concave in 
+relation to its two immediate neighbors, it can be deleted.</P>
+<P>Both methods immediately leads to a O(nlogn) time solution using balanced 
+binary trees. This can be explained in professor Brian Dean's animated notes 
+found at:<BR>http://www.cs.clemson.edu/~bcdean/cowschool.swf This is also the 
+only type of O(nlogn) solution implemented during the contest. Sorry to all the 
+Pascal programmers as STL set gives C++ users a huge advantage should this 
+solution be implemented. Nima Ahmadi Pour from Iran was the only person to 
+implement one correctly (although Adrian Kuegel did come close). Nima's code is 
+here:</P><PRE>
+#include &lt;cstdlib&gt;
+#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+#include &lt;set&gt;
+#include &lt;utility&gt;
+using namespace std;
+double eps=1e-8;
+FILE *fin=fopen("schul.in","r");
+FILE *fout=fopen("schul.out","w");
+struct test{
+       int a,b;
+       test(){}
+       test(int t1,int t2):a(t1),b(t2){}
+};
+bool operator&lt;(const test&amp; t1,const test&amp; t2){
+       return t1.a*t2.b&lt;t2.a*t1.b;
+}
+struct line{
+       int a,b;
+       line(){}
+       line(int t1,int t2):a(t1),b(t2){}
+};
+bool operator&lt;(const line&amp; l1,const line&amp; l2){
+       return l1.b&lt;l2.b;
+}
+set&lt;line&gt; s;
+line last_line;
+double last_x;
+void reset(){
+       s.clear();
+}
+double xinter(const line&amp; l1,const line&amp; l2){
+       return double(l1.a-l2.a)/double(l2.b-l1.b);
+}
+double yinter(const line&amp; l1,double x){
+       return l1.b*x+l1.a;
+}
+double best(double x){
+       double ans=-1e12;
+       set&lt;line&gt;::iterator it=s.find(last_line);
+       while (it!=s.end() &amp;&amp; yinter(*it,x)&gt;ans){
+               ans=yinter(*it,x);
+               ++it;
+       }
+       --it;
+       last_x=x;
+       last_line=*it;
+       return ans;
+}
+void insert(const line&amp; l){
+       while (true){
+               set&lt;line&gt;::iterator it1=s.lower_bound(l);
+               if (it1==s.end())
+                       break;
+               set&lt;line&gt;::iterator it2=it1;++it2;
+               if (it2==s.end())
+                       break;
+               if (it1-&gt;b==l.b){
+                       if (it1-&gt;a&lt;=l.a){
+                               s.erase(it1);
+                               continue;
+                       }
+                       return;
+               }
+               double x=xinter(*it1,*it2);
+               if (yinter(l,x)&lt;yinter(*it1,x)-eps)
+                       break;
+               s.erase(it1);
+       }
+       while (true){
+               set&lt;line&gt;::iterator it1=s.upper_bound(l);
+               if (it1==s.begin())
+                       break;
+               --it1;
+               if (it1==s.begin())
+                       break;
+               set&lt;line&gt;::iterator it2=it1;--it2;
+               if (it1-&gt;b==l.b){
+                       if (it1-&gt;a&lt;=l.a){
+                               s.erase(it1);
+                               continue;
+                       }
+                       return;
+               }
+               double x=xinter(*it1,*it2);
+               if (yinter(l,x)&lt;yinter(*it1,x)-eps)
+                       break;
+               s.erase(it1);
+       }
+       set&lt;line&gt;::iterator it1=s.lower_bound(l);
+       if (it1!=s.end() &amp;&amp; it1!=s.begin()){
+               set&lt;line&gt;::iterator it2=it1;--it2;
+               double x=xinter(*it1,*it2);
+               if (yinter(l,x)&lt;=yinter(*it1,x)+eps)
+                       return;
+       }
+       s.insert(l);
+       if (s.size()==1){
+               last_line=l;
+               last_x=-1e12;
+       }
+       else if (s.find(last_line)==s.end())
+               last_line=l;
+       else if (yinter(last_line,last_x)&lt;yinter(l,last_x))
+               last_line=l;
+}
+int n;
+test t[50000];
+double x[50000],min_one[50000],max_one[50000];
+int main(){
+       fscanf(fin,"%d",&amp;n);
+       for (int i=0;i&lt;n;++i)
+               fscanf(fin,"%d%d",&amp;t[i].a,&amp;t[i].b);
+       sort(t,t+n);
+       {
+               int suma=0,sumb=0;
+               for (int i=0;i&lt;n;++i){
+                       suma+=t[n-i-1].a;
+                       sumb+=t[n-i-1].b;
+                       x[n-i-1]=double(suma)/double(sumb);
+               }
+       }
+       {
+               reset();
+               for (int i=1;i&lt;n;++i){
+                       insert(line(t[i-1].a,-t[i-1].b));
+                       max_one[i]=best(x[i]);
+               }
+       }
+       {
+               reset();
+               for (int i=n-1;i&gt;=1;--i){
+                       insert(line(-t[i].a,-t[i].b));
+                       min_one[i]=-best(-x[i]);
+               }
+       }
+       int cou=0;
+       for (int i=1;i&lt;n;++i)
+               if (min_one[i]&lt;max_one[i]-eps)
+                       ++cou;
+       fprintf(fout,"%d\n",cou);
+       for (int i=1;i&lt;n;++i)
+               if (min_one[i]&lt;max_one[i]-eps)
+                       fprintf(fout,"%d\n",i);
+       return 0;
+}
+
+</PRE>
+<P>There exist a much simpler alternatives. One way is to divide the list in 
+half, construct the hull for the lower half and query the score of every point 
+from the higher half on the lower part in linear time. This would handle all the 
+queries across the division point, which means we could recurse on each half to 
+get to a O(nlogn) algorithm.</P>
+<P>The other, much more elegant way by Bruce Merry is to consider what happens 
+when we increment D and thus have a new point in our candidate set. Everything 
+to the right (i.e. with higher T) can be discarded from the bag, because M will 
+be (and remain) higher than the current test, and any tests to the right will be 
+both of lower percentage and greater weight than the current test. Furthermore, 
+if three elements in the bag are convex, then the middle one can never be 
+optimal and it be discarded from the bag. This becomes a typical convex hull 
+maintenance problem and can be done in O(N) time after the sorting. Bruce's code 
+is here:</P><PRE>
+#include &lt;fstream&gt;
+#include &lt;algorithm&gt;
+#include &lt;complex&gt;
+#include &lt;vector&gt;
+#include &lt;iterator&gt;
+#include &lt;numeric&gt;
+
+using namespace std;
+
+#define MAXN 50000
+
+typedef long long ll;
+typedef complex&lt;ll&gt; point;
+
+static ll cross(const point &amp;a, const point &amp;b) { return imag(conj(a) *
+b); }
+static ll area2(const point &amp;a, const point &amp;b, const point &amp;c)
+{ return cross(b - a, c - a); }
+
+struct compare_slope
+{
+    bool operator()(const point &amp;a, const point &amp;b)
+    { return area2(point(0, 0), a, b) &gt; 0; }
+};
+
+int main()
+{
+    static point points[MAXN];
+    static point worst_in[MAXN];
+    static point hull[MAXN];
+    point total, slope;
+    int N, H;
+    vector&lt;int&gt; ans;
+    ifstream in("schul.in");
+    ofstream out("schul.out");
+
+    in &gt;&gt; N;
+    for (int i = 0; i &lt; N; i++)
+    {
+        int p, t;
+        in &gt;&gt; p &gt;&gt; t;
+        points[i] = point(t, p);
+    }
+    sort(points, points + N, compare_slope());
+    total = accumulate(points, points + N, point(0, 0));
+
+    H = 0;
+    slope = point(0, 0);
+    for (int i = N - 1; i &gt; 0; i--)
+    {
+        while (H &amp;&amp; imag(hull[H - 1]) &lt;= imag(points[i]))
+            H--;
+        while (H &gt;= 2 &amp;&amp; area2(hull[H - 2], hull[H - 1], points[i])
+&gt;= 0)
+            H--;
+        hull[H++] = points[i];
+        slope += points[i];
+        while (H &gt;= 2 &amp;&amp; cross(slope, hull[H - 2] - hull[H - 1])
+&lt;= 0)
+            H--;
+        worst_in[i - 1] = hull[H - 1];
+    }
+
+    H = 0;
+    slope = total;
+    for (int i = 0; i &lt; N - 1; i++)
+    {
+        while (H &amp;&amp; real(hull[H - 1]) &gt;= real(points[i]))
+            H--;
+        while (H &gt;= 2 &amp;&amp; area2(hull[H - 2], hull[H - 1], points[i])
+&gt;= 0)
+            H--;
+        hull[H++] = points[i];
+        slope -= points[i];
+        while (H &gt;= 2 &amp;&amp; cross(slope, hull[H - 2] - hull[H - 1])
+&gt;= 0)
+            H--;
+        point best_out = hull[H - 1];
+        if (cross(slope, worst_in[i] - best_out) &lt; 0)
+            ans.push_back(i + 1);
+    }
+
+    out &lt;&lt; ans.size() &lt;&lt; "\n";
+    copy(ans.begin(), ans.end(), ostream_iterator&lt;int&gt;(out, "\n"));
+    return 0;
+}
+
+
+</PRE></BODY></HTML>

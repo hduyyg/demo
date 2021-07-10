@@ -1,0 +1,24 @@
+scoi2005 互不侵犯
+入门题目
+学习状态的二进制表示
+题解:
+http://hi.baidu.com/wjbzbmr/blog/item/66e4299b507242046f068c27.html
+
+记录状态的动态规划. (POJ3254,poj2411,poj1185)
+
+POJ 2411
+题解:
+http://www.cnblogs.com/xiao_wu/archive/2010/06/12/1756967.html
+
+POJ 1185
+题解:
+http://blog.csdn.net/find_my_dream/archive/2009/12/13/4994789.aspx
+
+POJ 3254
+
+题解:
+http://hi.baidu.com/billdu/blog/item/1d70d381279b66da9123d9a4.html
+
+最后再来说下关于实现的问题。
+最常用和直接的方法就是记忆化搜索，非常容易实现，传递压缩后的状态即可。当状态规模小，而转移又比较多并且是二进制压缩时时，还可以使用迭代状态空间的办法（iterative through the state space），就是枚举每种组合，然后转移。 
+

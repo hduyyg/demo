@@ -1,0 +1,1159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0067)https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1254 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+    
+<!--Client-->
+<script src="./最大子段和 V2 问题 - 51Nod_files/hm.js.下载"></script><script language="javascript" type="text/javascript" src="./最大子段和 V2 问题 - 51Nod_files/loadPage.js.下载" async="async"></script>
+<!--Client-->
+<title>最大子段和 V2 问题 - 51Nod</title>
+<!--If:ViewKeywords-->
+<meta name="keywords" content="=@@ViewKeywords">
+<!--If:ViewKeywords-->
+<!--If:ViewDescription-->
+<meta name="description" content="=@@ViewDescription">
+<!--If:ViewDescription-->
+<link href="./最大子段和 V2 问题 - 51Nod_files/main.css" rel="stylesheet" type="text/css">
+<script lang="javascript" type="text/javascript" src="./最大子段和 V2 问题 - 51Nod_files/base.js.下载" charset="gb2312"></script><script type="text/javascript">try {
+window.AG_onLoad = function(func) { if (window.addEventListener) { window.addEventListener('DOMContentLoaded', func); } };
+window.AG_removeElementById = function(id) { var element = document.getElementById(id); if (element && element.parentNode) { element.parentNode.removeChild(element); }};
+window.AG_removeElementBySelector = function(selector) { if (!document.querySelectorAll) { return; } var nodes = document.querySelectorAll(selector); if (nodes) { for (var i = 0; i < nodes.length; i++) { if (nodes[i] && nodes[i].parentNode) { nodes[i].parentNode.removeChild(nodes[i]); } } } };
+window.AG_each = function(selector, fn) { if (!document.querySelectorAll) return; var elements = document.querySelectorAll(selector); for (var i = 0; i < elements.length; i++) { fn(elements[i]); }; };
+var AG_removeParent = function(el, fn) { while (el && el.parentNode) { if (fn(el)) { el.parentNode.removeChild(el); return; } el = el.parentNode; } };
+var AG_onLoad=function(func){if(document.readyState==="complete"||document.readyState==="interactive")func();else if(document.addEventListener)document.addEventListener("DOMContentLoaded",func);else if(document.attachEvent)document.attachEvent("DOMContentLoaded",func)};
+var AG_removeElementById = function(id) { var element = document.getElementById(id); if (element && element.parentNode) { element.parentNode.removeChild(element); }};
+var AG_removeElementBySelector = function(selector) { if (!document.querySelectorAll) { return; } var nodes = document.querySelectorAll(selector); if (nodes) { for (var i = 0; i < nodes.length; i++) { if (nodes[i] && nodes[i].parentNode) { nodes[i].parentNode.removeChild(nodes[i]); } } } };
+var AG_each = function(selector, fn) { if (!document.querySelectorAll) return; var elements = document.querySelectorAll(selector); for (var i = 0; i < elements.length; i++) { fn(elements[i]); }; };
+var AdFox_getCodeScript = function() {};
+AG_onLoad(function() { AG_each('iframe[id^="AdFox_iframe_"]', function(el) { if (el && el.parentNode) { el.parentNode.removeChild(el); } }); });
+try { Object.defineProperty(window, 'noAdsAtAll', { get: function() { return true; } }); } catch (ex) {}
+} catch (ex) { console.error('Error executing AG js: ' + ex); }</script><script lang="javascript" type="text/javascript" src="./最大子段和 V2 问题 - 51Nod_files/questionCode.js.下载" charset="gb2312"></script><script lang="javascript" type="text/javascript" src="./最大子段和 V2 问题 - 51Nod_files/ace.js.下载" charset="gb2312"></script><script lang="javascript" type="text/javascript" src="./最大子段和 V2 问题 - 51Nod_files/htmlEditor.js.下载" charset="gb2312"></script><style id="ace_editor">.ace_editor {position: relative;overflow: hidden;font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;direction: ltr;}.ace_scroller {position: absolute;overflow: hidden;top: 0;bottom: 0;background-color: inherit;-ms-user-select: none;-moz-user-select: none;-webkit-user-select: none;user-select: none;cursor: text;}.ace_content {position: absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;min-width: 100%;}.ace_dragging .ace_scroller:before{position: absolute;top: 0;left: 0;right: 0;bottom: 0;content: '';background: rgba(250, 250, 250, 0.01);z-index: 1000;}.ace_dragging.ace_dark .ace_scroller:before{background: rgba(0, 0, 0, 0.01);}.ace_selecting, .ace_selecting * {cursor: text !important;}.ace_gutter {position: absolute;overflow : hidden;width: auto;top: 0;bottom: 0;left: 0;cursor: default;z-index: 4;-ms-user-select: none;-moz-user-select: none;-webkit-user-select: none;user-select: none;}.ace_gutter-active-line {position: absolute;left: 0;right: 0;}.ace_scroller.ace_scroll-left {box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.4) inset;}.ace_gutter-cell {padding-left: 19px;padding-right: 6px;background-repeat: no-repeat;}.ace_gutter-cell.ace_error {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEX/////////QRswFAb/Ui4wFAYwFAYwFAaWGAfDRymzOSH/PxswFAb/SiUwFAYwFAbUPRvjQiDllog5HhHdRybsTi3/Tyv9Tir+Syj/UC3////XurebMBIwFAb/RSHbPx/gUzfdwL3kzMivKBAwFAbbvbnhPx66NhowFAYwFAaZJg8wFAaxKBDZurf/RB6mMxb/SCMwFAYwFAbxQB3+RB4wFAb/Qhy4Oh+4QifbNRcwFAYwFAYwFAb/QRzdNhgwFAYwFAbav7v/Uy7oaE68MBK5LxLewr/r2NXewLswFAaxJw4wFAbkPRy2PyYwFAaxKhLm1tMwFAazPiQwFAaUGAb/QBrfOx3bvrv/VC/maE4wFAbRPBq6MRO8Qynew8Dp2tjfwb0wFAbx6eju5+by6uns4uH9/f36+vr/GkHjAAAAYnRSTlMAGt+64rnWu/bo8eAA4InH3+DwoN7j4eLi4xP99Nfg4+b+/u9B/eDs1MD1mO7+4PHg2MXa347g7vDizMLN4eG+Pv7i5evs/v79yu7S3/DV7/498Yv24eH+4ufQ3Ozu/v7+y13sRqwAAADLSURBVHjaZc/XDsFgGIBhtDrshlitmk2IrbHFqL2pvXf/+78DPokj7+Fz9qpU/9UXJIlhmPaTaQ6QPaz0mm+5gwkgovcV6GZzd5JtCQwgsxoHOvJO15kleRLAnMgHFIESUEPmawB9ngmelTtipwwfASilxOLyiV5UVUyVAfbG0cCPHig+GBkzAENHS0AstVF6bacZIOzgLmxsHbt2OecNgJC83JERmePUYq8ARGkJx6XtFsdddBQgZE2nPR6CICZhawjA4Fb/chv+399kfR+MMMDGOQAAAABJRU5ErkJggg==");background-repeat: no-repeat;background-position: 2px center;}.ace_gutter-cell.ace_warning {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAmVBMVEX///8AAAD///8AAAAAAABPSzb/5sAAAAB/blH/73z/ulkAAAAAAAD85pkAAAAAAAACAgP/vGz/rkDerGbGrV7/pkQICAf////e0IsAAAD/oED/qTvhrnUAAAD/yHD/njcAAADuv2r/nz//oTj/p064oGf/zHAAAAA9Nir/tFIAAAD/tlTiuWf/tkIAAACynXEAAAAAAAAtIRW7zBpBAAAAM3RSTlMAABR1m7RXO8Ln31Z36zT+neXe5OzooRDfn+TZ4p3h2hTf4t3k3ucyrN1K5+Xaks52Sfs9CXgrAAAAjklEQVR42o3PbQ+CIBQFYEwboPhSYgoYunIqqLn6/z8uYdH8Vmdnu9vz4WwXgN/xTPRD2+sgOcZjsge/whXZgUaYYvT8QnuJaUrjrHUQreGczuEafQCO/SJTufTbroWsPgsllVhq3wJEk2jUSzX3CUEDJC84707djRc5MTAQxoLgupWRwW6UB5fS++NV8AbOZgnsC7BpEAAAAABJRU5ErkJggg==");background-position: 2px center;}.ace_gutter-cell.ace_info {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAAB2k804AAAAPklEQVQY02NgIB68QuO3tiLznjAwpKTgNyDbMegwisCHZUETUZV0ZqOquBpXj2rtnpSJT1AEnnRmL2OgGgAAIKkRQap2htgAAAAASUVORK5CYII=");background-position: 2px center;}.ace_dark .ace_gutter-cell.ace_info {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJFBMVEUAAAChoaGAgIAqKiq+vr6tra1ZWVmUlJSbm5s8PDxubm56enrdgzg3AAAAAXRSTlMAQObYZgAAAClJREFUeNpjYMAPdsMYHegyJZFQBlsUlMFVCWUYKkAZMxZAGdxlDMQBAG+TBP4B6RyJAAAAAElFTkSuQmCC");}.ace_scrollbar {position: absolute;right: 0;bottom: 0;z-index: 6;}.ace_scrollbar-inner {position: absolute;cursor: text;left: 0;top: 0;}.ace_scrollbar-v{overflow-x: hidden;overflow-y: scroll;top: 0;}.ace_scrollbar-h {overflow-x: scroll;overflow-y: hidden;left: 0;}.ace_print-margin {position: absolute;height: 100%;}.ace_text-input {position: absolute;z-index: 0;width: 0.5em;height: 1em;opacity: 0;background: transparent;-moz-appearance: none;appearance: none;border: none;resize: none;outline: none;overflow: hidden;font: inherit;padding: 0 1px;margin: 0 -1px;text-indent: -1em;-ms-user-select: text;-moz-user-select: text;-webkit-user-select: text;user-select: text;}.ace_text-input.ace_composition {background: inherit;color: inherit;z-index: 1000;opacity: 1;text-indent: 0;}.ace_layer {z-index: 1;position: absolute;overflow: hidden;white-space: pre;height: 100%;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;pointer-events: none;}.ace_gutter-layer {position: relative;width: auto;text-align: right;pointer-events: auto;}.ace_text-layer {font: inherit !important;}.ace_cjk {display: inline-block;text-align: center;}.ace_cursor-layer {z-index: 4;}.ace_cursor {z-index: 4;position: absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;border-left: 2px solid}.ace_slim-cursors .ace_cursor {border-left-width: 1px;}.ace_overwrite-cursors .ace_cursor {border-left-width: 0;border-bottom: 1px solid;}.ace_hidden-cursors .ace_cursor {opacity: 0.2;}.ace_smooth-blinking .ace_cursor {-webkit-transition: opacity 0.18s;transition: opacity 0.18s;}.ace_editor.ace_multiselect .ace_cursor {border-left-width: 1px;}.ace_marker-layer .ace_step, .ace_marker-layer .ace_stack {position: absolute;z-index: 3;}.ace_marker-layer .ace_selection {position: absolute;z-index: 5;}.ace_marker-layer .ace_bracket {position: absolute;z-index: 6;}.ace_marker-layer .ace_active-line {position: absolute;z-index: 2;}.ace_marker-layer .ace_selected-word {position: absolute;z-index: 4;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.ace_line .ace_fold {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;display: inline-block;height: 11px;margin-top: -2px;vertical-align: middle;background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACJJREFUeNpi+P//fxgTAwPDBxDxD078RSX+YeEyDFMCIMAAI3INmXiwf2YAAAAASUVORK5CYII=");background-repeat: no-repeat, repeat-x;background-position: center center, top left;color: transparent;border: 1px solid black;border-radius: 2px;cursor: pointer;pointer-events: auto;}.ace_dark .ace_fold {}.ace_fold:hover{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACBJREFUeNpi+P//fz4TAwPDZxDxD5X4i5fLMEwJgAADAEPVDbjNw87ZAAAAAElFTkSuQmCC");}.ace_tooltip {background-color: #FFF;background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.1));background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));border: 1px solid gray;border-radius: 1px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);color: black;max-width: 100%;padding: 3px 4px;position: fixed;z-index: 999999;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;cursor: default;white-space: pre;word-wrap: break-word;line-height: normal;font-style: normal;font-weight: normal;letter-spacing: normal;pointer-events: none;}.ace_folding-enabled > .ace_gutter-cell {padding-right: 13px;}.ace_fold-widget {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;margin: 0 -12px 0 1px;display: none;width: 11px;vertical-align: top;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42mWKsQ0AMAzC8ixLlrzQjzmBiEjp0A6WwBCSPgKAXoLkqSot7nN3yMwR7pZ32NzpKkVoDBUxKAAAAABJRU5ErkJggg==");background-repeat: no-repeat;background-position: center;border-radius: 3px;border: 1px solid transparent;cursor: pointer;}.ace_folding-enabled .ace_fold-widget {display: inline-block;   }.ace_fold-widget.ace_end {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42m3HwQkAMAhD0YzsRchFKI7sAikeWkrxwScEB0nh5e7KTPWimZki4tYfVbX+MNl4pyZXejUO1QAAAABJRU5ErkJggg==");}.ace_fold-widget.ace_closed {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCAYAAAAG5SQMAAAAOUlEQVR42jXKwQkAMAgDwKwqKD4EwQ26sSOkVWjgIIHAzPiCgaqiqnJHZnKICBERHN194O5b9vbLuAVRL+l0YWnZAAAAAElFTkSuQmCCXA==");}.ace_fold-widget:hover {border: 1px solid rgba(0, 0, 0, 0.3);background-color: rgba(255, 255, 255, 0.2);box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);}.ace_fold-widget:active {border: 1px solid rgba(0, 0, 0, 0.4);background-color: rgba(0, 0, 0, 0.05);box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);}.ace_dark .ace_fold-widget {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHklEQVQIW2P4//8/AzoGEQ7oGCaLLAhWiSwB146BAQCSTPYocqT0AAAAAElFTkSuQmCC");}.ace_dark .ace_fold-widget.ace_end {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQIW2P4//8/AxQ7wNjIAjDMgC4AxjCVKBirIAAF0kz2rlhxpAAAAABJRU5ErkJggg==");}.ace_dark .ace_fold-widget.ace_closed {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAYAAACAcVaiAAAAHElEQVQIW2P4//+/AxAzgDADlOOAznHAKgPWAwARji8UIDTfQQAAAABJRU5ErkJggg==");}.ace_dark .ace_fold-widget:hover {box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);background-color: rgba(255, 255, 255, 0.1);}.ace_dark .ace_fold-widget:active {box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);}.ace_fold-widget.ace_invalid {background-color: #FFB4B4;border-color: #DE5555;}.ace_fade-fold-widgets .ace_fold-widget {-webkit-transition: opacity 0.4s ease 0.05s;transition: opacity 0.4s ease 0.05s;opacity: 0;}.ace_fade-fold-widgets:hover .ace_fold-widget {-webkit-transition: opacity 0.05s ease 0.05s;transition: opacity 0.05s ease 0.05s;opacity:1;}.ace_underline {text-decoration: underline;}.ace_bold {font-weight: bold;}.ace_nobold .ace_bold {font-weight: normal;}.ace_italic {font-style: italic;}.ace_error-marker {background-color: rgba(255, 0, 0,0.2);position: absolute;z-index: 9;}.ace_highlight-marker {background-color: rgba(255, 255, 0,0.2);position: absolute;z-index: 8;}</style><style id="ace-tm">.ace-tm .ace_gutter {background: #f0f0f0;color: #333;}.ace-tm .ace_print-margin {width: 1px;background: #e8e8e8;}.ace-tm .ace_fold {background-color: #6B72E6;}.ace-tm {background-color: #FFFFFF;color: black;}.ace-tm .ace_cursor {color: black;}.ace-tm .ace_invisible {color: rgb(191, 191, 191);}.ace-tm .ace_storage,.ace-tm .ace_keyword {color: blue;}.ace-tm .ace_constant {color: rgb(197, 6, 11);}.ace-tm .ace_constant.ace_buildin {color: rgb(88, 72, 246);}.ace-tm .ace_constant.ace_language {color: rgb(88, 92, 246);}.ace-tm .ace_constant.ace_library {color: rgb(6, 150, 14);}.ace-tm .ace_invalid {background-color: rgba(255, 0, 0, 0.1);color: red;}.ace-tm .ace_support.ace_function {color: rgb(60, 76, 114);}.ace-tm .ace_support.ace_constant {color: rgb(6, 150, 14);}.ace-tm .ace_support.ace_type,.ace-tm .ace_support.ace_class {color: rgb(109, 121, 222);}.ace-tm .ace_keyword.ace_operator {color: rgb(104, 118, 135);}.ace-tm .ace_string {color: rgb(3, 106, 7);}.ace-tm .ace_comment {color: rgb(76, 136, 107);}.ace-tm .ace_comment.ace_doc {color: rgb(0, 102, 255);}.ace-tm .ace_comment.ace_doc.ace_tag {color: rgb(128, 159, 191);}.ace-tm .ace_constant.ace_numeric {color: rgb(0, 0, 205);}.ace-tm .ace_variable {color: rgb(49, 132, 149);}.ace-tm .ace_xml-pe {color: rgb(104, 104, 91);}.ace-tm .ace_entity.ace_name.ace_function {color: #0000A2;}.ace-tm .ace_heading {color: rgb(12, 7, 255);}.ace-tm .ace_list {color:rgb(185, 6, 144);}.ace-tm .ace_meta.ace_tag {color:rgb(0, 22, 142);}.ace-tm .ace_string.ace_regex {color: rgb(255, 0, 0)}.ace-tm .ace_marker-layer .ace_selection {background: rgb(181, 213, 255);}.ace-tm.ace_multiselect .ace_selection.ace_start {box-shadow: 0 0 3px 0px white;border-radius: 2px;}.ace-tm .ace_marker-layer .ace_step {background: rgb(252, 255, 0);}.ace-tm .ace_marker-layer .ace_stack {background: rgb(164, 229, 101);}.ace-tm .ace_marker-layer .ace_bracket {margin: -1px 0 0 -1px;border: 1px solid rgb(192, 192, 192);}.ace-tm .ace_marker-layer .ace_active-line {background: rgba(0, 0, 0, 0.07);}.ace-tm .ace_gutter-active-line {background-color : #dcdcdc;}.ace-tm .ace_marker-layer .ace_selected-word {background: rgb(250, 250, 255);border: 1px solid rgb(200, 200, 250);}.ace-tm .ace_indent-guide {background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;}</style><style>    .error_widget_wrapper {        background: inherit;        color: inherit;        border:none    }    .error_widget {        border-top: solid 2px;        border-bottom: solid 2px;        margin: 5px 0;        padding: 10px 40px;        white-space: pre-wrap;    }    .error_widget.ace_error, .error_widget_arrow.ace_error{        border-color: #ff5a5a    }    .error_widget.ace_warning, .error_widget_arrow.ace_warning{        border-color: #F1D817    }    .error_widget.ace_info, .error_widget_arrow.ace_info{        border-color: #5a5a5a    }    .error_widget.ace_ok, .error_widget_arrow.ace_ok{        border-color: #5aaa5a    }    .error_widget_arrow {        position: absolute;        border: solid 5px;        border-top-color: transparent!important;        border-right-color: transparent!important;        border-left-color: transparent!important;        top: -5px;    }</style><script lang="javascript" type="text/javascript" src="./最大子段和 V2 问题 - 51Nod_files/ajax" charset="gb2312"></script><script src="./最大子段和 V2 问题 - 51Nod_files/mode-csharp.js.下载"></script><script src="./最大子段和 V2 问题 - 51Nod_files/theme-eclipse.js.下载"></script><script src="./最大子段和 V2 问题 - 51Nod_files/mode-c_cpp.js.下载"></script><style id="ace-eclipse">.ace-eclipse .ace_gutter {background: #ebebeb;border-right: 1px solid rgb(159, 159, 159);color: rgb(136, 136, 136);}.ace-eclipse .ace_print-margin {width: 1px;background: #ebebeb;}.ace-eclipse {background-color: #FFFFFF;color: black;}.ace-eclipse .ace_fold {background-color: rgb(60, 76, 114);}.ace-eclipse .ace_cursor {color: black;}.ace-eclipse .ace_storage,.ace-eclipse .ace_keyword,.ace-eclipse .ace_variable {color: rgb(127, 0, 85);}.ace-eclipse .ace_constant.ace_buildin {color: rgb(88, 72, 246);}.ace-eclipse .ace_constant.ace_library {color: rgb(6, 150, 14);}.ace-eclipse .ace_function {color: rgb(60, 76, 114);}.ace-eclipse .ace_string {color: rgb(42, 0, 255);}.ace-eclipse .ace_comment {color: rgb(113, 150, 130);}.ace-eclipse .ace_comment.ace_doc {color: rgb(63, 95, 191);}.ace-eclipse .ace_comment.ace_doc.ace_tag {color: rgb(127, 159, 191);}.ace-eclipse .ace_constant.ace_numeric {color: darkblue;}.ace-eclipse .ace_tag {color: rgb(25, 118, 116);}.ace-eclipse .ace_type {color: rgb(127, 0, 127);}.ace-eclipse .ace_xml-pe {color: rgb(104, 104, 91);}.ace-eclipse .ace_marker-layer .ace_selection {background: rgb(181, 213, 255);}.ace-eclipse .ace_marker-layer .ace_bracket {margin: -1px 0 0 -1px;border: 1px solid rgb(192, 192, 192);}.ace-eclipse .ace_meta.ace_tag {color:rgb(25, 118, 116);}.ace-eclipse .ace_invisible {color: #ddd;}.ace-eclipse .ace_entity.ace_other.ace_attribute-name {color:rgb(127, 0, 127);}.ace-eclipse .ace_marker-layer .ace_step {background: rgb(255, 255, 0);}.ace-eclipse .ace_active-line {background: rgb(232, 242, 254);}.ace-eclipse .ace_gutter-active-line {background-color : #DADADA;}.ace-eclipse .ace_marker-layer .ace_selected-word {border: 1px solid rgb(181, 213, 255);}.ace-eclipse .ace_indent-guide {background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;}</style></head>
+<body><span id="_1_MARKSTART_" style="display:none"></span>
+    <!--Client--><div id="fastCSharpViewOver" class="CVL" style="display: none;"><img src="./最大子段和 V2 问题 - 51Nod_files/load.gif"></div><!--Client-->
+
+<!--Client-->
+<div class="PopupWin W480" skin="" body="" id="deleteAlert" floatcenter="{SkinView:{},AutoClass:&#39;ShowWin&#39;}">
+    <div class="PHead">
+        <a href="javascript:DeleteAlert.Cancel();"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" alt="" class="HO08 Pointer"></div></a>
+        <div class="P_10 F20 White ML_10"><span id="_215_MARKSTART_" style="display:none"></span><span id="_215_MARKEND_" style="display:none"></span></div>
+    </div>
+    <div class="M_20">
+        <div class="MT_10 F18 Gray40"><span id="_216_MARKSTART_" style="display:none"></span><span id="_216_MARKEND_" style="display:none"></span></div>
+        <div class="MT_10 TR">
+            <div>
+                <a href="javascript:DeleteAlert.Cancel();"><div class="BtnGreen F14 MT_10 IB">关闭</div></a>
+                <a href="javascript:DeleteAlert.Delete();"><div class="BtnGreen F14 MT_10 IB">确定</div></a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+</div>
+<!--Client-->
+
+<!--Client-->
+<div class="PopupWin W400" floatcenter="{SkinView:{},AutoClass:&#39;ShowWin&#39;}" id="login">
+    <div class="PHead">
+        <a href="javascript:User.ShowLogin();"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" class="HO08 Pointer" alt=""></div></a>
+        <div class="P_10 ML_10"><div class="IB F20 White">登录</div> <a href="javascript:User.ShowRegister(1);"><div class="ML_20 IB F16 LS2 GrayDC"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""> 注册</div></a></div>
+    </div>
+    <div class="M_20">
+        <div>
+            <input class="LoginInput" defaultinput="" id="loginEmail" maxlength="128" type="text" value="请输入登录邮箱或手机号">
+        </div>
+        <div class="MT_10">
+            <input class="LoginInput" type="password" id="loginPassword" maxlength="32" style="display:none">
+            <input class="LoginInput" type="text" defaultpassword="{PasswordId:&#39;loginPassword&#39;}" id="loginPasswordText" value="请输入密码">
+        </div>
+        <div class="MT_20 TR F14 LS1 Gray88">
+            <div class="FL"><input type="checkbox" id="loginIsRemember" checked="checked" class="ML_5"> 记住我</div>
+            <a href="javascript:User.ShowGetPassword(1);" class="F14 LS1 Gray88">忘记密码?</a>
+        </div>
+        <div class="MT_10 TR">
+            <a href="javascript:User.Login();"><div class="BtnGreen F14 MT_10">登录</div></a>
+        </div>
+        <span id="_217_MARKSTART_" style="display:none"></span>
+        <div class="MT_15 TC">
+            <div class="IB F16 LS1 Gray60">第三方登录</div>
+            <div class="IB">
+    <a href="javascript:fastCSharp.OpenApi.Default.Login(&#39;Weibo&#39;);" title="用新浪微博帐号登录"><img src="./最大子段和 V2 问题 - 51Nod_files/weibo.png" class="HO08 MB_-2 ML_5 MR_5" alt=""></a>
+    <a href="javascript:fastCSharp.OpenApi.Default.Login(&#39;QQ&#39;);" title="用QQ帐号登录"><img src="./最大子段和 V2 问题 - 51Nod_files/qq.png" class="HO08 MB_-2 ML_5 MR_5" alt=""></a>
+    <a href="javascript:fastCSharp.OpenApi.Default.Login(&#39;Renren&#39;);" title="用人人帐号登录"><img src="./最大子段和 V2 问题 - 51Nod_files/renren.png" class="HO08 MB_-2 ML_5 MR_5" alt=""></a>
+</div>
+<span class="ML_5 F14 Gray80">为避免频繁登录，您可在登录后通过个人设置转为本地账号</span>
+        </div>
+        <span id="_217_MARKEND_" style="display:none"></span>
+    </div>
+</div>
+
+<div class="PopupWin W400" floatcenter="{SkinView:{},AutoClass:&#39;ShowWin&#39;}" id="register">
+    <div class="PHead">
+        <a href="javascript:User.ShowRegister();"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" class="HO08 Pointer" alt=""></div></a>
+        <div class="P_10 ML_10"><div class="IB F20 White">注册</div> <a href="javascript:User.ShowLogin(1);"><div class="ML_20 IB F16 GrayDC LS2"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""> 登录</div></a></div>
+    </div>
+    <div class="M_20">
+        <div>
+            <span id="_218_MARKSTART_" style="display:none"></span><span id="_218_MARKEND_" style="display:none"></span>
+            <span id="_219_MARKSTART_" style="display:none"></span>
+            <input class="LoginInput" type="text" defaultinput="" id="registerName" maxlength="32" value="请输入你的姓名">
+            <span id="_219_MARKEND_" style="display:none"></span>
+        </div>
+        <div class="MT_10">
+            <input class="LoginInput" type="text" defaultinput="" id="registerEmail" maxlength="128" value="请输入登录邮箱">
+        </div>
+        <div class="MT_10">
+            <input class="LoginInput" type="password" id="registerPassword" maxlength="32" style="display:none">
+            <input class="LoginInput" type="text" defaultpassword="{PasswordId:&#39;registerPassword&#39;}" id="registerPasswordText" value="请输入密码">
+        </div>
+        <div class="MT_10 TR">
+            <a href="javascript:User.Register();"><div class="BtnGreen F14 MT_10">注册</div></a>
+        </div>
+        <div class="MT_10" skin="" id="registerEmailDiv" style="display:none">
+            注册验证邮件已发送至 <span id="_220_MARKSTART_" style="display:none"></span><span id="_220_MARKEND_" style="display:none"></span> ，请 <a href="https://www.51nod.com/onlineJudge/questionCode.html" class="F16 Green">登录</a> 邮箱并查收。
+        </div>
+        <span id="_221_MARKSTART_" style="display:none"></span>
+        <div class="MT_15 TC">
+            <div class="IB F16 LS1 Gray60">第三方登录</div>
+            <div class="IB">
+    <a href="javascript:fastCSharp.OpenApi.Default.Login(&#39;Weibo&#39;);" title="用新浪微博帐号登录"><img src="./最大子段和 V2 问题 - 51Nod_files/weibo.png" class="HO08 MB_-2 ML_5 MR_5" alt=""></a>
+    <a href="javascript:fastCSharp.OpenApi.Default.Login(&#39;QQ&#39;);" title="用QQ帐号登录"><img src="./最大子段和 V2 问题 - 51Nod_files/qq.png" class="HO08 MB_-2 ML_5 MR_5" alt=""></a>
+    <a href="javascript:fastCSharp.OpenApi.Default.Login(&#39;Renren&#39;);" title="用人人帐号登录"><img src="./最大子段和 V2 问题 - 51Nod_files/renren.png" class="HO08 MB_-2 ML_5 MR_5" alt=""></a>
+</div>
+<span class="ML_5 F14 Gray80">为避免频繁登录，您可在登录后通过个人设置转为本地账号</span>
+        </div>
+        <span id="_221_MARKEND_" style="display:none"></span>
+    </div>
+</div>
+
+<div class="PopupWin W400" skin="" floatcenter="{SkinView:{email:&#39;&#39;,emailDomain:&#39;&#39;},AutoClass:&#39;ShowWin&#39;}" id="getPassword">
+    <div class="PHead">
+        <a href="javascript:User.ShowGetPassword();"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" class="HO08 Pointer" alt=""></div></a>
+        <div class="P_10 ML_10"><div class="IB F20 White">找回密码</div></div>
+    </div>
+    <div class="M_20">
+        <span id="_222_MARKSTART_" style="display:none"></span><span id="_222_MARKEND_" style="display:none"></span>
+        <span id="_223_MARKSTART_" style="display:none"></span>
+        <div>
+            <input class="LoginInput" defaultinput="" id="getPasswordEmail" maxlength="128" type="text" value="请输入你的登录邮箱">
+        </div>
+        <div class="MT_10 TR">
+            <a href="javascript:User.GetPassword();"><div class="BtnGreen F14 MT_10">找回密码</div></a>
+        </div>
+        <span id="_223_MARKEND_" style="display:none"></span>
+    </div>
+</div>
+<!--Client-->
+
+<!--Client-->
+<div class="PopupWin W720" body="" floatcenter="{AutoClass:&#39;ShowWin&#39;}" id="createFavorite">
+    <div class="PHead">
+        <a href="javascript:CreateFavorite.Show(0);"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" alt="" class="HO08 Pointer"></div></a>
+        <div class="P_10 F20 White ML_10">添加收藏</div>
+    </div>
+    <div class="M_20">
+        <div>
+            <input id="createFavoriteName" class="TextInput F14 W658" defaultinput="" inputlength="{Length:32,ErrorSkinId:&#39;createFavoriteNameErrorInputLength&#39;}" value="收藏的标题">
+        </div>
+        <div class="MT_10 TR F14 LS1 Gray88" skin="" id="createFavoriteNameErrorInputLength" style="display:none">
+            已超出 <span class="F14 Red"><span id="_224_MARKSTART_" style="display:none"></span><span id="_224_MARKEND_" style="display:none"></span></span> 字
+        </div>
+        <div class="MT_10 F18C Gray40">收藏的描述</div>
+        <div class="EditorBar MT_10" id="createFavoriteRemarkEditorButton" style="display:none">
+    <div editorbuttonname="Bold" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/bold.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="Italic" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/italic.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="UnderLine" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/underline.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="Quote" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/quotation.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertCode" class="EditorItem FL" id="createFavoriteRemarkEditorButtonInsertCode" mousemenu="{MenuId:&#39;createFavoriteRemarkEditorButtonInsertCodeType&#39;,Type:&#39;BottomLeft&#39;,SkinView:fastCSharp.Ace.Modes}"><img src="./最大子段和 V2 问题 - 51Nod_files/code.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertLaTeX" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/sigma.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertLink" class="EditorItem FL" style="display:none"><img src="./最大子段和 V2 问题 - 51Nod_files/link.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertImage" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/img.png" class="MT_10" lt=""></div>
+    <!--
+    <div EDITORBUTTONNAME="InsertMedia" class="EditorItem FL"><img src="//file.51nod.com/images/editor/media.png" class="MT_10" lt="" /></div>
+    -->
+    <div editorbuttonname="Color" class="EditorItem FL" id="createFavoriteRemarkEditorButtonColor" mousemenu="{MenuId:&#39;createFavoriteRemarkEditorButtonColorMenu&#39;,Type:&#39;BottomLeft&#39;,SkinView:MentionEditor.Colors}"><img src="./最大子段和 V2 问题 - 51Nod_files/color.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="RemoveFormat" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/clear.png" class="MT_10" alt=""></div>
+</div>
+
+
+
+        <div class="ContentInput MH300" mentioneditor="" onclick="void(0);" id="createFavoriteRemark">
+
+        </div>
+        <div class="MT_10 F18C Gray40 IB">请选择该收藏的隐私级别</div>
+
+        <div class="ML_10 MT_10 F16 Gray10 LH_200">
+            <input type="radio" name="privacy" id="createFavoritePrivacyIsHide" value="Hide"> 只有我自己能看<br>
+            <input type="radio" name="privacy" id="createFavoritePrivacyIsFriendIdol" value="FriendIdol"> 只有我的好友可以看<br>
+            <input type="radio" name="privacy" id="createFavoritePrivacyIsFocusUser" value="FocusUser"> 只有我关注的人可以看<br>
+            <input type="radio" name="privacy" id="createFavoritePrivacyIsAllUser" checked="checked" value="AllUser"> 所有人都可以看
+        </div>
+        <div class="TR">
+            <a href="javascript:CreateFavorite.Show(0);"><div class="BtnGreen F14 MT_10">关闭</div></a>
+            <a href="javascript:CreateFavorite.Create();"><div class="BtnGreen F14 MT_10">添加收藏</div></a>
+        </div>
+    </div>
+</div>
+<!--Client-->
+<!--Client-->
+<div class="PopupWin W720" body="" skin="" floatcenter="{AutoClass:&#39;ShowWin&#39;}" id="addFavorite">
+    <div class="PHead">
+        <a href="javascript:AddFavorite.Show(0);"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" alt="" class="HO08 Pointer"></div></a>
+        <div class="P_10 F20 White ML_10">要将<span id="_225_MARKSTART_" style="display:none"></span><span id="_225_MARKEND_" style="display:none"></span>添加到哪个收藏?</div>
+    </div>
+    <div class="M_20">
+        <a href="javascript:AddFavorite.ShowCreate();">
+            <div class="BtnWhite F18 H35">
+                <div class="FL MT_8 ML_5"><img src="./最大子段和 V2 问题 - 51Nod_files/plus.png" alt=""></div>
+                <div class="FL ML_10 MT_5">创建一个新的收藏</div>
+                <div class="Clear"></div>
+            </div>
+        </a>
+        <span id="_226_MARKSTART_" style="display:none"></span><span id="_226_MARKEND_" style="display:none"></span>
+        <div class="TR MT_10">
+            <a href="javascript:AddFavorite.Show(0);"><div class="BtnGreen F14 MT_10">关闭</div></a>
+        </div>
+    </div>
+</div>
+<!--Client-->
+
+<!--Client-->
+<div class="PMB F14C Gray40" skin="" body="" id="userRelation" style="display:none">
+<span id="_227_MARKSTART_" style="display:none"></span><span id="_227_MARKEND_" style="display:none"></span>
+
+<span id="_228_MARKSTART_" style="display:none"></span><span id="_228_MARKEND_" style="display:none"></span>
+
+<span id="_229_MARKSTART_" style="display:none"></span><span id="_229_MARKEND_" style="display:none"></span>
+
+<span id="_230_MARKSTART_" style="display:none"></span>
+<span id="_231_MARKSTART_" style="display:none"></span><span id="_231_MARKEND_" style="display:none"></span>
+<span id="_232_MARKSTART_" style="display:none"></span><span id="_232_MARKEND_" style="display:none"></span>
+<span id="_233_MARKSTART_" style="display:none"></span><span id="_233_MARKEND_" style="display:none"></span>
+<span id="_234_MARKSTART_" style="display:none"></span><span id="_234_MARKEND_" style="display:none"></span>
+<span id="_235_MARKSTART_" style="display:none"></span><a href="javascript:Relation.Set(,&#39;Focus&#39;);"><div class="PMBI F14C Gray40"><img src="./最大子段和 V2 问题 - 51Nod_files/r08.png" class="MB_-4" alt=""> 关注</div></a><span id="_235_MARKEND_" style="display:none"></span>
+<span id="_230_MARKEND_" style="display:none"></span>
+</div>
+<!--Client-->
+
+<!--Client-->
+<div class="PMU W360" id="userPopup" skin="" body="" style="position: absolute; z-index: 10001; left: 939px; top: 721px; display: none;"><span id="_487_MARKSTART_" style="display:none"></span>
+    <span id="_488_MARKSTART_" style="display:none"></span>
+    <div class="M_10">
+        <div class="FL TC W80">
+            <span id="_489_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/user/index.html#!userId=2428"><div><img src="./最大子段和 V2 问题 - 51Nod_files/100" class="P50" alt=""></div></a><span id="_489_MARKEND_" style="display:none"></span>
+            <span id="_490_MARKSTART_" style="display:none"></span>
+            <span id="_491_MARKSTART_" style="display:none"></span><span id="_491_MARKEND_" style="display:none"></span>
+            <span id="_492_MARKSTART_" style="display:none"></span><span id="_492_MARKEND_" style="display:none"></span>
+            <span id="_493_MARKSTART_" style="display:none"></span><span id="_493_MARKEND_" style="display:none"></span>
+            <span id="_494_MARKSTART_" style="display:none"></span>
+            <span id="_495_MARKSTART_" style="display:none"></span><span id="_495_MARKEND_" style="display:none"></span>
+            <span id="_496_MARKSTART_" style="display:none"></span><span id="_496_MARKEND_" style="display:none"></span>
+            <span id="_494_MARKEND_" style="display:none"></span>
+            <span id="_490_MARKEND_" style="display:none"></span>
+        </div>
+        <div class="FL ML_10 W240">
+            <div class="F18 Gray60"><a href="https://www.51nod.com/user/index.html#!userId=2428" class="F18 Gray60"><span id="_497_MARKSTART_" style="display:none"></span>淹死鲨鱼<span id="_497_MARKEND_" style="display:none"></span></a></div>
+            <div class="F12 Gray88 MT_5"><span id="_498_MARKSTART_" style="display:none"></span><span id="_498_MARKEND_" style="display:none"></span></div>
+
+            <div class="F14 Gray40 MT_5">关注Ta：<a href="https://www.51nod.com/user/focus.html#!userId=2428" class="F14 Gray40"><span id="_499_MARKSTART_" style="display:none"></span>33<span id="_499_MARKEND_" style="display:none"></span>人</a></div>
+            <div class="F14 Gray40 MT_5"><a href="https://www.51nod.com/contest/user.html#!userId=2428" class="F14 Gray40">编程竞赛排名：<span id="_500_MARKSTART_" style="display:none"></span><span id="_501_MARKSTART_" style="display:none"></span>1587<span id="_501_MARKEND_" style="display:none"></span><span id="_500_MARKEND_" style="display:none"></span><span id="_502_MARKSTART_" style="display:none"></span><span id="_502_MARKEND_" style="display:none"></span></a></div>
+            <div class="F14 Gray40 MT_5"><a href="https://www.51nod.com/onlineJudge/user.html#!userId=2428" class="F14 Gray40">编程挑战排名：<span id="_503_MARKSTART_" style="display:none"></span><span id="_504_MARKSTART_" style="display:none"></span>39<span id="_504_MARKEND_" style="display:none"></span><span id="_503_MARKEND_" style="display:none"></span><span id="_505_MARKSTART_" style="display:none"></span><span id="_505_MARKEND_" style="display:none"></span></a></div>
+            <div class="F14 Gray40 MT_5">学校：<span id="_506_MARKSTART_" style="display:none"></span><span id="_506_MARKEND_" style="display:none"></span><span id="_507_MARKSTART_" style="display:none"></span>暂无<span id="_507_MARKEND_" style="display:none"></span></div>
+        </div>
+        <div class="Clear"></div>
+
+        <span id="_508_MARKSTART_" style="display:none"></span>
+        <div class="TC MT_10">
+            <span id="_509_MARKSTART_" style="display:none"></span><span id="_509_MARKEND_" style="display:none"></span>
+            <span id="_510_MARKSTART_" style="display:none"></span><span id="_510_MARKEND_" style="display:none"></span>
+            <span id="_511_MARKSTART_" style="display:none"></span><span id="_511_MARKEND_" style="display:none"></span>
+            <span id="_512_MARKSTART_" style="display:none"></span>
+            <span id="_513_MARKSTART_" style="display:none"></span><span id="_513_MARKEND_" style="display:none"></span>
+            <span id="_514_MARKSTART_" style="display:none"></span><span id="_514_MARKEND_" style="display:none"></span>
+            <span id="_515_MARKSTART_" style="display:none"></span><span id="_515_MARKEND_" style="display:none"></span>
+            <span id="_516_MARKSTART_" style="display:none"></span><span id="_516_MARKEND_" style="display:none"></span>
+            <span id="_517_MARKSTART_" style="display:none"></span><a href="javascript:UserPopup.SetRelation(2428,&#39;Focus&#39;);"><div class="BtnWhite F14"><img src="./最大子段和 V2 问题 - 51Nod_files/plus.png" class="MB_-2" alt=""> 关注</div></a><span id="_517_MARKEND_" style="display:none"></span>
+            <span id="_512_MARKEND_" style="display:none"></span>
+        </div>
+        <span id="_508_MARKEND_" style="display:none"></span>
+    </div>
+    <span id="_488_MARKEND_" style="display:none"></span>
+<span id="_487_MARKEND_" style="display:none"></span></div>
+<!--Client-->
+<div class="Top BackGroundTop">
+    <div class="Header">
+        <span id="_237_MARKSTART_" style="display:none"></span>
+        <div class="MT_10 FL">
+            <a href="https://www.51nod.com/focus.html"><img src="./最大子段和 V2 问题 - 51Nod_files/logonew.png"></a>
+        </div>
+        <span id="_237_MARKEND_" style="display:none"></span>
+        <span id="_238_MARKSTART_" style="display:none"></span><span id="_238_MARKEND_" style="display:none"></span>
+        <div class="MT_25 POR FL ML_25">
+            <input id="headerSearchInput" searchinput="{SkinId:&#39;headerSearchDiv&#39;,GetType:&#39;headerSearch&#39;,IsSearchPath:1,IsInputWidth:0}" defaultinput="" value="搜索话题、问题、人....." type="text" class="SearchInput F14 LS1 Gray48">
+            <span id="_239_MARKSTART_" style="display:none"></span>
+            <div onclick="Header.ShowAppendQuestion(1);" class="F14 LS1 Gray48 BtnSearch">提问</div>
+            <span id="_239_MARKEND_" style="display:none"></span>
+        </div>
+        <!--Client-->
+        
+
+        
+        <!--Client-->
+
+        <div class="FL ML_15">
+            <!--Client--><span id="_240_MARKSTART_" style="display:none"></span>
+            <a href="https://www.51nod.com/focus.html">
+    <div class="NavItem" onimage="{Id:&#39;NewFocusImage&#39;,OverClassName:&#39;NavItem BGGrayEC&#39;,OutClassName:&#39;NavItem&#39;}">
+        <div class="H20 ML_5 MR_5">
+            <span id="_241_MARKSTART_" style="display:none"></span><span id="_241_MARKEND_" style="display:none"></span>
+        </div><div>
+            <img src="./最大子段和 V2 问题 - 51Nod_files/home.png" id="NewFocusImage" title="我关注的人、话题、问题" alt="关注">
+        </div>
+    </div>
+</a>
+            <span id="_240_MARKEND_" style="display:none"></span><!--Client-->
+
+            <div class="NavItem" id="headerContest" onimage="{Id:&#39;headerContestImage&#39;}" mousemenu="{MenuId:&#39;headerContestMenu&#39;,OverClassName:&#39;NavItem BGGrayEC&#39;,OutClassName:&#39;NavItem&#39;,Type:&#39;BottomLeft&#39;,Top:0,Left:0}">
+                <div class="H20 ML_5 MR_5">
+                    <!--Client-->
+                    <span id="_242_MARKSTART_" style="display:none"></span>
+                    <span id="_243_MARKSTART_" style="display:none"></span><span id="_243_MARKEND_" style="display:none"></span>
+                    <span id="_244_MARKSTART_" style="display:none"></span>
+                    <span id="_245_MARKSTART_" style="display:none"></span><span id="_245_MARKEND_" style="display:none"></span>
+                    <span id="_244_MARKEND_" style="display:none"></span>
+                    <span id="_242_MARKEND_" style="display:none"></span>
+                    <!--Client-->
+                </div>
+                <div>
+                    <span id="_246_MARKSTART_" style="display:none"></span>
+                    <!--Client-->
+                    <a href="https://www.51nod.com/contest/list.html"><img src="./最大子段和 V2 问题 - 51Nod_files/contest.png" id="headerContestImage" title="编程竞赛" alt="编程竞赛"></a>
+                    <!--Client-->
+                    <span id="_246_MARKEND_" style="display:none"></span>
+                    <span id="_247_MARKSTART_" style="display:none"></span><span id="_247_MARKEND_" style="display:none"></span>
+                </div>
+            </div>
+            <div class="NavItem" id="headerOnlineJudge" onimage="{Id:&#39;headerOnlineJudgeImage&#39;}" mousemenu="{MenuId:&#39;headerOnlineJudgeMenu&#39;,OverClassName:&#39;NavItem BGGrayEC&#39;,OutClassName:&#39;NavItem&#39;,Type:&#39;BottomLeft&#39;,Top:0,Left:0}">
+                <div class="H20 ML_5 MR_5">
+                    <!--Client-->
+                    <span id="_248_MARKSTART_" style="display:none"></span><span id="_248_MARKEND_" style="display:none"></span>
+                    <!--Client-->
+                </div>
+                <div>
+                    <a href="https://www.51nod.com/onlineJudge/problemList.html"><img src="./最大子段和 V2 问题 - 51Nod_files/challenge.png" id="headerOnlineJudgeImage" title="编程挑战" alt="编程挑战"></a>
+                </div>
+            </div>
+
+            <div class="NavItem" id="headerTutorial" onimage="{Id:&#39;headerTutorialImage&#39;}">
+                <div class="H20 ML_5 MR_5">
+                    <!--Client-->
+                    <span id="_249_MARKSTART_" style="display:none"></span><span id="_249_MARKEND_" style="display:none"></span>
+                    <!--Client-->
+                </div>
+                <div>
+                    <a href="https://www.51nod.com/tutorial/list.html"><img src="./最大子段和 V2 问题 - 51Nod_files/learning.png" id="headerTutorialImage" title="教程" alt="教程"></a>
+                </div>
+            </div>
+
+            <!--Client-->
+            <span id="_250_MARKSTART_" style="display:none"></span>
+            <div class="NavItem" id="headerNotice" onimage="{Id:&#39;headerNoticeImage&#39;}" mousemenu="{MenuId:&#39;headerNotices&#39;,OverClassName:&#39;NavItem BGGrayEC&#39;,OutClassName:&#39;NavItem&#39;,Type:&#39;BottomLeft&#39;,Top:0,Left:0,IsShow:0}">
+                <div class="H20 ML_5 MR_5">
+                    <span id="_251_MARKSTART_" style="display:none"></span><span id="_251_MARKEND_" style="display:none"></span>
+                </div>
+                <div>
+                    <a href="https://www.51nod.com/notice.html"><img src="./最大子段和 V2 问题 - 51Nod_files/message.png" id="headerNoticeImage" title="通知" alt="通知"></a>
+                </div>
+            </div>
+            <span id="_250_MARKEND_" style="display:none"></span>
+            <!--Client-->
+
+            
+
+            
+
+            <!--Client-->
+            
+            <!--Client-->
+        </div>
+
+        <span id="_252_MARKSTART_" style="display:none"></span>
+        <div class="MT_30 FR W280" id="headerUser" mousemenu="{MenuId:&#39;headerUserMenu&#39;,Type:&#39;BottomLeft&#39;,Top:12,Left:-15}">
+            <a href="https://www.51nod.com/user/index.html#!userId=17515"><div class="FL MR_5"><img src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25D"></div></a>
+            <a href="https://www.51nod.com/user/index.html#!userId=17515"><div class="FL MT_3 MR_5 ML_5 MB_5 F16 LS2 GrayDC"><span id="_253_MARKSTART_" style="display:none"></span>yuyanggo<span id="_253_MARKEND_" style="display:none"></span><span id="_254_MARKSTART_" style="display:none"></span><span id="_254_MARKEND_" style="display:none"></span></div></a>
+            <span id="_255_MARKSTART_" style="display:none"></span><span id="_255_MARKEND_" style="display:none"></span>
+            <span id="_256_MARKSTART_" style="display:none"></span>
+            <span id="_257_MARKSTART_" style="display:none"></span><span id="_257_MARKEND_" style="display:none"></span>
+            <span id="_258_MARKSTART_" style="display:none"></span>
+            <div class="FL MT_12"><img src="./最大子段和 V2 问题 - 51Nod_files/downButton.png" alt=""></div>
+            <span id="_258_MARKEND_" style="display:none"></span>
+            <span id="_256_MARKEND_" style="display:none"></span>
+        </div>
+        <span id="_252_MARKEND_" style="display:none"></span>
+
+        
+
+        <!--Client--><span id="_259_MARKSTART_" style="display:none"></span><span id="_259_MARKEND_" style="display:none"></span><!--Client-->
+    </div>
+</div>
+
+<span id="_260_MARKSTART_" style="display:none"></span><span id="_261_MARKSTART_" style="display:none"></span><span id="_262_MARKSTART_" style="display:none"></span><span id="_262_MARKEND_" style="display:none"></span><span id="_261_MARKEND_" style="display:none"></span><span id="_260_MARKEND_" style="display:none"></span>
+
+<!--Client-->
+<div body="" id="mentionEditorSearch" style="display:none">
+    <div><input type="text" id="mentionEditorSearchInput" class="AtInput" searchinput="{SkinId:&#39;mentionSearchDiv&#39;,Timeout:200,GetType:&#39;mentionSearch&#39;,SearchEmptyKey:&#39;@&#39;,Left:0,Top:30,ClientPath:&#39;MentionEditor.SelectMention&#39;}" maxlength="30"></div>
+    <div class="F16 Gray40 PMC">
+        <div class="M_5">用 @ 搜索用户</div>        
+    </div>
+</div>
+<div class="W600" body="" skin="" id="mentionSearchDiv" style="display:none">
+    <div class="PM">
+        
+    </div>
+</div>
+<div class="PopupWin W480" id="mentionEditorInsertImage" body="" floatcenter="{AutoClass:&#39;ShowWin&#39;}">
+    <div class="PHead">
+        <a href="javascript:MentionEditor.ShowInsertImage(0);"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" alt="" class="HO08 Pointer"></div></a>
+        <div class="P_10 F20 White ML_10">插入图片</div>
+    </div>
+    <div class="M_20">
+        <div><a href="javascript:MentionEditor.ShowUpload(1);"><div class="BtnGray F14">本地图片</div></a> <a href="javascript:MentionEditor.ShowUpload(0);"><div class="BtnGray ML_20 F14">引用图片</div></a></div>
+        <div class="MT_10" name="mentionEditorUploadImage">
+            <div class="TC P_10">（支持 JPG、GIF、PNG 格式，不要超过 2MB）</div>            
+        </div>
+        <div class="MT_10" name="mentionEditorImageInput">
+            <input id="mentionEditorImageSrc" defaultinput="" type="text" value="输入图片地址" class="TextInput F14 W400 MT_10">
+        </div>
+        <div class="M_20">
+            <a name="mentionEditorImageInput" href="javascript:MentionEditor.InputImage();"><div class="BtnGreen F14 FR">确定</div></a>
+            <div name="mentionEditorUploadImage" class="FR"><iframe id="mentionEditorUploadIFrame" name="mentionEditorUploadIFrame" src="./最大子段和 V2 问题 - 51Nod_files/saved_resource.html" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" width="0" height="0" allowtransparency="true" scrolling="no"></iframe></div>
+            <a href="javascript:MentionEditor.ShowInsertImage(0);"><div class="BtnGreen F14 FR MR_10">关闭</div></a>
+            <div class="Clear"></div>
+        </div>
+        <div></div>
+    </div>
+</div>
+
+<div class="PopupWin W720" body="" floatcenter="{ZIndex:10,AutoClass:&#39;ShowWin&#39;}" id="mentionEditorInsertCode">
+    <div class="PHead">
+        <div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" alt="" class="HO08 Pointer" onclick="MentionEditor.ShowInsertCode(0);"></div>
+        <div class="P_10 F20 White ML_10">插入 <span id="mentionEditorCodeType"></span></div>
+    </div>
+    <div class="M_20 TL">
+        <div style="display:none"><textarea cols="50" rows="4" autoheight="" class="CodeInput W640" inputkeycode="{OnAnyKey:MentionEditor.CheckLaTeX}" id="mentionEditorCodeInput"></textarea></div>
+        <div class="CodeInput F14 LS1 Gray88 W640" id="mentionEditorAceCodeInput"></div>
+        <div class="MT_10 Red F14" id="mentionEditorLatexRemark">公式预览：</div>
+        <div id="mentionEditorLatex" class="MT_10"></div>
+        <div class="TR MT_10">
+            <a href="javascript:MentionEditor.ShowInsertCode(0);">
+                <div class="BtnGreen F14 MT_10 IB">关闭</div>
+            </a>
+            <a href="javascript:MentionEditor.InsertCode();">
+                <div class="BtnGreen F14 MT_10 ML_20 IB">确定</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div body="" onmousemove="MentionEditor.MouseMoveLink();" id="mentionEditorLink" style="display:none">
+    <a href="javascript:MentionEditor.SetLink(1);">链接</a>&nbsp;<a href="javascript:MentionEditor.SetLink(0);">文本</a>
+</div>
+
+<a href="javascript:MentionEditor.ReworkCode();" id="mentionEditorCode" title="或者双击代码段" body="" onmousemove="MentionEditor.MouseMoveCode();" style="display:none">
+    <div class="FloatEditor"><img src="./最大子段和 V2 问题 - 51Nod_files/editcopy.png"></div>
+</a>
+<!--Client-->
+
+    <div class="Middle">
+        <div class="MiddleLeft">
+            <div class="HI H50 BGWhite">
+                <div class="CommonHeader">
+                    <span id="_263_MARKSTART_" style="display:none"></span>
+<span id="_264_MARKSTART_" style="display:none"></span><div class="ML_20 MB_10">
+    <span id="_265_MARKSTART_" style="display:none"></span><span id="_266_MARKSTART_" style="display:none"></span>
+    
+    <a href="https://www.51nod.com/onlineJudge/topicProblem.html#!topicId=172940">
+        <div class="FL M_5"><img src="./最大子段和 V2 问题 - 51Nod_files/08d1c013ed10420d0000000000000016.jpeg" class="P25C" alt=""></div>
+        <div class="FL F16 LS1 Gray60 MR_15 MT_8">动态规划</div>
+    </a>
+    
+    <span id="_266_MARKEND_" style="display:none"></span><span id="_267_MARKSTART_" style="display:none"></span>
+    
+    <a href="https://www.51nod.com/onlineJudge/topicProblem.html#!topicId=100000079">
+        <div class="FL M_5"><img src="./最大子段和 V2 问题 - 51Nod_files/08d1c00e7c18ffb60000000000000010.jpeg" class="P25C" alt=""></div>
+        <div class="FL F16 LS1 Gray60 MR_15 MT_8">Codility</div>
+    </a>
+    
+    <span id="_267_MARKEND_" style="display:none"></span><span id="_265_MARKEND_" style="display:none"></span>
+
+    <div class="FL F14 LS1 Gray60 MT_10">
+        <span id="_268_MARKSTART_" style="display:none"></span><!--Client-->
+        <a href="javascript:Topics.Show(&#39;problem&#39;,1254,&#39;问题&#39;);" class="F14 LS1 Gray60">
+            <span id="_269_MARKSTART_" style="display:none"></span>修改<span id="_269_MARKEND_" style="display:none"></span>
+            <span id="_270_MARKSTART_" style="display:none"></span><span id="_270_MARKEND_" style="display:none"></span>
+        </a>
+        <!--Client--><span id="_268_MARKEND_" style="display:none"></span>
+        <!--Client--><a href="javascript:Problem.HideTopic(1);" style="display:" class="F14 LS1 Gray60">隐藏话题</a><!--Client-->
+    </div>
+    <!--Client-->
+    <div class="Clear"></div>
+    
+    
+    <!--Client-->
+</div><span id="_264_MARKEND_" style="display:none"></span>
+<span id="_263_MARKEND_" style="display:none"></span>
+<span id="_271_MARKSTART_" style="display:none"></span><span id="_271_MARKEND_" style="display:none"></span>
+                </div>
+            </div>
+            <span id="_272_MARKSTART_" style="display:none"></span>
+            <div class="HI">
+    <div class="LH_200 P_20">
+        <div class="MB_5"><a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1254" class="F30Black"><span id="_273_MARKSTART_" style="display:none"></span>1254<span id="_273_MARKEND_" style="display:none"></span> <span id="_274_MARKSTART_" style="display:none"></span>最大子段和&nbsp;V2<span id="_274_MARKEND_" style="display:none"></span></a><span id="_275_MARKSTART_" style="display:none"></span><span id="_275_MARKEND_" style="display:none"></span></div>
+        <span id="_276_MARKSTART_" style="display:none"></span>
+        <div class="F14 Red">
+            题目来源：
+            <span id="_277_MARKSTART_" style="display:none"></span><a href="https://codility.com/" target="_blank" class="F14 Red"><span id="_278_MARKSTART_" style="display:none"></span>Codility<span id="_278_MARKEND_" style="display:none"></span></a><span id="_277_MARKEND_" style="display:none"></span>
+            <span id="_279_MARKSTART_" style="display:none"></span><span id="_279_MARKEND_" style="display:none"></span>
+        </div>
+        <span id="_276_MARKEND_" style="display:none"></span>
+        <div class="F14 Red">基准时间限制：<span id="_280_MARKSTART_" style="display:none"></span>1<span id="_280_MARKEND_" style="display:none"></span> 秒 空间限制：<span id="_281_MARKSTART_" style="display:none"></span>131072<span id="_281_MARKEND_" style="display:none"></span> KB 分值: <span id="_282_MARKSTART_" style="display:none"></span>160<span id="_282_MARKEND_" style="display:none"></span> <span id="_283_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/problemList.html#!groupId=7" class="F14 Red">难度：<span id="_284_MARKSTART_" style="display:none"></span>6级算法题<span id="_284_MARKEND_" style="display:none"></span></a><span id="_283_MARKEND_" style="display:none"></span></div>
+    </div>
+    <div class="ToolPanel">
+        <span id="_285_MARKSTART_" style="display:none"></span>
+        <a href="javascript:AddFavorite.Show(1254,&#39;Problem&#39;);"><div class="ToolItem F14 LS1 Gray60 ML_20"><img src="./最大子段和 V2 问题 - 51Nod_files/star.png" alt="" class="MB_-2"> 收藏</div></a>
+        <span id="_286_MARKSTART_" style="display:none"></span>
+<a href="javascript:SetFocus.Set(&#39;problem&#39;,1254,&#39;Focus&#39;,287);" style="display:" title="关注该问题"><div class="ToolItem F14 LS1 Gray60"><img src="./最大子段和 V2 问题 - 51Nod_files/plus.png" class="MB_-2" alt=""> 关注</div></a>
+<a href="javascript:SetFocus.Remove(&#39;problem&#39;,1254,&#39;Focus&#39;,288);" style="display:none" title="取消对该问题的关注"><div class="ToolItem F14 LS1 Gray60"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" class="MB_-2" alt=""> 取消关注</div></a>
+<span id="_286_MARKEND_" style="display:none"></span>
+
+        <span id="_285_MARKEND_" style="display:none"></span>
+    </div>
+</div>
+            <div class="HI">
+                <div class="M_20 F16E Gray30 LH_200"><span id="_289_MARKSTART_" style="display:none"></span><div><div name="fastCSharp31_bjbgbsbbbnbf"><div id="fastCSharp30_bjbgbsbbbnbf">N个整数组成的序列a[1],a[2],a[3],…,a[n]，你可以对数组中的一对元素进行交换，并且交换后求a[1]至a[n]的最大子段和，所能得到的结果是所有交换中最大的。当所给的整数均为负数时和为0。</div><div id="fastCSharp30_bjbgbsbbbnbf">例如：{-2,11,-4,13,-5,-2, 4}将 -4 和 4 交换，{-2,11,4,13,-5,-2, -4}，最大子段和为11 + 4 + 13 = 28。</div><div id="fastCSharp30_bjbgbsbbbnbf"><span id="fastCSharp3_bnbbbsbl_s3" style="display:none"></span><span id="fastCSharp3_bnbbbsbl_e3" style="display:none"></span></div></div></div><span id="_289_MARKEND_" style="display:none"></span></div>
+            </div>
+            <div class="HI">
+                <div class="M_20 F16E Gray30">
+                    <div class="F18E Black MB_10">Input</div>
+<pre class="F16E Gray30"><span id="_290_MARKSTART_" style="display:none"></span>第1行：整数序列的长度N（2&nbsp;&lt;=&nbsp;N&nbsp;&lt;=&nbsp;50000)
+第2&nbsp;-&nbsp;N&nbsp;+&nbsp;1行：N个整数（-10^9&nbsp;&lt;=&nbsp;A[i]&nbsp;&lt;=&nbsp;10^9）<span id="_290_MARKEND_" style="display:none"></span></pre>
+                    <div class="F18E Black MT_10 MB_10">Output</div>
+<pre class="F16E Gray30"><span id="_291_MARKSTART_" style="display:none"></span>输出交换一次后的最大子段和。<span id="_291_MARKEND_" style="display:none"></span></pre>
+                    <div class="F18E Black MT_10 MB_10">Input示例</div>
+                    <pre class="PreText F12 Gray70"><span id="_292_MARKSTART_" style="display:none"></span>7
+-2
+11
+-4
+13
+-5
+-2
+4<span id="_292_MARKEND_" style="display:none"></span></pre>
+                    <div class="F18E Black MT_10 MB_10">Output示例</div>
+                    <pre class="PreText F12 Gray70"><span id="_293_MARKSTART_" style="display:none"></span>28<span id="_293_MARKEND_" style="display:none"></span></pre>
+                    <span id="_294_MARKSTART_" style="display:none"></span>
+                    <span id="_295_MARKSTART_" style="display:none"></span>
+                    <div class="F18E Black MT_10 MB_10">相关问题</div>
+                    <span id="_296_MARKSTART_" style="display:none"></span><span id="_297_MARKSTART_" style="display:none"></span>
+                    <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1050">
+                        <span id="_298_MARKSTART_" style="display:none"></span><span id="_298_MARKEND_" style="display:none"></span>
+                        <span id="_299_MARKSTART_" style="display:none"></span>
+                        <div class="F16 LS1 BtnWhite M_5">
+                            <span id="_300_MARKSTART_" style="display:none"></span>循环数组最大子段和<span id="_300_MARKEND_" style="display:none"></span>
+                            <span id="_301_MARKSTART_" style="display:none"></span><span id="_301_MARKEND_" style="display:none"></span>
+                            <span id="_302_MARKSTART_" style="display:none"></span><div class="FlagGreenSmall ML_15 F12"><span id="_303_MARKSTART_" style="display:none"></span>10<span id="_303_MARKEND_" style="display:none"></span></div><span id="_302_MARKEND_" style="display:none"></span>
+                        </div>
+                        <span id="_299_MARKEND_" style="display:none"></span>
+                    </a>
+                    <span id="_297_MARKEND_" style="display:none"></span><span id="_304_MARKSTART_" style="display:none"></span>
+                    <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1049">
+                        <span id="_305_MARKSTART_" style="display:none"></span><span id="_305_MARKEND_" style="display:none"></span>
+                        <span id="_306_MARKSTART_" style="display:none"></span>
+                        <div class="F16 LS1 BtnWhite M_5">
+                            <span id="_307_MARKSTART_" style="display:none"></span>最大子段和<span id="_307_MARKEND_" style="display:none"></span>
+                            <span id="_308_MARKSTART_" style="display:none"></span><span id="_308_MARKEND_" style="display:none"></span>
+                            <span id="_309_MARKSTART_" style="display:none"></span><div class="FlagGreenSmall ML_15 F12"><span id="_310_MARKSTART_" style="display:none"></span>0<span id="_310_MARKEND_" style="display:none"></span></div><span id="_309_MARKEND_" style="display:none"></span>
+                        </div>
+                        <span id="_306_MARKEND_" style="display:none"></span>
+                    </a>
+                    <span id="_304_MARKEND_" style="display:none"></span><span id="_311_MARKSTART_" style="display:none"></span>
+                    <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1115">
+                        <span id="_312_MARKSTART_" style="display:none"></span><span id="_312_MARKEND_" style="display:none"></span>
+                        <span id="_313_MARKSTART_" style="display:none"></span>
+                        <div class="F16 LS1 BtnWhite M_5">
+                            <span id="_314_MARKSTART_" style="display:none"></span>最大M子段和&nbsp;V3<span id="_314_MARKEND_" style="display:none"></span>
+                            <span id="_315_MARKSTART_" style="display:none"></span><span id="_315_MARKEND_" style="display:none"></span>
+                            <span id="_316_MARKSTART_" style="display:none"></span><div class="FlagGreenSmall ML_15 F12"><span id="_317_MARKSTART_" style="display:none"></span>320<span id="_317_MARKEND_" style="display:none"></span></div><span id="_316_MARKEND_" style="display:none"></span>
+                        </div>
+                        <span id="_313_MARKEND_" style="display:none"></span>
+                    </a>
+                    <span id="_311_MARKEND_" style="display:none"></span><span id="_318_MARKSTART_" style="display:none"></span>
+                    <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1065">
+                        <span id="_319_MARKSTART_" style="display:none"></span><span id="_319_MARKEND_" style="display:none"></span>
+                        <span id="_320_MARKSTART_" style="display:none"></span>
+                        <div class="F16 LS1 BtnWhite M_5">
+                            <span id="_321_MARKSTART_" style="display:none"></span>最小正子段和<span id="_321_MARKEND_" style="display:none"></span>
+                            <span id="_322_MARKSTART_" style="display:none"></span><span id="_322_MARKEND_" style="display:none"></span>
+                            <span id="_323_MARKSTART_" style="display:none"></span><div class="FlagGreenSmall ML_15 F12"><span id="_324_MARKSTART_" style="display:none"></span>20<span id="_324_MARKEND_" style="display:none"></span></div><span id="_323_MARKEND_" style="display:none"></span>
+                        </div>
+                        <span id="_320_MARKEND_" style="display:none"></span>
+                    </a>
+                    <span id="_318_MARKEND_" style="display:none"></span><span id="_325_MARKSTART_" style="display:none"></span>
+                    <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1053">
+                        <span id="_326_MARKSTART_" style="display:none"></span><span id="_326_MARKEND_" style="display:none"></span>
+                        <span id="_327_MARKSTART_" style="display:none"></span>
+                        <div class="F16 LS1 BtnWhite M_5">
+                            <span id="_328_MARKSTART_" style="display:none"></span>最大M子段和&nbsp;V2<span id="_328_MARKEND_" style="display:none"></span>
+                            <span id="_329_MARKSTART_" style="display:none"></span><span id="_329_MARKEND_" style="display:none"></span>
+                            <span id="_330_MARKSTART_" style="display:none"></span><div class="FlagGreenSmall ML_15 F12"><span id="_331_MARKSTART_" style="display:none"></span>160<span id="_331_MARKEND_" style="display:none"></span></div><span id="_330_MARKEND_" style="display:none"></span>
+                        </div>
+                        <span id="_327_MARKEND_" style="display:none"></span>
+                    </a>
+                    <span id="_325_MARKEND_" style="display:none"></span><span id="_332_MARKSTART_" style="display:none"></span>
+                    <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1052">
+                        <span id="_333_MARKSTART_" style="display:none"></span><span id="_333_MARKEND_" style="display:none"></span>
+                        <span id="_334_MARKSTART_" style="display:none"></span>
+                        <div class="F16 LS1 BtnWhite M_5">
+                            <span id="_335_MARKSTART_" style="display:none"></span>最大M子段和<span id="_335_MARKEND_" style="display:none"></span>
+                            <span id="_336_MARKSTART_" style="display:none"></span><span id="_336_MARKEND_" style="display:none"></span>
+                            <span id="_337_MARKSTART_" style="display:none"></span><div class="FlagGreenSmall ML_15 F12"><span id="_338_MARKSTART_" style="display:none"></span>80<span id="_338_MARKEND_" style="display:none"></span></div><span id="_337_MARKEND_" style="display:none"></span>
+                        </div>
+                        <span id="_334_MARKEND_" style="display:none"></span>
+                    </a>
+                    <span id="_332_MARKEND_" style="display:none"></span><span id="_339_MARKSTART_" style="display:none"></span>
+                    <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1051">
+                        <span id="_340_MARKSTART_" style="display:none"></span><span id="_340_MARKEND_" style="display:none"></span>
+                        <span id="_341_MARKSTART_" style="display:none"></span>
+                        <div class="F16 LS1 BtnWhite M_5">
+                            <span id="_342_MARKSTART_" style="display:none"></span>最大子矩阵和<span id="_342_MARKEND_" style="display:none"></span>
+                            <span id="_343_MARKSTART_" style="display:none"></span><span id="_343_MARKEND_" style="display:none"></span>
+                            <span id="_344_MARKSTART_" style="display:none"></span><div class="FlagGreenSmall ML_15 F12"><span id="_345_MARKSTART_" style="display:none"></span>40<span id="_345_MARKEND_" style="display:none"></span></div><span id="_344_MARKEND_" style="display:none"></span>
+                        </div>
+                        <span id="_341_MARKEND_" style="display:none"></span>
+                    </a>
+                    <span id="_339_MARKEND_" style="display:none"></span><span id="_296_MARKEND_" style="display:none"></span>
+                    <span id="_295_MARKEND_" style="display:none"></span>
+                    <span id="_294_MARKEND_" style="display:none"></span>
+                </div>
+            </div>
+            <span id="_346_MARKSTART_" style="display:none"></span>
+            <div class="HI">
+                <div class="LH_120 P_10 BGGrayF4">
+                    <a href="https://www.51nod.com/onlineJudge/user.html#!userId=1"><div class="FL" mousemenu="{SkinView:{UserId:1},Top:-10,OnStart:UserPopup.ShowMenu}"><img src="./最大子段和 V2 问题 - 51Nod_files/08D3960BFE1811D1000000000000000D.jpeg" class="P25B" alt=""></div></a>
+                    <div class="FL F16 MT_5 ML_10"><a href="https://www.51nod.com/onlineJudge/user.html#!userId=1" mousemenu="{SkinView:{UserId:1},Top:-10,OnStart:UserPopup.ShowMenu}" class="F14 Gray10"><span id="_347_MARKSTART_" style="display:none"></span>李陶冶<span id="_347_MARKEND_" style="display:none"></span></a> <span class="F14 Gray88">(题目提供者)</span></div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+            <span id="_346_MARKEND_" style="display:none"></span>
+            <span id="_348_MARKSTART_" style="display:none"></span><span id="_348_MARKEND_" style="display:none"></span>
+            <span id="_272_MARKEND_" style="display:none"></span>
+            <span id="_349_MARKSTART_" style="display:none"></span>
+            <!--Client-->
+            <div class="HI">
+                <div class="M_20 F16E Gray30">
+                    <div class="POR" skin="" id="editorLanguage"><span id="_479_MARKSTART_" style="display:none"></span>
+                        <div>
+                            <div class="F14 Red"><span id="_480_MARKSTART_" style="display:none"></span>C++<span id="_480_MARKEND_" style="display:none"></span>的运行时限为：<span id="_481_MARKSTART_" style="display:none"></span>1000<span id="_481_MARKEND_" style="display:none"></span> ms ，空间限制为：<span id="_482_MARKSTART_" style="display:none"></span>131072<span id="_482_MARKEND_" style="display:none"></span> KB <a href="https://www.51nod.com/question/index.html#!questionId=1178" class="F14 Green" target="_blank">示例及语言说明请按这里</a></div>
+                            <div class="MT_5 F14 Gray30">
+                                <span id="_483_MARKSTART_" style="display:none"></span><span id="_483_MARKEND_" style="display:none"></span>
+                                <span id="_484_MARKSTART_" style="display:none"></span>
+                                <input id="isPublic" type="checkbox" checked="1">  允许其他 AC 的用户查看此代码，分享代码才能查看别人的代码并有机会获得勋章
+                                <span id="_484_MARKEND_" style="display:none"></span>
+                            </div>
+                            <div class="F16C Gray78 RightPanel Pointer" mousemenu="{MenuId:&#39;languageMenu&#39;,Type:&#39;BottomRight&#39;,Left:24,Top:10}" id="languageMenuButton"><span id="_485_MARKSTART_" style="display:none"></span>C++<span id="_485_MARKEND_" style="display:none"></span> <img src="./最大子段和 V2 问题 - 51Nod_files/down.png" alt=""></div>
+
+
+                        </div>
+                        <div class="F16C Gray78 RightPanel" style="display:none"><span id="_486_MARKSTART_" style="display:none"></span><span id="_486_MARKEND_" style="display:none"></span> <img mousemenu="{MenuId:&#39;themeMenu&#39;,Type:&#39;Bottom&#39;}" id="themeMenuButton" src="./最大子段和 V2 问题 - 51Nod_files/down.png" alt=""></div>
+                        
+                    <span id="_479_MARKEND_" style="display:none"></span></div>
+                    <div class="MT_10 ace_editor ace-eclipse" id="programContent" style="width: 100%; height: 226px; border: 1px solid rgb(204, 204, 204);"><textarea class="ace_text-input" wrap="off" autocapitalize="off" spellcheck="false" style="opacity: 0; height: 14px; width: 6.59781px; left: 45px; top: 0px;"></textarea><div class="ace_gutter"><div class="ace_layer ace_gutter-layer ace_folding-enabled" style="margin-top: 0px; height: 254px; width: 40px;"><div class="ace_gutter-cell " style="height: 14px;">1</div></div><div class="ace_gutter-active-line" style="top: 0px; height: 14px;"></div></div><div class="ace_scroller" style="left: 41px; right: 0px; bottom: 0px;"><div class="ace_content" style="margin-top: 0px; width: 819px; height: 254px; margin-left: 0px;"><div class="ace_layer ace_print-margin-layer"><div class="ace_print-margin" style="left: 531.825px; visibility: visible;"></div></div><div class="ace_layer ace_marker-layer"><div class="ace_active-line" style="height:14px;top:0px;left:0;right:0;"></div></div><div class="ace_layer ace_text-layer" style="padding: 0px 4px;"><div class="ace_line_group" style="height:14px"><div class="ace_line" style="height:14px"></div></div></div><div class="ace_layer ace_marker-layer"></div><div class="ace_layer ace_cursor-layer ace_hidden-cursors"><div class="ace_cursor" style="left: 4px; top: 0px; width: 6.59781px; height: 14px;"></div></div></div></div><div class="ace_scrollbar ace_scrollbar-v" style="display: none; width: 22px; bottom: 0px;"><div class="ace_scrollbar-inner" style="width: 22px; height: 14px;"></div></div><div class="ace_scrollbar ace_scrollbar-h" style="display: none; height: 22px; left: 41px; right: 0px;"><div class="ace_scrollbar-inner" style="height: 22px; width: 819px;"></div></div><div style="height: auto; width: auto; top: -100px; left: -100px; visibility: hidden; position: fixed; white-space: pre; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; overflow: hidden;"><div style="height: auto; width: auto; top: -100px; left: -100px; visibility: hidden; position: fixed; white-space: pre; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; overflow: visible;"></div><div style="height: auto; width: auto; top: -100px; left: -100px; visibility: hidden; position: fixed; white-space: pre; font-style: inherit; font-variant: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; overflow: visible;">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div></div></div>
+                    <div class="F14 MT_15 TR">
+                        <span id="_357_MARKSTART_" style="display:none"></span>
+                        <a href="javascript:Problem.Run();"><div class="BtnGreen MR_15 F14">运行代码</div></a>
+                        <a href="javascript:Problem.Judge();"><div class="BtnGreen F14">提交代码</div></a>
+                        <span id="_357_MARKEND_" style="display:none"></span>
+                    </div>
+                    <div class="MT_10" skin="" id="runResult" style="display:none">
+                        <div>
+                            <span id="_358_MARKSTART_" style="display:none"></span>
+                            <div class="BtnWhite F14Gray20"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" alt="" style="margin-bottom:-3px"><div class="ML_10 MR_10 IB">Test 1</div><span class="F14B Red"><span id="_359_MARKSTART_" style="display:none"></span><span id="_359_MARKEND_" style="display:none"></span></span></div>
+                            <span id="_358_MARKEND_" style="display:none"></span>
+                            <span id="_360_MARKSTART_" style="display:none"></span><span id="_360_MARKEND_" style="display:none"></span>
+                        </div>
+                        <div class="MT_10">
+                            <span id="_361_MARKSTART_" style="display:none"></span><span id="_361_MARKEND_" style="display:none"></span>
+                            <span id="_362_MARKSTART_" style="display:none"></span>
+                            <span id="_363_MARKSTART_" style="display:none"></span><span id="_363_MARKEND_" style="display:none"></span>
+                            <span id="_364_MARKSTART_" style="display:none"></span><span id="_364_MARKEND_" style="display:none"></span>
+                            <span id="_365_MARKSTART_" style="display:none"></span>
+                            <span id="_366_MARKSTART_" style="display:none"></span>
+                            <div class="F16D Gray20 MT_10 MB_10">特判题目没有标准输出数据</div>
+                            <span id="_366_MARKEND_" style="display:none"></span>
+                            <span id="_365_MARKEND_" style="display:none"></span>
+                            <span id="_362_MARKEND_" style="display:none"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Client-->
+            <span id="_349_MARKEND_" style="display:none"></span>
+
+            <span id="_367_MARKSTART_" style="display:none"></span><span id="_367_MARKEND_" style="display:none"></span>
+        </div>
+        <div class="MiddleNav">
+    <div class="NavTool">
+        <!--Client-->
+        <a href="http://shang.qq.com/wpa/qunwpa?idkey=48083172ccfbf74b0462ae37d8ff88c39198f5b19846ece22b7cd620806cc75d" title="51Nod 算法讨论QQ群">
+            <div class="NavToolItem" onimage="{Id:&#39;middleQQ&#39;}"><img src="./最大子段和 V2 问题 - 51Nod_files/qq(1).png" id="middleQQ" class="MT_3" alt=""></div>
+        </a>
+        <!--Client-->
+        <a href="https://www.51nod.com/topic/index.html#!topicId=100000078" title="线下技术交流活动">
+            <div class="NavToolItem" onimage="{Id:&#39;middleDiscuss&#39;}"><img src="./最大子段和 V2 问题 - 51Nod_files/discuss.png" class="MT_3" id="middleDiscuss" alt=""></div>
+        </a>
+        <div class="NavToolItem" id="weixinIcon" onimage="{Id:&#39;middle_weixin&#39;}" mousemenu="{MenuId:&#39;weixinCode&#39;,Type:&#39;RightBottom&#39;}">
+            <img src="./最大子段和 V2 问题 - 51Nod_files/weixin.png" class="MT_3" id="middle_weixin" alt="">
+        </div>
+        <div class="QrCode" id="weixinCode" style="position: absolute; z-index: 10001; left: 40px; top: -196px; display: none;">
+            <div class="TC MT_10 F14 LS1 Black">扫描二维关注51Nod微信服务号</div>
+            <div><img src="./最大子段和 V2 问题 - 51Nod_files/qrcode.jpg" width="300px" height="300px" alt=""></div>
+        </div>
+        <a href="https://www.51nod.com/question/index.html#!questionId=2" title="意见与反馈">
+            <div class="NavToolItem"><img class="MT_4" src="./最大子段和 V2 问题 - 51Nod_files/feedback.png" alt=""></div>
+        </a>
+        <!--Client-->
+        <div class="NavToolItem" id="middleToTop" style="display:none" onclick="MiddleNav.ToTop();"><img class="MT_3" src="./最大子段和 V2 问题 - 51Nod_files/up.png" alt=""></div>
+        <div class="NavToolItem" id="middleToBottom" onclick="MiddleNav.ToButton();"><img class="MT_3" src="./最大子段和 V2 问题 - 51Nod_files/down(1).png" alt=""></div>
+        <!--Client-->
+    </div>
+</div>
+
+        <div class="MiddleRight">
+            <div class="HI H90 BGGrayF4">
+    <div class="CommonHeader">
+        <a href="https://www.51nod.com/onlineJudge/problemList.html#!groupId=7">
+        <div class="TopItem BDR_GrayE0">
+            <div class="HeaderText F32Gray40">
+                <span id="_368_MARKSTART_" style="display:none"></span>160<span id="_368_MARKEND_" style="display:none"></span><br>
+                <span class="F14 LS1 Gray98">分值</span>
+            </div>
+        </div>
+        </a>
+        <a href="https://www.51nod.com/onlineJudge/problemJudge.html#!problemId=1254">
+            <div class="TopItem BDR_GrayE0">
+                <div class="HeaderText F32Gray40">
+                    <span id="_369_MARKSTART_" style="display:none"></span>134<span id="_369_MARKEND_" style="display:none"></span><br>
+                    <span class="F14 LS1 Gray98">提交</span>
+                </div>
+            </div>
+        </a>
+        <a href="https://www.51nod.com/onlineJudge/solutionRank.html#!problemId=1254">
+            <div class="TopItem">
+                <div class="HeaderText F32Gray40">
+                    <span id="_370_MARKSTART_" style="display:none"></span>40<span id="_370_MARKEND_" style="display:none"></span><br>
+                    <span class="F14 LS1 Gray98">AC</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+            <a href="https://www.51nod.com/onlineJudge/questionCode.html#!problemId=1254">
+    <div class="HI BGGrayEC H60" onimage="{Path:&#39;/div/img&#39;}">
+        <div class="FL MT_25 ML_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""></div>
+        <div class="FL MT_18 ML_15 F20C Gray60">题目描述</div>
+        <div class="FR MT_20 MR_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right_arrow.png" alt=""></div>
+    </div>
+</a>
+<a href="https://www.51nod.com/onlineJudge/problemJudge.html#!problemId=1254">
+    <div class="HI BGGrayEC H60" onimage="{Path:&#39;/div/img&#39;}">
+        <div class="FL MT_25 ML_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""></div>
+        <div class="FL MT_18 ML_15 F20C Gray60">所有提交记录</div>
+        <div class="FR MT_20 MR_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right_arrow.png" alt=""></div>
+    </div>
+</a>
+ <span id="_371_MARKSTART_" style="display:none"></span>
+<a href="https://www.51nod.com/onlineJudge/submitList.html#!userId=17515&amp;problemId=1254">
+    <div class="HI BGGrayEC H60" onimage="{Path:&#39;/div/img&#39;}">
+        <div class="FL MT_25 ML_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""></div>
+        <div class="FL MT_10 ML_15">
+            <span class="F16 LS4 Gray70">我的提交记录</span><br>
+            <span class="F12B Gray80 ML_15">&gt;&gt; 共 <span class="F14D Gray80"><span id="_372_MARKSTART_" style="display:none"></span>0<span id="_372_MARKEND_" style="display:none"></span></span> 次</span>
+        </div>
+        <div class="FR MT_20 MR_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right_arrow.png" alt=""></div>
+    </div>
+</a>
+ <span id="_371_MARKEND_" style="display:none"></span>
+
+<a href="https://www.51nod.com/onlineJudge/solutionRank.html#!problemId=1254">
+    <div class="HI BGGrayEC H60" onimage="{Path:&#39;/div/img&#39;}">
+        <div class="FL MT_25 ML_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""></div>
+        <div class="FL MT_18 ML_15 F20C Gray60">排行榜</div>
+        <div class="FR MT_20 MR_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right_arrow.png" alt=""></div>
+    </div>
+</a>
+<span id="_373_MARKSTART_" style="display:none"></span>
+<span id="_374_MARKSTART_" style="display:none"></span><span id="_374_MARKEND_" style="display:none"></span>
+<span id="_373_MARKEND_" style="display:none"></span>
+<span id="_375_MARKSTART_" style="display:none"></span>
+<a href="https://www.51nod.com/question/index.html#!questionId=1078">
+    <div class="HI BGGrayEC H60" onimage="{Path:&#39;/div/img&#39;}">
+        <div class="FL MT_25 ML_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""></div>
+        <div class="FL MT_18 ML_15 F20C Gray60">相关讨论</div>
+        <div class="FR MT_20 MR_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right_arrow.png" alt=""></div>
+    </div>
+</a>
+<span id="_375_MARKEND_" style="display:none"></span>
+            <span id="_376_MARKSTART_" style="display:none"></span>
+<span id="_377_MARKSTART_" style="display:none"></span>
+<a href="https://www.51nod.com/onlineJudge/favorite.html#!problemId=1254">
+    <div class="HI H50 BGGrayF4 MT_40">
+        <div class="CommonHeader">
+            <div class="F16D LS2 Gray40 IB ML_20">
+                <div class="HeaderText">相关收藏</div>
+                <div class="GreenLine"></div>
+            </div>
+        </div>
+    </div>
+</a>
+<span id="_378_MARKSTART_" style="display:none"></span><span id="_379_MARKSTART_" style="display:none"></span>
+<div class="HI BGGrayEC H60" onimage="{Path:&#39;/div/img&#39;}">
+    <div class="FL MT_25 ML_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right.png" alt=""></div>
+    <div class="FL MT_10 ML_15">
+        <a href="https://www.51nod.com/favorite/index.html#!favoriteId=112">
+            <div class="F14 LS1 Gray60"><span id="_380_MARKSTART_" style="display:none"></span>O(n)可以解决的好题<span id="_380_MARKEND_" style="display:none"></span></div>
+        </a>
+        <div class="F12B Gray80">
+            <span id="_381_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/user/index.html#!userId=1" class="F12B Gray80" mousemenu="{SkinView:{UserId:1},Top:-10,OnStart:UserPopup.ShowMenu}"><span id="_382_MARKSTART_" style="display:none"></span>李陶冶<span id="_382_MARKEND_" style="display:none"></span></a><span id="_381_MARKEND_" style="display:none"></span>
+            创建( <a href="https://www.51nod.com/favorite/focus.html#!favoriteId=112" class="F14D Gray80"><span id="_383_MARKSTART_" style="display:none"></span>34<span id="_383_MARKEND_" style="display:none"></span></a> 人关注)
+        </div>
+    </div>
+    <div class="FR MT_20 MR_20"><img src="./最大子段和 V2 问题 - 51Nod_files/right_arrow.png" alt=""></div>
+</div>
+<span id="_379_MARKEND_" style="display:none"></span><span id="_378_MARKEND_" style="display:none"></span>
+<span id="_377_MARKEND_" style="display:none"></span>
+<span id="_376_MARKEND_" style="display:none"></span>
+            <span id="_384_MARKSTART_" style="display:none"></span>
+<div class="MedalItem">
+    <div class="MedalLeft Gold F60White"><div class="MT_15">1</div></div>
+    <span id="_385_MARKSTART_" style="display:none"></span>
+    <a href="https://www.51nod.com/onlineJudge/user.html#!userId=116"><div class="MedalCenter" mousemenu="{SkinView:{UserId:116},Top:-10,OnStart:UserPopup.ShowMenu}" id="_31_DECLARE_"><img src="./最大子段和 V2 问题 - 51Nod_files/08cf6c791154e56800001e32.jpeg" alt="" class="P100"></div></a>
+    <span id="_385_MARKEND_" style="display:none"></span>
+    <div class="MedalRight F14 LS1 Gray88">
+        <div class="MT_10">
+            <span id="_386_MARKSTART_" style="display:none"></span>2<span id="_386_MARKEND_" style="display:none"></span> 天<br>
+            <span id="_387_MARKSTART_" style="display:none"></span>11<span id="_387_MARKEND_" style="display:none"></span> 小时<br>
+            <span id="_388_MARKSTART_" style="display:none"></span>34<span id="_388_MARKEND_" style="display:none"></span> 分钟<br>
+            <span id="_389_MARKSTART_" style="display:none"></span>41<span id="_389_MARKEND_" style="display:none"></span> 秒
+        </div>
+    </div>
+</div>
+<span id="_384_MARKEND_" style="display:none"></span>
+
+<span id="_390_MARKSTART_" style="display:none"></span>
+<div class="MedalItem">
+    <div class="MedalLeft Silver F60White"><div class="MT_15">2</div></div>
+    <span id="_391_MARKSTART_" style="display:none"></span>
+    <a href="https://www.51nod.com/onlineJudge/user.html#!userId=2626"><div class="MedalCenter" mousemenu="{SkinView:{UserId:2626},Top:-10,OnStart:UserPopup.ShowMenu}"><img src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" alt="" class="P100"></div></a>
+    <span id="_391_MARKEND_" style="display:none"></span>
+    <div class="MedalRight F14 LS1 Gray88">
+        <div class="MT_10">
+            <span id="_392_MARKSTART_" style="display:none"></span>71<span id="_392_MARKEND_" style="display:none"></span> 天<br>
+            <span id="_393_MARKSTART_" style="display:none"></span>8<span id="_393_MARKEND_" style="display:none"></span> 小时<br>
+            <span id="_394_MARKSTART_" style="display:none"></span>48<span id="_394_MARKEND_" style="display:none"></span> 分钟<br>
+            <span id="_395_MARKSTART_" style="display:none"></span>54<span id="_395_MARKEND_" style="display:none"></span> 秒
+        </div>
+    </div>
+</div>
+<span id="_390_MARKEND_" style="display:none"></span>
+
+<span id="_396_MARKSTART_" style="display:none"></span>
+<div class="MedalItem">
+    <div class="MedalLeft Bronze F60White"><div class="MT_15">3</div></div>
+    <span id="_397_MARKSTART_" style="display:none"></span>
+    <a href="https://www.51nod.com/onlineJudge/user.html#!userId=2428"><div class="MedalCenter" mousemenu="{SkinView:{UserId:2428},Top:-10,OnStart:UserPopup.ShowMenu}" id="_32_DECLARE_"><img src="./最大子段和 V2 问题 - 51Nod_files/100" alt="" class="P100"></div></a>
+    <span id="_397_MARKEND_" style="display:none"></span>
+    <div class="MedalRight F14 LS1 Gray88">
+        <div class="MT_10">
+            <span id="_398_MARKSTART_" style="display:none"></span>103<span id="_398_MARKEND_" style="display:none"></span> 天<br>
+            <span id="_399_MARKSTART_" style="display:none"></span>10<span id="_399_MARKEND_" style="display:none"></span> 小时<br>
+            <span id="_400_MARKSTART_" style="display:none"></span>1<span id="_400_MARKEND_" style="display:none"></span> 分钟<br>
+            <span id="_401_MARKSTART_" style="display:none"></span>23<span id="_401_MARKEND_" style="display:none"></span> 秒
+        </div>
+    </div>
+</div>
+<span id="_396_MARKEND_" style="display:none"></span>
+
+<span id="_402_MARKSTART_" style="display:none"></span><span id="_402_MARKEND_" style="display:none"></span>
+            <span id="_403_MARKSTART_" style="display:none"></span>
+<span id="_404_MARKSTART_" style="display:none"></span>
+<div class="MT_20 TL">
+    <div class="F16 Gray10 M_10"><a href="https://www.51nod.com/onlineJudge/solutionRank.html#!problemId=1254" class="F16 Gray10">AC了该问题的人</a></div>
+    <span id="_405_MARKSTART_" style="display:none"></span><span id="_406_MARKSTART_" style="display:none"></span>
+    <div>
+        <span id="_407_MARKSTART_" style="display:none"></span><span id="_408_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=1075" title="曹鹏"><img mousemenu="{SkinView:{UserId:1075},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_408_MARKEND_" style="display:none"></span><span id="_409_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=1062" title="javaman"><img mousemenu="{SkinView:{UserId:1062},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(1)" class="P25"></a><span id="_409_MARKEND_" style="display:none"></span><span id="_410_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=116" title="关鑫"><img mousemenu="{SkinView:{UserId:116},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08cf6c791154e56800001e32(1).jpeg" class="P25"></a><span id="_410_MARKEND_" style="display:none"></span><span id="_411_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=551" title="哎哟"><img mousemenu="{SkinView:{UserId:551},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(2)" class="P25"></a><span id="_411_MARKEND_" style="display:none"></span><span id="_412_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=2626" title="mint_my"><img mousemenu="{SkinView:{UserId:2626},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_412_MARKEND_" style="display:none"></span><span id="_413_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=2428" title="淹死鲨鱼"><img mousemenu="{SkinView:{UserId:2428},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100" class="P25"></a><span id="_413_MARKEND_" style="display:none"></span><span id="_414_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=2357" title="竹羽"><img mousemenu="{SkinView:{UserId:2357},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(3)" class="P25"></a><span id="_414_MARKEND_" style="display:none"></span><span id="_415_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=3263" title="System&#160;Message"><img mousemenu="{SkinView:{UserId:3263},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D30FABE0EF50B50000000000000013.png" class="P25"></a><span id="_415_MARKEND_" style="display:none"></span><span id="_416_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=3236" title="Squall"><img mousemenu="{SkinView:{UserId:3236},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(4)" class="P25"></a><span id="_416_MARKEND_" style="display:none"></span><span id="_417_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=15" title="方程"><img mousemenu="{SkinView:{UserId:15},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08cf2c0fbaa5e09600003473.jpeg" class="P25"></a><span id="_417_MARKEND_" style="display:none"></span><span id="_407_MARKEND_" style="display:none"></span>
+    </div>
+    <span id="_406_MARKEND_" style="display:none"></span><span id="_418_MARKSTART_" style="display:none"></span>
+    <div>
+        <span id="_419_MARKSTART_" style="display:none"></span><span id="_420_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=3397" title="mostleg"><img mousemenu="{SkinView:{UserId:3397},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_420_MARKEND_" style="display:none"></span><span id="_421_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=5797" title="Burglar"><img mousemenu="{SkinView:{UserId:5797},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D27BD09E31AB100000000000000047.jpeg" class="P25"></a><span id="_421_MARKEND_" style="display:none"></span><span id="_422_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=7446" title="曾经的曾经丶很天真"><img mousemenu="{SkinView:{UserId:7446},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(5)" class="P25"></a><span id="_422_MARKEND_" style="display:none"></span><span id="_423_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=8101" title="Mithrilord"><img mousemenu="{SkinView:{UserId:8101},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_423_MARKEND_" style="display:none"></span><span id="_424_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=7524" title="yinkr"><img mousemenu="{SkinView:{UserId:7524},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_424_MARKEND_" style="display:none"></span><span id="_425_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=9110" title="jvv"><img mousemenu="{SkinView:{UserId:9110},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_425_MARKEND_" style="display:none"></span><span id="_426_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=9687" title="红红红红红豆丶"><img mousemenu="{SkinView:{UserId:9687},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D32E3AB51281B1000000000000007F.jpeg" class="P25"></a><span id="_426_MARKEND_" style="display:none"></span><span id="_427_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=8793" title="A&#160;Little&#160;Black"><img mousemenu="{SkinView:{UserId:8793},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_427_MARKEND_" style="display:none"></span><span id="_428_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=6439" title="winterfell30"><img mousemenu="{SkinView:{UserId:6439},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3841C663B21D6000000000000000D.jpeg" class="P25"></a><span id="_428_MARKEND_" style="display:none"></span><span id="_429_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=16038" title="yzx"><img mousemenu="{SkinView:{UserId:16038},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_429_MARKEND_" style="display:none"></span><span id="_419_MARKEND_" style="display:none"></span>
+    </div>
+    <span id="_418_MARKEND_" style="display:none"></span><span id="_430_MARKSTART_" style="display:none"></span>
+    <div>
+        <span id="_431_MARKSTART_" style="display:none"></span><span id="_432_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=4096" title="munaiyi"><img mousemenu="{SkinView:{UserId:4096},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D37DD77E74D15B0000000000000004.png" class="P25"></a><span id="_432_MARKEND_" style="display:none"></span><span id="_433_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=5374" title="2997ms"><img mousemenu="{SkinView:{UserId:5374},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D38BAA35D1E6C80000000000000007.jpeg" class="P25"></a><span id="_433_MARKEND_" style="display:none"></span><span id="_434_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=9450" title="ZYB"><img mousemenu="{SkinView:{UserId:9450},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3AC8DE44F7147000000000000000A.jpeg" class="P25"></a><span id="_434_MARKEND_" style="display:none"></span><span id="_435_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=5763" title="悄然っ离去"><img mousemenu="{SkinView:{UserId:5763},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(6)" class="P25"></a><span id="_435_MARKEND_" style="display:none"></span><span id="_436_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=5676" title="JSB"><img mousemenu="{SkinView:{UserId:5676},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3356161E725D1000000000000001F.png" class="P25"></a><span id="_436_MARKEND_" style="display:none"></span><span id="_437_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=16113" title="『EEsama&#160;No&#160;Mercy』"><img mousemenu="{SkinView:{UserId:16113},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D38FD795CCB8D80000000000000007.jpeg" class="P25"></a><span id="_437_MARKEND_" style="display:none"></span><span id="_438_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=14209" title="lavenderlkp"><img mousemenu="{SkinView:{UserId:14209},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_438_MARKEND_" style="display:none"></span><span id="_439_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=11340" title="xzj_asklzxn2"><img mousemenu="{SkinView:{UserId:11340},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_439_MARKEND_" style="display:none"></span><span id="_440_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=15257" title="liumh8"><img mousemenu="{SkinView:{UserId:15257},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_440_MARKEND_" style="display:none"></span><span id="_441_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=16229" title="tyw"><img mousemenu="{SkinView:{UserId:16229},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D39C21B1836F200000000000000014.jpeg" class="P25"></a><span id="_441_MARKEND_" style="display:none"></span><span id="_431_MARKEND_" style="display:none"></span>
+    </div>
+    <span id="_430_MARKEND_" style="display:none"></span><span id="_442_MARKSTART_" style="display:none"></span>
+    <div>
+        <span id="_443_MARKSTART_" style="display:none"></span><span id="_444_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=17877" title="佐理慧"><img mousemenu="{SkinView:{UserId:17877},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3C9B40C8AD3B20000000000000039.jpeg" class="P25"></a><span id="_444_MARKEND_" style="display:none"></span><span id="_445_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=15845" title="swm_sxt&#160;?"><img mousemenu="{SkinView:{UserId:15845},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(7)" class="P25"></a><span id="_445_MARKEND_" style="display:none"></span><span id="_446_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=15783" title="swm_sxt"><img mousemenu="{SkinView:{UserId:15783},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3A84B97ADB5950000000000000015.jpeg" class="P25"></a><span id="_446_MARKEND_" style="display:none"></span><span id="_447_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=15939" title="Aftc"><img mousemenu="{SkinView:{UserId:15939},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3C1E6F2400A630000000000000037.png" class="P25"></a><span id="_447_MARKEND_" style="display:none"></span><span id="_448_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=16365" title="czllgzmzl"><img mousemenu="{SkinView:{UserId:16365},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_448_MARKEND_" style="display:none"></span><span id="_449_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=17903" title="zhan8855"><img mousemenu="{SkinView:{UserId:17903},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3CB9DDD2E6D610000000000000050.jpeg" class="P25"></a><span id="_449_MARKEND_" style="display:none"></span><span id="_450_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=11857" title="Scarlet"><img mousemenu="{SkinView:{UserId:11857},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3CA7771E9EDB90000000000000040.png" class="P25"></a><span id="_450_MARKEND_" style="display:none"></span><span id="_451_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=8814" title="不小於"><img mousemenu="{SkinView:{UserId:8814},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/08D3D7E1EF445EF90000000000000026.png" class="P25"></a><span id="_451_MARKEND_" style="display:none"></span><span id="_452_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=13904" title="yylidiw"><img mousemenu="{SkinView:{UserId:13904},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/male.jpg" class="P25"></a><span id="_452_MARKEND_" style="display:none"></span><span id="_453_MARKSTART_" style="display:none"></span><a href="https://www.51nod.com/onlineJudge/user.html#!userId=10510" title="Scalpel"><img mousemenu="{SkinView:{UserId:10510},Top:-10,OnStart:UserPopup.ShowMenu}" src="./最大子段和 V2 问题 - 51Nod_files/100(8)" class="P25"></a><span id="_453_MARKEND_" style="display:none"></span><span id="_443_MARKEND_" style="display:none"></span>
+    </div>
+    <span id="_442_MARKEND_" style="display:none"></span><span id="_405_MARKEND_" style="display:none"></span>
+</div>
+<span id="_404_MARKEND_" style="display:none"></span>
+<span id="_403_MARKEND_" style="display:none"></span>
+
+        </div>
+    </div>
+    <div class="Clear MB_10"></div>
+
+
+<div class="PMB" body="" skin="" id="createFavoriteRemarkEditorButtonInsertCodeType" style="display:none">
+    
+</div><div class="ColorPanel" body="" skin="" id="createFavoriteRemarkEditorButtonColorMenu" style="display:none">
+    
+</div><div class="W600" body="" skin="" id="headerSearchDiv" style="display:none">
+    <div class="PM">
+        
+        <div class="PMSI">
+            <a href="https://www.51nod.com/onlineJudge/questionCode.html">
+                <span class=" F12B Gray80">
+                    <img src="./最大子段和 V2 问题 - 51Nod_files/search.png" class="MB_-4" alt="">
+                    查看 <span class="F14B Green"><span id="_454_MARKSTART_" style="display:none"></span><span id="_454_MARKEND_" style="display:none"></span></span> 的搜索结果
+                </span>
+            </a>
+        </div>
+    </div>
+</div><div class="PopupWin W720" body="" floatcenter="{AutoClass:&#39;ShowWin&#39;}" id="headerAppendQuestion">
+            <div class="PHead">
+                <div class="FR M_10"><img onclick="Header.ShowAppendQuestion(0);" src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" class="HO08 Pointer" alt=""></div>
+                <div class="P_10 F20 White ML_10">提问</div>
+            </div>
+            <div class="M_20">
+                <div>
+                    <textarea class="TextInput F14 W658 MH120" autoheight="" searchinput="{SkinId:&#39;headerSearchAppendQuestionDiv&#39;,Timeout:200,GetType:&#39;search&#39;,Query:{type:&#39;Question&#39;}}" inputlength="{Length:80,ErrorSkinId:&#39;headerAppendQuestionTitleErrorLength&#39;}" id="headerAppendQuestionTitle"></textarea>
+                    
+                </div>
+                <div class="MT_10 TR F14 LS1 Gray88" skin="" id="headerAppendQuestionTitleErrorLength" style="display:none">
+                    已超出 <span class="F14 Red"><span id="_455_MARKSTART_" style="display:none"></span><span id="_455_MARKEND_" style="display:none"></span></span> 字
+                </div>
+                <div class="MT_10 F18C Gray40">问题说明</div>
+                <div class="EditorBar MT_10" id="headerAppendQuestionRemarkEditorButton" style="display:none">
+    <div editorbuttonname="Bold" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/bold.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="Italic" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/italic.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="UnderLine" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/underline.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="Quote" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/quotation.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertCode" class="EditorItem FL" id="headerAppendQuestionRemarkEditorButtonInsertCode" mousemenu="{MenuId:&#39;headerAppendQuestionRemarkEditorButtonInsertCodeType&#39;,Type:&#39;BottomLeft&#39;,SkinView:fastCSharp.Ace.Modes}"><img src="./最大子段和 V2 问题 - 51Nod_files/code.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertLaTeX" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/sigma.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertLink" class="EditorItem FL" style="display:none"><img src="./最大子段和 V2 问题 - 51Nod_files/link.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="InsertImage" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/img.png" class="MT_10" lt=""></div>
+    <!--
+    <div EDITORBUTTONNAME="InsertMedia" class="EditorItem FL"><img src="//file.51nod.com/images/editor/media.png" class="MT_10" lt="" /></div>
+    -->
+    <div editorbuttonname="Color" class="EditorItem FL" id="headerAppendQuestionRemarkEditorButtonColor" mousemenu="{MenuId:&#39;headerAppendQuestionRemarkEditorButtonColorMenu&#39;,Type:&#39;BottomLeft&#39;,SkinView:MentionEditor.Colors}"><img src="./最大子段和 V2 问题 - 51Nod_files/color.png" class="MT_10" alt=""></div>
+    <div editorbuttonname="RemoveFormat" class="EditorItem FL"><img src="./最大子段和 V2 问题 - 51Nod_files/clear.png" class="MT_10" alt=""></div>
+</div>
+
+
+
+                <div class="ContentInput MH300" mentioneditor="" onclick="void(0);" id="headerAppendQuestionRemark"></div>
+                <div class="MT_10 F18C Gray40 IB">选择话题</div>
+                <div class="TopicDiv" skin="" name="headerAppendQuestionTopic" id="headerAppendQuestionTopics" style="display:none">
+                    <span id="_456_MARKSTART_" style="display:none"></span><span id="_456_MARKEND_" style="display:none"></span>
+                </div>
+                <div class="MT_10">
+                    <input type="text" class="TextInput F14 W658" id="headerSearchAppendQuestionTopicInput" searchinput="{SkinId:&#39;headerSearchAppendQuestionTopicDiv&#39;,Timeout:200,GetType:&#39;appendQuestionTopicSearch&#39;,Query:{type:&#39;Topic&#39;,isTopic:1},IsShowNull:1,ClientPath:&#39;Header.SelectAppendQuestionTopic&#39;}" defaultinput="" value="搜索话题">
+                    
+                </div>
+                <div class="MT_10 TR">
+                    <div class="FL F14C Gray40"><input type="checkbox" id="headerAppendQuestionIsAnonymous" class="ML_5"> 匿名</div>
+                    <div>
+                        <div onclick="Header.ShowAppendQuestion(0);" class="BtnGreen F14 MT_10">关闭</div>
+                        <div onclick="Header.AppendQuestion();" class="BtnGreen F14 MT_10">添加问题</div>
+                    </div>
+                </div>
+            </div>
+        </div><div class="PM W180" body="" id="headerUserMenu" style="position: absolute; z-index: 10001; left: 1000px; top: 69px; display: none;">
+            <span id="_457_MARKSTART_" style="display:none"></span>
+            <span id="_458_MARKSTART_" style="display:none"></span><span id="_458_MARKEND_" style="display:none"></span>
+            <a href="https://www.51nod.com/user/index.html#!userId=17515">
+                <div class="PMI F14 LS1 Gray88">
+                    <div class="FL PMIcon"></div>
+                    <div class="FL">我的动态</div>
+                </div>
+            </a>
+            <a href="https://www.51nod.com/message.html">
+                <div class="PMI F14 LS1 Gray88">
+                    <div class="FL PMIcon"><img src="./最大子段和 V2 问题 - 51Nod_files/message(1).png" alt=""></div>
+                    <div class="FL">私信(<span id="_459_MARKSTART_" style="display:none"></span>0<span id="_459_MARKEND_" style="display:none"></span>)</div>
+                </div>
+            </a>
+            <a href="https://www.51nod.com/user/mention.html#!userId=17515">
+                <div class="PMI F14 LS1 Gray88">
+                    <div class="FL PMIcon">
+                        <span id="_460_MARKSTART_" style="display:none"></span><span id="_460_MARKEND_" style="display:none"></span>
+                    </div>
+                    <div class="FL">@ 提到我</div>
+                </div>
+            </a>
+            <a href="https://www.51nod.com/payment.html">
+                <div class="PMI F14 LS1 Gray88">
+                    <div class="FL PMIcon"></div>
+                    <div class="FL">购买点头盾</div>
+                </div>
+            </a>
+            <a href="https://www.51nod.com/setting/index.html">
+                <div class="PMI F14 LS1 Gray88">
+                    <div class="FL PMIcon"><img src="./最大子段和 V2 问题 - 51Nod_files/settings.png" alt=""></div>
+                    <div class="FL">个人档案及设置</div>
+                </div>
+            </a>
+            <span id="_461_MARKSTART_" style="display:none"></span><span id="_461_MARKEND_" style="display:none"></span>
+            <a href="https://www.51nod.com/blacklist.html">
+                <div class="PMI F14 LS1 Gray88">
+                    <div class="FL PMIcon"></div>
+                    <div class="FL">黑名单</div>
+                </div>
+            </a>
+            <span id="_462_MARKSTART_" style="display:none"></span><span id="_462_MARKEND_" style="display:none"></span>
+            <a href="javascript:Header.Logout();">
+                <div class="PMI F14 LS1 Gray88">
+                    <div class="FL PMIcon"><img src="./最大子段和 V2 问题 - 51Nod_files/logout.png" alt=""></div>
+                    <div class="FL">退出</div>
+                </div>
+            </a>
+            <span id="_457_MARKEND_" style="display:none"></span>
+        </div><div class="PM W180" body="" id="headerContestMenu" onimage="{Id:&#39;headerContestImage&#39;}" style="position: absolute; z-index: 10001; left: 662px; top: 70px; display: none;">
+                <span id="_463_MARKSTART_" style="display:none"></span>
+                <a href="https://www.51nod.com/contest/user.html#!userId=17515">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"><img src="./最大子段和 V2 问题 - 51Nod_files/home(1).png" alt=""></div>
+                        <div class="FL">我的编程竞赛主页</div>
+                    </div>
+                </a>
+                <span id="_463_MARKEND_" style="display:none"></span>
+                <a href="https://www.51nod.com/contest/list.html">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">比赛列表(<span id="_464_MARKSTART_" style="display:none"></span>26<span id="_464_MARKEND_" style="display:none"></span>)</div>
+                    </div>
+                </a>
+                <span id="_465_MARKSTART_" style="display:none"></span>
+                <a href="https://www.51nod.com/contest/userSubmitList.html#!userId=17515">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">我的提交记录(<span id="_466_MARKSTART_" style="display:none"></span>0<span id="_466_MARKEND_" style="display:none"></span>)</div>
+                    </div>
+                </a>
+                <a href="https://www.51nod.com/contest/list.html#!type=Self">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"><img src="./最大子段和 V2 问题 - 51Nod_files/edit.png" alt="" title="我注册的比赛"></div>
+                        <div class="FL">我注册的比赛(<span id="_467_MARKSTART_" style="display:none"></span>0<span id="_467_MARKEND_" style="display:none"></span>)</div>
+                    </div>
+                </a>
+                <span id="_468_MARKSTART_" style="display:none"></span><span id="_468_MARKEND_" style="display:none"></span>
+                <span id="_465_MARKEND_" style="display:none"></span>
+                <a href="https://www.51nod.com/contest/rankList.html">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">排行榜</div>
+                    </div>
+                </a>
+            </div><div class="PM W180" body="" id="headerOnlineJudgeMenu" onimage="{Id:&#39;headerOnlineJudgeImage&#39;}" style="position: absolute; z-index: 10001; left: 742px; top: 70px; display: none;">
+                <span id="_469_MARKSTART_" style="display:none"></span>
+                <a href="https://www.51nod.com/onlineJudge/user.html#!userId=17515">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">我的编程挑战主页</div>
+                    </div>
+                </a>
+                <span id="_469_MARKEND_" style="display:none"></span>
+                <a href="https://www.51nod.com/onlineJudge/problemList.html">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"><img src="./最大子段和 V2 问题 - 51Nod_files/question.png" alt=""></div>
+                        <div class="FL">全部问题(<span id="_470_MARKSTART_" style="display:none"></span>547<span id="_470_MARKEND_" style="display:none"></span>)</div>
+                    </div>
+                </a>
+                <a href="https://www.51nod.com/onlineJudge/judgeStatus.html">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">Judge 状态</div>
+                    </div>
+                </a>
+                <span id="_471_MARKSTART_" style="display:none"></span>
+                <a href="https://www.51nod.com/onlineJudge/submitList.html#!userId=17515">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">我的提交记录(<span id="_472_MARKSTART_" style="display:none"></span>0<span id="_472_MARKEND_" style="display:none"></span>)</div>
+                    </div>
+                </a>
+                <a href="https://www.51nod.com/onlineJudge/focusProblem.html#!userId=17515">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">我关注的题目(<span id="_473_MARKSTART_" style="display:none"></span>0<span id="_473_MARKEND_" style="display:none"></span>)</div>
+                    </div>
+                </a>
+                <span id="_471_MARKEND_" style="display:none"></span>
+                <a href="https://www.51nod.com/onlineJudge/expiredProblemList.html">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"></div>
+                        <div class="FL">已淘汰的问题</div>
+                    </div>
+                </a>
+                <a href="https://www.51nod.com/onlineJudge/rankList.html">
+                    <div class="PMI F14 LS1 Gray88">
+                        <div class="FL PMIcon"><img src="./最大子段和 V2 问题 - 51Nod_files/medal.png" alt=""></div>
+                        <div class="FL">排行榜</div>
+                    </div>
+                </a>
+            </div><div class="PM F12B Gray80 W300" body="" id="headerNotices" onimage="{Id:&#39;headerNoticeImage&#39;}" style="display:none">
+                <span id="_474_MARKSTART_" style="display:none"></span><span id="_474_MARKEND_" style="display:none"></span>
+                <div class="M_5">
+                    <a href="javascript:Header.ReadNotices();" class="F12 Gray70">这 <span id="_475_MARKSTART_" style="display:none"></span>0<span id="_475_MARKEND_" style="display:none"></span> 条已经搞定了 <img src="./最大子段和 V2 问题 - 51Nod_files/ok.png" alt=""></a>
+                </div>
+            </div><div class="PMB" body="" skin="" id="headerAppendQuestionRemarkEditorButtonInsertCodeType" style="display:none">
+    
+</div><div class="ColorPanel" body="" skin="" id="headerAppendQuestionRemarkEditorButtonColorMenu" style="display:none">
+    
+</div><div class="W600" body="" skin="" id="headerSearchAppendQuestionDiv" style="display:none">
+                        <div class="PM"></div>
+                    </div><div class="W600" body="" skin="" id="headerSearchAppendQuestionTopicDiv" style="display:none">
+    <div class="PM">
+        
+        <div><div onclick="Header.CreateTopic(&#39;&#39;);">添加  话题</div></div>
+        
+        
+    </div>
+</div><div class="PopupWin W720" id="reworkTopics" body="" skin="" floatcenter="{AutoClass:&#39;ShowWin&#39;}">
+        <div class="PHead">
+            <a href="javascript:Topics.Show();"><div class="FR M_10"><img src="./最大子段和 V2 问题 - 51Nod_files/wrong.png" alt="" class="HO08 Pointer"></div></a>
+            <div class="P_10 F20 White ML_10">修改话题</div>
+        </div>
+        <div class="M_20">
+            <div class="MT_10 F18C Gray40 IB">选择话题</div>
+            <span id="_476_MARKSTART_" style="display:none"></span><span id="_476_MARKEND_" style="display:none"></span>
+            <div class="MT_10">
+                <input id="searchReworkTopicInput" searchinput="{SkinId:&#39;searchReworkTopicDiv&#39;,Timeout:200,GetType:&#39;reworkTopicSearch&#39;,Query:{searchType:&#39;topic&#39;,isTopic:1},IsShowNull:1,ClientPath:&#39;Topics.Select&#39;}" defaultinput="" value="搜索话题" class="TextInput F16 W658">
+            </div>
+            <div class="MT_10 TR">
+                <a href="javascript:Topics.Show();"><div class="BtnGreen F14 MT_10">关闭</div></a>
+                <a href="javascript:Topics.Rework();"><div class="BtnGreen F14 MT_10">确定</div></a>
+            </div>
+            <div></div>
+        </div>
+    </div><div class="W600 TL" body="" skin="" id="searchReworkTopicDiv" style="display:none">
+    <div class="PM">
+        
+        <div><div onclick="Topics.Create(&#39;&#39;);">添加  话题</div></div>
+        
+        
+    </div>
+</div><div id="themeMenu" body="" skin="" style="display:none">
+                            <!--XXX-->
+                            <span id="_477_MARKSTART_" style="display:none"></span><span id="_477_MARKEND_" style="display:none"></span>
+                        </div><div id="languageMenu" body="" skin="" style="display:none" class="PMB W250 TL">
+    <a href="javascript:Problem.ChangeLanguage(&#39;C&#39;);"><div class="PMBI F16C Gray78 IB W100">C</div></a><a href="javascript:Problem.ChangeLanguage(&#39;C11&#39;);"><div class="PMBI F16C Gray78 IB W100">C&nbsp;11</div></a><a href="javascript:Problem.ChangeLanguage(&#39;CPlus&#39;);"><div class="PMBI F16C Gray78 IB W100">C++</div></a><a href="javascript:Problem.ChangeLanguage(&#39;CPlus11&#39;);"><div class="PMBI F16C Gray78 IB W100">C++&nbsp;11</div></a><a href="javascript:Problem.ChangeLanguage(&#39;VCPlus&#39;);"><div class="PMBI F16C Gray78 IB W100">Visual&nbsp;C++</div></a><a href="javascript:Problem.ChangeLanguage(&#39;CSharp&#39;);"><div class="PMBI F16C Gray78 IB W100">C#</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Java&#39;);"><div class="PMBI F16C Gray78 IB W100">Java</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Python2&#39;);"><div class="PMBI F16C Gray78 IB W100">Python2</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Python3&#39;);"><div class="PMBI F16C Gray78 IB W100">Python3</div></a><a href="javascript:Problem.ChangeLanguage(&#39;PyPy2&#39;);"><div class="PMBI F16C Gray78 IB W100">PyPy2</div></a><a href="javascript:Problem.ChangeLanguage(&#39;PyPy3&#39;);"><div class="PMBI F16C Gray78 IB W100">PyPy3</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Ruby&#39;);"><div class="PMBI F16C Gray78 IB W100">Ruby</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Php&#39;);"><div class="PMBI F16C Gray78 IB W100">PHP</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Haskell&#39;);"><div class="PMBI F16C Gray78 IB W100">Haskell</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Scala&#39;);"><div class="PMBI F16C Gray78 IB W100">Scala</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Javascript&#39;);"><div class="PMBI F16C Gray78 IB W100">Javascript</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Go&#39;);"><div class="PMBI F16C Gray78 IB W100">Go</div></a><a href="javascript:Problem.ChangeLanguage(&#39;OC&#39;);"><div class="PMBI F16C Gray78 IB W100">Objective-C</div></a><a href="javascript:Problem.ChangeLanguage(&#39;Pascal&#39;);"><div class="PMBI F16C Gray78 IB W100">Pascal</div></a>
+</div><span id="_1_MARKEND_" style="display:none"></span></body></html>

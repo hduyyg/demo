@@ -1,0 +1,14 @@
+问题D:　Sramoc问题 ( Sramoc Problem )
+问题描述：
+Sramoc ( K , M ) 表示用数字0、1、2…、K-1组成的自然数中能被M整除的最小数。给定 K、M，求Sramoc ( K,M )。例如 K=2，M=7的时候，Sramoc( 2 , 7 ) = 1001。
+
+输入格式：
+从文件SRAMOC.DAT读入数据。第一行为两个整数K、M满足2<=K<=10、1<=M<=1000。
+
+输出格式：
+输出Sramoc(K,M) 到 SRAMOC.OUT。
+
+样例
+
+SRAMOC.DAT	SRAMOC.OUT
+2 7	1001

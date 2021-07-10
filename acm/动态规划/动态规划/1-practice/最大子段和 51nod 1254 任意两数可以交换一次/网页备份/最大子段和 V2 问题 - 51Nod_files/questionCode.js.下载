@@ -1,0 +1,3144 @@
+'use strict';
+var fastCSharp;
+(function (fastCSharp) {
+	var Cookie = (function () {
+		function Cookie(Parameter) {
+			fastCSharp.Pub.GetParameter(this, Cookie.DefaultParameter, Parameter);
+		}
+		Cookie.prototype.Write = function (Value) {
+			this.WriteCookie(Value);
+		};
+		Cookie.prototype.WriteCookie = function (Value) {
+			var Cookie = Value.Name.Escape() + '=' + (Value.Value == null ? '.' : Value.Value.toString().Escape()), Expires = Value.Expires;
+			if (Value.Value == null)
+				Expires = new Date;
+			else if (!Expires && this.Expires)
+				Expires = (new Date).AddMilliseconds(this.Expires);
+			if (Expires)
+				Cookie += '; expires=' + Expires['toGMTString']();
+			var Path = Value.Path || this.Path;
+			if (Path)
+				Cookie += '; path=' + Path;
+			var Domain = Value.Domain || this.Domain;
+			if (Domain)
+				Cookie += '; domain=' + Domain;
+			var Secure = Value.Secure || this.Secure;
+			if (Secure)
+				Cookie += '; secure=' + Secure;
+			document.cookie = Cookie;
+		};
+		Cookie.prototype.Read = function (Name, DefaultValue) {
+			if (DefaultValue === void 0) { DefaultValue = null; }
+			for (var Values = document.cookie.split('; '), Value = null, Index = Values.length; --Index >= 0 && Value == null;) {
+				var IndexOf = Values[Index].indexOf('=');
+				if (window['unescape'](Values[Index].substring(0, IndexOf)) == Name)
+					Value = window['unescape'](Values[Index].substring(IndexOf + 1));
+			}
+			return Value || DefaultValue;
+		};
+		Cookie.prototype.ReadJson = function (Name, DefaultValue) {
+			var Value = this.Read(Name, null);
+			return Value ? eval('(' + Value + ')') : DefaultValue;
+		};
+		Cookie.DefaultParameter = { Expires: null, Path: '/', Domain: location.hostname, Secure: null };
+		Cookie.Default = new Cookie({ Expires: 24 * 3600 * 1000 });
+		return Cookie;
+	}());
+	fastCSharp.Cookie = Cookie;
+})(fastCSharp || (fastCSharp = {}));
+
+
+var JudgeCookie={
+Get:function()
+	{
+	var Value=fastCSharp.Cookie.Default.ReadJson('client_oj');//theme:'eclipse'
+	if(Value&&Value.isPublic==null)	Value.isPublic=1;
+	return Value||{isPublic:1,language:'CPlus'};
+	},
+Set:function(Value)
+	{
+	if(Value.isPublic==null)	Value.isPublic=this.Get().isPublic;
+	fastCSharp.Cookie.Default.Write({Name:'client_oj',Value:fastCSharp.Pub.ToJson(Value),Expires:(new Date).AddDays(365)});
+	}
+		};
+var fastCSharp;
+(function (fastCSharp) {
+	var MouseMenu = (function () {
+		function MouseMenu(Parameter) {
+			fastCSharp.Pub.GetParameter(this, MouseMenu.DefaultParameter, Parameter);
+			fastCSharp.Pub.GetEvents(this, MouseMenu.DefaultEvents, Parameter);
+			this.HideFunction = fastCSharp.Pub.ThisFunction(this, this.Hide);
+			this.MouseOutFunction = fastCSharp.Pub.ThisFunction(this, this.MouseOut);
+			this.Start(this.Event || fastCSharp.DeclareEvent.Default);
+		}
+		MouseMenu.prototype.Start = function (Event) {
+			if (!Event.IsGetOnly) {
+				this.OnStart.Function(this);
+				var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+				if (Element != this.Element) {
+					this.Element = Element;
+					fastCSharp.HtmlElement.$AddEvent(Element, ['mouseout'], this.MouseOutFunction);
+					if (this.IsMouseMove)
+						fastCSharp.HtmlElement.$AddEvent(Element, ['mousemove'], fastCSharp.Pub.ThisEvent(this, this.ReShow));
+					this.CheckMenuParameter(true);
+				}
+				this.ClearInterval();
+				this.IsOver = true;
+				this.Show(Event);
+			}
+		};
+		MouseMenu.prototype.CheckMenuParameter = function (IsStart) {
+			if (IsStart === void 0) { IsStart = false; }
+			var Element = fastCSharp.HtmlElement.$Id(this.MenuId);
+			if (Element.Element0()) {
+				var Parameter = fastCSharp.HtmlElement.$Attribute(Element.Element0(), 'mousemenu');
+				if (Parameter != null) {
+					var Id = eval('(' + Parameter + ')').Id;
+					if (Id != this.Id) {
+						Parameter = null;
+						var Menu = fastCSharp.Declare.Getters['MouseMenu'](Id, true);
+						if (Menu) {
+							Menu.Remove();
+							Element.Set('mousemenu', '{Id:"' + this.Id + '"}');
+							return;
+						}
+					}
+				}
+				if (IsStart) {
+					if (Parameter == null)
+						Element.Set('mousemenu', '{Id:"' + this.Id + '"}');
+					Element.AddEvent('mouseout', this.MouseOutFunction);
+				}
+			}
+		};
+		MouseMenu.prototype.Show = function (Event) {
+			var Menu = fastCSharp.HtmlElement.$Id(this.MenuId), Skin;
+			if (this.IsMove)
+				Menu.Style('position', 'absolute').Style('zIndex', fastCSharp.HtmlElement.ZIndex + this.ZIndex);
+			if (this.SkinView)
+				Skin = fastCSharp.Skin.Skins[this.MenuId];
+			var IsShow = this.ShowViewFunctionName == null || this.SkinView[this.ShowViewFunctionName]();
+			if (Skin && this.ShowView != this.SkinView) {
+				this.ShowView = this.SkinView;
+				if (IsShow)
+					Skin.Show(this.SkinView);
+			}
+			if (this.IsShow && IsShow)
+				Menu.Display(1);
+			var Element = fastCSharp.HtmlElement.$Id(this.Id);
+			if (this.OutClassName)
+				Element.RemoveClass(this.OutClassName);
+			if (this.OverClassName)
+				Element.AddClass(this.OverClassName);
+			if (this.IsMove)
+				this.ReShow(Event, Element);
+			this.OnShowed.Function();
+		};
+		MouseMenu.prototype.MouseOut = function () {
+			this.IsOver = false;
+			this.ClearInterval();
+			this.HideInterval = setTimeout(this.HideFunction, this.Timeout);
+		};
+		MouseMenu.prototype.ClearInterval = function () {
+			if (this.HideInterval) {
+				clearTimeout(this.HideInterval);
+				this.HideInterval = 0;
+			}
+		};
+		MouseMenu.prototype.Hide = function () {
+			this.ClearInterval();
+			var Element = fastCSharp.HtmlElement.$Id(this.Id);
+			if (this.OverClassName)
+				Element.RemoveClass(this.OverClassName);
+			if (this.OutClassName)
+				Element.AddClass(this.OutClassName);
+			if (this.IsShow)
+				fastCSharp.HtmlElement.$Id(this.MenuId).Display(0);
+			this.ShowView = null;
+		};
+		MouseMenu.prototype.Remove = function () {
+			this.ClearInterval();
+			this.ShowView = null;
+			var Element = fastCSharp.HtmlElement.$Id(this.Id);
+			Element.DeleteEvent('mouseout', this.MouseOutFunction);
+			fastCSharp.HtmlElement.$Id(this.MenuId).Set('mousemenu', '').DeleteEvent('mouseout', this.MouseOutFunction);
+			this.Element = null;
+		};
+		MouseMenu.prototype.ReShow = function (Event, Element) {
+			this.OnMove.Function(Event, this);
+			this['To' + (this.Type || 'Mouse')](Event, Element);
+		};
+		MouseMenu.prototype.CheckScroll = function (Left, Top, XY) {
+			if (XY === void 0) { XY = null; }
+			if (this.Left)
+				Left += this.Left;
+			if (this.Top)
+				Top += this.Top;
+			var Menu = fastCSharp.HtmlElement.$Id(this.MenuId);
+			if (this.IsCheckScroll) {
+				var ScrollLeft = fastCSharp.HtmlElement.$GetScrollLeft(), ScrollTop = fastCSharp.HtmlElement.$GetScrollTop();
+				if (XY) {
+					var Width = fastCSharp.HtmlElement.$Width(Menu.Element0()), Height = fastCSharp.HtmlElement.$Height(Menu.Element0());
+					if (Width) {
+						var ClientWidth = fastCSharp.HtmlElement.$Width() + ScrollLeft;
+						if (ClientWidth > XY.Left && Left > (ClientWidth -= Width))
+							Left = ClientWidth;
+					}
+					if (Height) {
+						var ClientHeight = fastCSharp.HtmlElement.$Height() + ScrollTop;
+						if (ClientHeight > XY.Top && Top > (ClientHeight -= Height))
+							Top = ClientHeight;
+					}
+				}
+				if (Left < ScrollLeft)
+					Left = ScrollLeft;
+				if (Top < ScrollTop)
+					Top = ScrollTop;
+			}
+			Menu.ToXY(Left, Top);
+		};
+		MouseMenu.prototype.ToMouse = function (Event, Element) {
+			this.CheckScroll(Event.clientX, Event.clientY);
+		};
+		MouseMenu.prototype.ToTopLeft = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left, XY.Top - fastCSharp.HtmlElement.$Height(fastCSharp.HtmlElement.$IdElement(this.MenuId)), XY);
+		};
+		MouseMenu.prototype.ToTopRight = function (Event, Element) {
+			var Menu = fastCSharp.HtmlElement.$Id(this.MenuId), XY = Element.XY0();
+			this.CheckScroll(XY.Left + fastCSharp.HtmlElement.$Width(Element.Element0()) - fastCSharp.HtmlElement.$Width(Menu.Element0()), XY.Top - fastCSharp.HtmlElement.$Height(Menu.Element0()), XY);
+		};
+		MouseMenu.prototype.ToTop = function (Event, Element) {
+			var Menu = fastCSharp.HtmlElement.$Id(this.MenuId), XY = Element.XY0();
+			this.CheckScroll(XY.Left + (fastCSharp.HtmlElement.$Width(Element.Element0()) - fastCSharp.HtmlElement.$Width(Menu.Element0())) / 2, XY.Top - fastCSharp.HtmlElement.$Height(Menu.Element0()), XY);
+		};
+		MouseMenu.prototype.ToBottomLeft = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left, XY.Top + fastCSharp.HtmlElement.$Height(Element.Element0()), XY);
+		};
+		MouseMenu.prototype.ToBottomRight = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left + fastCSharp.HtmlElement.$Width(Element.Element0()) - fastCSharp.HtmlElement.$Width(fastCSharp.HtmlElement.$IdElement(this.MenuId)), XY.Top + fastCSharp.HtmlElement.$Height(Element.Element0()), XY);
+		};
+		MouseMenu.prototype.ToBottom = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left + (fastCSharp.HtmlElement.$Width(Element.Element0()) - fastCSharp.HtmlElement.$Width(fastCSharp.HtmlElement.$IdElement(this.MenuId))) / 2, XY.Top + fastCSharp.HtmlElement.$Height(Element.Element0()), XY);
+		};
+		MouseMenu.prototype.ToLeftTop = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left - fastCSharp.HtmlElement.$Width(fastCSharp.HtmlElement.$IdElement(this.MenuId)), XY.Top, XY);
+		};
+		MouseMenu.prototype.ToLeftBottom = function (Event, Element) {
+			var Menu = fastCSharp.HtmlElement.$Id(this.MenuId), XY = Element.XY0();
+			this.CheckScroll(XY.Left - fastCSharp.HtmlElement.$Width(Menu.Element0()), XY.Top + fastCSharp.HtmlElement.$Height(Element.Element0()) - fastCSharp.HtmlElement.$Height(Menu.Element0()), XY);
+		};
+		MouseMenu.prototype.ToLeft = function (Event, Element) {
+			var Menu = fastCSharp.HtmlElement.$Id(this.MenuId), XY = Element.XY0();
+			this.CheckScroll(XY.Left - fastCSharp.HtmlElement.$Width(Menu.Element0()), XY.Top + (fastCSharp.HtmlElement.$Height(Element.Element0()) - fastCSharp.HtmlElement.$Height(Menu.Element0())) / 2, XY);
+		};
+		MouseMenu.prototype.ToRightTop = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left + fastCSharp.HtmlElement.$Width(Element.Element0()), XY.Top, XY);
+		};
+		MouseMenu.prototype.ToRightBottom = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left + fastCSharp.HtmlElement.$Width(Element.Element0()), XY.Top + fastCSharp.HtmlElement.$Height(Element.Element0()) - fastCSharp.HtmlElement.$Height(fastCSharp.HtmlElement.$IdElement(this.MenuId)), XY);
+		};
+		MouseMenu.prototype.ToRight = function (Event, Element) {
+			var XY = Element.XY0();
+			this.CheckScroll(XY.Left + fastCSharp.HtmlElement.$Width(Element.Element0()), XY.Top + (fastCSharp.HtmlElement.$Height(Element.Element0()) - fastCSharp.HtmlElement.$Height(fastCSharp.HtmlElement.$IdElement(this.MenuId))) / 2, XY);
+		};
+		MouseMenu.DefaultParameter = { Id: null, Event: null, MenuId: null, SkinView: null, ShowViewFunctionName: null, Timeout: 100, Type: null, Top: null, Left: null, OverClassName: null, OutClassName: null, IsCheckScroll: 1, IsShow: 1, IsMove: 1, IsMouseMove: 0, ZIndex: 1 };
+		MouseMenu.DefaultEvents = { OnStart: null, OnMove: null, OnShowed: null };
+		return MouseMenu;
+	}());
+	fastCSharp.MouseMenu = MouseMenu;
+	new fastCSharp.Declare(MouseMenu, 'MouseMenu', 'mouseover', 'ParameterId');
+})(fastCSharp || (fastCSharp = {}));
+
+var __extends = (this && this.__extends) || function (d, b) {
+	for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	function __() { this.constructor = d; }
+	d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var fastCSharp;
+(function (fastCSharp) {
+	var AceParameter = (function () {
+		function AceParameter() {
+		}
+		return AceParameter;
+	}());
+	var AceSessionIE6 = (function () {
+		function AceSessionIE6(Editor) {
+			this.Editor = Editor;
+		}
+		AceSessionIE6.prototype.getLength = function () {
+			var Code = fastCSharp.HtmlElement.$Id(this.Editor.Id).Value0();
+			return Code ? 0 : Code.length;
+		};
+		AceSessionIE6.prototype.getScreenLength = function () {
+			return 0;
+		};
+		AceSessionIE6.prototype.setMode = function (Mode) { };
+		AceSessionIE6.prototype.setTheme = function (Theme) { };
+		AceSessionIE6.prototype.setUseWrapMode = function (IsWrap) { };
+		AceSessionIE6.prototype.on = function (Name, Function) { };
+		return AceSessionIE6;
+	}());
+	var AceEditorIE6 = (function () {
+		function AceEditorIE6(Ace) {
+			this.Ace = Ace;
+			var Div = fastCSharp.HtmlElement.$Id(Ace.Id);
+			if (Ace.Code == null)
+				Ace.Code = Div.Text0();
+			Div.Html('<textarea id="' + (this.Id = 'AceIe6_' + Ace.Id) + '" style="width:' + Div.Width0() + 'px;height:' + Div.Height0() + 'px"></textarea>');
+			this.Session = new AceSessionIE6(this);
+		}
+		AceEditorIE6.prototype.getSession = function () {
+			return this.Session;
+		};
+		AceEditorIE6.prototype.setValue = function (Code) {
+			fastCSharp.HtmlElement.$SetValueById(this.Id, Code);
+		};
+		AceEditorIE6.prototype.getValue = function () {
+			return fastCSharp.HtmlElement.$GetValueById(this.Id);
+		};
+		AceEditorIE6.prototype.setTheme = function (Theme) { };
+		AceEditorIE6.prototype.setReadOnly = function (IsReadOnly) {
+			fastCSharp.HtmlElement.$Id(this.Id).Set('readOnly', IsReadOnly);
+		};
+		AceEditorIE6.prototype.moveCursorTo = function (Row, Col) { };
+		AceEditorIE6.prototype.focus = function () {
+			fastCSharp.HtmlElement.$Id(this.Id).Focus0();
+		};
+		AceEditorIE6.prototype.resize = function () { };
+		AceEditorIE6.prototype.on = function (Name, Function) { };
+		return AceEditorIE6;
+	}());
+	var Ace = (function (_super) {
+		__extends(Ace, _super);
+		function Ace(Parameter) {
+			_super.call(this);
+			fastCSharp.Pub.GetParameter(this, Ace.DefaultParameter, Parameter);
+			(this.OnChange = new fastCSharp.Events).Add(fastCSharp.Pub.ThisFunction(this, this.Resize));
+		}
+		Ace.prototype.Check = function () {
+			if (fastCSharp.HtmlElement.$Id(this.Id).Attribute0('ace'))
+				return this;
+			var Value = new Ace(this.Parameter);
+			Value.Show();
+			return Value;
+		};
+		Ace.prototype.Show = function () {
+			fastCSharp.Skin.Refresh();
+			var Div = fastCSharp.HtmlElement.$Id(this.Id);
+			if (Div.Element0()) {
+				if (Ace.IsIE6)
+					this.Editor = new AceEditorIE6(this);
+				else {
+					var Height = this.IsReadOnly ? 0 : Div.Height0();
+					(this.Editor = window['ace'].edit(this.Id)).setFontSize(this.FontSize);
+					var LineHeight = this.Editor.renderer.lineHeight || 14;
+					if (this.IsReadOnly) {
+						this.MinLength = 1;
+						Div.Style('height', (((this.LastLength = this.Editor.getSession().getLength()) + (this.IsWrap ? 0 : 1)) * LineHeight + 2) + 'px');
+					}
+					else {
+						if (!this.MinLength)
+							this.MinLength = Math.floor((Height + LineHeight - 1) / LineHeight);
+						Div.Style('height', (((this.LastLength = this.MinLength) + (this.IsWrap ? 0 : 1)) * LineHeight + 2) + 'px');
+					}
+					var Session = this.Editor.getSession();
+					Session.setMode('ace/mode/' + this.Mode);
+					Session.setUseWrapMode(this.IsWrap);
+					Session.on('change', this.OnChange.Function);
+					Session.on('changeFold', this.OnChange.Function);
+					this.Editor.setTheme('ace/theme/' + this.Theme);
+				}
+				if (this.Code != null)
+					this.Editor.setValue(this.Code);
+				this.Editor.setReadOnly(this.IsReadOnly);
+				this.Editor.moveCursorTo(0, 0);
+				if (!this.IsReadOnly)
+					this.Editor.focus();
+				Div.Set('ace', '1');
+			}
+		};
+		Ace.prototype.Set = function (Value) {
+			var Session = this.Editor.getSession();
+			if (Value.Mode)
+				Session.setMode('ace/mode/' + (this.Mode = Value.Mode));
+			if (Value.Theme)
+				Session.setTheme('ace/theme/' + (this.Theme = Value.Theme));
+			if (Value.Code != null)
+				this.Editor.setValue(Value.Code);
+			this.Editor.moveCursorTo(0, 0);
+			if (!this.IsReadOnly)
+				this.Editor.focus();
+		};
+		Ace.prototype.Resize = function () {
+			if (!Ace.IsIE6) {
+				var Length = this.Editor.getSession().getScreenLength();
+				if (this.MaxHeight) {
+					var MaxLength = Math.floor(((this.MaxHeight < 0 ? (fastCSharp.HtmlElement.$Height() + this.MaxHeight) : this.MaxHeight) - 2) / this.Editor.renderer.lineHeight) - (this.IsWrap ? 0 : 1);
+					if (Length > MaxLength)
+						Length = MaxLength;
+				}
+				if (Length < this.MinLength)
+					Length = this.MinLength;
+				if (Length != this.LastLength) {
+					fastCSharp.HtmlElement.$Id(this.Id).Style('height', (((this.LastLength = Length) + (this.IsWrap ? 0 : 1)) * this.Editor.renderer.lineHeight + 2) + 'px');
+					this.Editor.resize();
+				}
+			}
+		};
+		Ace.LoadIE6 = function () {
+			this.Load();
+			this.Show();
+		};
+		Ace.Load = function () {
+			fastCSharp.Pub.PageView.OnSet.Add(fastCSharp.Pub.ThisFunction(this, this.Show));
+		};
+		Ace.Show = function () {
+			if (this.IsIE6 || window['ace']) {
+				for (var Elements = fastCSharp.HtmlElement.$Name('ace').GetElements(), Index = 0; Index - Elements.length; ++Index) {
+					if (!fastCSharp.Pub.GetHtmlEditor(Elements[Index])) {
+						var Div = Elements[Index];
+						if (Div.offsetHeight) {
+							var Mode = fastCSharp.HtmlElement.$Attribute(Div, 'mode');
+							if (!Div.id && Mode) {
+								var Parameter = new AceParameter();
+								Parameter.Id = Div.id = 'fastCSharpAce' + (++this.Identity);
+								for (var CodeNodes = Div.childNodes, CodeIndex = 0; CodeIndex !== CodeNodes.length; ++CodeIndex) {
+									var Node = CodeNodes[CodeIndex];
+									if (Node.tagName) {
+										Parameter.Code = fastCSharp.HtmlElement.$GetText(Node).replace(/\xA0/g, ' ');
+										break;
+									}
+								}
+								Parameter.Mode = Mode;
+								Parameter.IsReadOnly = true;
+								new Ace(Parameter).Show();
+							}
+						}
+					}
+				}
+			}
+		};
+		Ace.LoadMoule = function (Function, IsLoad) {
+			if (IsLoad === void 0) { IsLoad = true; }
+			if (Function) {
+				if (this.IsIE6) {
+					if (IsLoad)
+						fastCSharp.Pub.OnLoad(Function, null, true);
+					else
+						Function();
+				}
+				else
+					fastCSharp.Pub.OnModule(['ace/ace'], Function, IsLoad);
+			}
+		};
+		Ace.CheckIE6 = function () {
+			if (fastCSharp.Pub.IE) {
+				var Version = navigator.appVersion.match(/MSIE\s+(\d+)/);
+				if (Version && Version.length == 2 && parseInt('0' + Version[1], 10) < 7) {
+					fastCSharp.Pub.OnLoad(this.LoadIE6, this, this.IsIE6 = true);
+					return;
+				}
+			}
+			fastCSharp.Pub.OnLoad(this.Load, this, true);
+			fastCSharp.Pub.OnModule(['ace/ace'], fastCSharp.Pub.ThisFunction(this, this.Show), true);
+		};
+		Ace.DefaultParameter = { Id: null, MinLength: null, MaxHeight: 0, FontSize: 12, Code: '', Mode: 'csharp', Theme: 'eclipse', IsWrap: true, IsReadOnly: false };
+		Ace.Identity = 0;
+		return Ace;
+	}(AceParameter));
+	fastCSharp.Ace = Ace;
+	fastCSharp.Ace.CheckIE6();
+})(fastCSharp || (fastCSharp = {}));
+
+
+fastCSharp.Ace.Modes=[
+	{type:'C#',mode:'csharp'},
+	{type:'C/C++',mode:'c_cpp'},
+	{type:'Java',mode:'java'},
+	{type:'Javascript',mode:'javascript'},
+	{type:'PHP',mode:'php'},
+	{type:'Python',mode:'python'},
+	{type:'Ruby',mode:'ruby'},
+	{type:'Haskell',mode:'haskell'},
+	{type:'Scala',mode:'scala'},
+	{type:'Go',mode:'golang'},
+	{type:'VB',mode:'vbscript'},
+	{type:'Xml',mode:'xml'},
+	{type:'Css',mode:'css'},
+	{type:'Sql',mode:'sql'},
+	{type:'Pascal',mode:'pascal'}];
+
+
+
+var Problem=Problem||{};
+fastCSharp.Pub.Copy(Problem,{
+AceTheme:['ambiance','chaos','chrome','clouds','clouds_midnight','cobalt','crimson_editor','dawn','dreamweaver','eclipse','github','idle_fingers',
+	'katzenmilch','kr','kr_theme','kuroir','merbivore','merbivore_soft','monokai','mono_industrial','pastel_on_dark','solarized_dark','solarized_light',
+	'terminal','textmate','tomorrow','tomorrow_night','tomorrow_night_blue','tomorrow_night_bright','tomorrow_night_eighties','twilight',
+	'vibrant_ink','xcode'],
+IsLoaded:0,
+Load:function()
+	{
+	if(fastCSharp.Skin.Body.Data.currentUser)
+		{
+		if(!this.IsLoaded)
+			{
+			this.IsLoaded=1;
+			fastCSharp.HtmlElement.$AddEvent(document,['keydown'],fastCSharp.Pub.ThisEvent(this,this.KeyDown));
+			fastCSharp.Pub.OnBeforeUnLoad.Add(fastCSharp.Pub.ThisFunction(this,this.SaveDrafe));
+			}
+		this.LoadForm();
+		}
+	},
+LoadForm:function()
+	{
+	if(this.DraftInterval)
+		{
+		clearInterval(this.DraftInterval);
+		this.DraftInterval=null;
+		}
+	this.ProgramDraft='';
+	var SkinValue=fastCSharp.Skin.Body.Data;
+	if(SkinValue.currentUser)
+		{
+		var Value=JudgeCookie.Get();
+		this.EditorValue={Language:diantou.judge.GetLanguage(this.Language=Value.language),Theme:Value.theme,IsPublic:Value.isPublic==null?1:Value.isPublic,isBaseGroup:SkinValue.isBaseGroup,TimeLimit:fastCSharp.Skin.Body.Data.problem.TimeLimit};
+		this.EditorValue.TimeLimit=SkinValue.problem.TimeLimit*this.EditorValue.Language.TimeBase/2;
+		this.EditorValue.MemoryLimit=(SkinValue.problem.MemoryLimit>>11)*this.EditorValue.Language.MemoryBase;
+		fastCSharp.Skin.Skins.editorLanguage.Show(this.EditorValue);
+		fastCSharp.HtmlElement.$Id('languageMenu').Html(fastCSharp.Skin.Skins.languageMenu.ToHtml(diantou.judge.Languages));
+		if(this.Ace)
+			{
+			if(this.Ace!=1)
+				{
+				this.Ace=this.Ace.Check();
+				this.SetTheme();
+				this.SetMode();
+				this.LoadDraft();
+				}
+			}
+		else	{
+			this.Ace=1;
+			fastCSharp.Ace.LoadMoule(fastCSharp.Pub.ThisFunction(this,this.OnLoadAce));
+			}
+		}
+	},
+LoadDraft:function()
+	{
+	LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.OnGetDraft),'judge.GetDraft',{problemId:fastCSharp.Skin.Body.Data.problem.Id});
+	},
+OnLoadAce:function()
+	{
+	if(fastCSharp.HtmlElement.$Id('programContent').Element0())
+		{
+		(this.Ace=new fastCSharp.Ace({Id:'programContent',Code:''})).Show();
+		this.SetTheme();
+		this.SetMode();
+		if(fastCSharp.Pub.Query.judgeId)	this.LoadJudge();
+		else	this.LoadDraft();
+		this.Ace.Editor.getSession().on('change',fastCSharp.Pub.ThisFunction(this,this.CheckDraft));
+		}
+	},
+LoadJudge:function()
+	{
+	var ProblemId=fastCSharp.Skin.Body.Data.problem.Id;
+	LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.OnGetJudge,[ProblemId]),'judge.Get',{id:fastCSharp.Pub.Query.judgeId,problemId:ProblemId});
+	},
+ChangeTheme:function(Theme)
+	{
+	if(this.EditorValue.Theme!=Theme)
+		{
+		this.EditorValue.Theme=Theme;
+		if(this.Ace&&this.Ace!=1)	this.SetTheme();
+		}
+	},
+SetTheme:function()
+	{
+	this.Ace.Editor.setTheme('ace/theme/'+(this.EditorValue.Theme||'eclipse'));
+	},
+ChangeLanguage:function(Language)
+	{
+	if(this.EditorValue.Language.Type!=Language)
+		{
+		var Problem=fastCSharp.Skin.Body.Data.problem;
+		this.EditorValue.Language=diantou.judge.GetLanguage(Language);
+		this.EditorValue.TimeLimit=Problem.TimeLimit*this.EditorValue.Language.TimeBase/2;
+		this.EditorValue.MemoryLimit=(Problem.MemoryLimit>>11)*this.EditorValue.Language.MemoryBase;
+		fastCSharp.Skin.Skins.editorLanguage.Show(this.EditorValue);
+		if(this.Ace&&this.Ace!=1)	this.SetMode();
+		}
+	fastCSharp.HtmlElement.$Id('languageMenu').Display(0);
+	},
+SetMode:function()
+	{
+	this.Ace.Editor.getSession().setMode('ace/mode/'+this.EditorValue.Language.AceMode);
+	},
+KeyDown:function(Event)
+	{
+	if(Event.keyCode==9)
+		{
+		var Element=Event.$Name('name','programContent');
+		if(Element)
+			{
+			Event.CancelBubble();
+			fastCSharp.HtmlElement.$Paste(Element,'\t');
+			}
+		}
+	},
+OnGetJudge:function(Value,ProblemId)
+	{
+	if(Value.Return&&ProblemId==fastCSharp.Skin.Body.Data.problem.Id)
+		{
+		this.ChangeLanguage(Value.language);
+		this.Ace.Editor.setValue(this.ProgramDraft=Value.Return);
+		this.Ace.Editor.moveCursorTo(0,0);
+		}
+	},
+OnGetDraft:function(Value)
+	{
+	if((Value=Value.Return)&&Value.ProblemId==fastCSharp.Skin.Body.Data.problem.Id)
+		{
+		this.ChangeLanguage(Value.Language);
+		this.Ace.Editor.setValue(this.ProgramDraft=Value.Content);
+		this.Ace.Editor.moveCursorTo(0,0);
+		}
+	},
+CheckDraft:function()
+	{
+	if(!this.DraftInterval)
+		{
+		var Content=this.Ace.Editor.getValue();
+		if(Content&&Content.length<=(64<<10)&&Content!=this.ProgramDraft)	setTimeout(fastCSharp.Pub.ThisFunction(this,this.SaveDrafe),30*1000);
+		}
+	},
+SaveDrafe:function()
+	{
+	var Content=this.Ace.Editor.getValue();
+	if(Content&&Content.length<=(64<<10)&&Content!=this.ProgramDraft)
+		{
+		LoadAjax.Post(null,'judge.SaveDraft',{value:{ProblemId:fastCSharp.Skin.Body.Data.problem.Id,Language:this.EditorValue.Language.Type,Content:this.ProgramDraft=Content}});
+		}
+	},
+CheckLanguage:function(Code,Language)
+	{
+	switch((Code=Code.replace(/^([\r\n\s]*\/\/[^\n]*\n[\r\n\s]*)+/g,'')).charCodeAt(0))
+		{
+		case 35:
+			switch(Code.substring(0,8))
+				{
+				case '#include':
+				var Is11=Code.match(/#include\s+[\<"](stdalign|stdatomic|stdnoreturn|threads|uchar)\.h[\>"]/g),IsPlus=Code.indexOf('using namespace	')>=0&&Code.indexOf('std::')>=0;
+				switch(Language)
+					{
+					case 'C':	return IsPlus?(Is11?'CPlus11':'CPlus'):(Is11?'C11':'C');
+					case 'C11':	return IsPlus?'CPlus11':'C11';
+					case 'CPlus':	return Is11?'CPlus11':'CPlus';
+					case 'CPlus11':	return Language;
+					case 'VCPlus':	return Code.match(/#include\s+[\<"]bits\/stdc\+\+\.h[\>"]/g)?'CPlus':Language;
+					}
+				if(!IsPlus&&!Code.match(/#include\s+[\<"](iostream|cstring)[\>"]/g)&&(Code.match(/#include\s+[\<"](iostream|string)\.h[\>"]/g)||Code.match(/(malloc|free)\(/g)))	return Is11?'C11':'C';
+				return Is11?'CPlus11':'CPlus';
+				case '#import ':	return 'OC';
+				}
+			break;
+		case 105:
+			switch(Code.substring(0,12))
+				{
+				case 'import java.':	return 'Java';
+				case 'import scala':	return 'Scala';
+				}
+			if(Code.substring(0,10)=='import sys')
+				{
+				switch(Language)
+					{
+					case 'Python2': case 'PyPy2':	return Language;
+					case 'Python3': case 'PyPy3':	return Code.indexOf('raw_input(')>=0?'Python2':Language;
+					}
+				return 'Python3';
+				}
+		case 117:	if(Code.substring(0,12)=='using System')	return 'CSharp';
+		case 112:	if(Code.substring(0,12)=='package main')	return 'Go';
+		case 109:	if(Code.substring(0,9)=='main = do'||Code.substring(0,7)=='main=do')	return 'Haskell';
+		case 60:	if(Code.substring(0,5)=='<?php')	return 'Php';
+		}
+	if(Code.match(/[\r\n]+\s*begin\s*[\r\n]+/gi)&&(Code.match(/[\r\n]+\s*end[;\.]?\s*[\r\n]+/gi)||Code.match(/[\r\n]+\s*end[;\.]?\s*$/gi)))	return 'Pascal';
+	if(Code.match(/process\.std(in|out)\./g))	return 'Javascript';
+	if(Code.match(/scala\.io\./g))	return 'Scala';
+	if(Code.match(/gets\./g)&&Code.match(/puts /g))	return 'Ruby';
+	if(Code.indexOf('raw_input\(')>=0)	return Language=='PyPy2'?'PyPy2':'Python2';
+	return Language;
+	},
+JudgeValue:function()
+	{
+	var ProgramContent=this.Ace.Editor.getValue();
+	if(ProgramContent)
+		{
+		if(ProgramContent.length<=(64<<10))
+			{
+			var Value={ProblemId:fastCSharp.Skin.Body.Data.problem.Id,Language:this.EditorValue.Language.Type,IsPublic:this.EditorValue.isBaseGroup?this.EditorValue.isPublic:(fastCSharp.HtmlElement.$GetCheckedById('isPublic')?1:0)};
+			JudgeCookie.Set({language:Value.Language,isPublic:Value.IsPublic});//,theme:this.EditorValue.Theme
+			fastCSharp.Skin.BodyData('isSubmit').$Set(1);
+			var Language=this.CheckLanguage(Value.ProgramContent=ProgramContent,Value.Language);
+			if(Language!=Value.Language&&confirm('检测到你的代码具有 '+diantou.judge.GetLanguage(Language).ShowName+' 特征，是否确认使用 '+diantou.judge.GetLanguage(Language).ShowName+' 替换您选择的 '+diantou.judge.GetLanguage(Value.Language).ShowName+' ？'))	this.ChangeLanguage(Value.Language=Language);
+			return Value;
+			}
+		else	alert('代码长度不能超过64KB');
+		}
+	else	alert('请输入代码内容');
+	},
+Run:function()
+	{
+	var Value=this.JudgeValue();
+	if(Value)
+		{
+		fastCSharp.Skin.Skins.runResult.Hide();
+		LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnRun,[Value]),'judge.Run',{value:Value});
+		}
+	},
+OnRun:function(Value,JudgeValue)
+	{
+	fastCSharp.Skin.BodyData('isSubmit').$Set(0);
+	if(Value=Value.Return)
+		{
+		if(Value.IsTimeError)
+			{
+			alert('提交过于频繁，请休息几秒钟');
+			return;
+			}
+		else if(Value.IsJudge)
+			{
+			var SkinValue=fastCSharp.Skin.Body.Data,Judge=Value.Judge;
+			Value.IsInputTestData=Value.IsOutputTestData=0;
+			Value.Problem=SkinValue.problem;
+			if(Judge.State=='Unkown'||Judge.State=='CrashNew')	Value.IsInputTestData=1;
+			else if(Judge.Result!='DataFileLost')
+				{
+				Value.IsInputTestData=1;
+				if(Judge.Result=='Running'||Judge.Result=='Accepted'||Judge.Result=='WrongAnswer'||Judge.Result=='MemoryLimitExceed'||Judge.Result=='TimeLimitExceed'||Judge.Result=='Retry')	Value.IsOutputTestData=1;
+				}
+			if((Value.TestDataInput=SkinValue.TestDataInput)||SkinValue.TestDataOutput||!(Value.IsInputTestData+Value.IsOutputTestData))
+				{
+				Value.TestDataOutput=SkinValue.TestDataOutput;
+				fastCSharp.Skin.Skins.runResult.Show(Value);
+				}
+			else	LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.OnGetRunTest,[Value]),'problemTestData.GetTest1',{problemId:JudgeValue.ProblemId});
+			return;
+			}
+		}
+	alert('提交失败');
+	},
+OnGetRunTest:function(Value,View)
+	{
+	if(Value=Value.Return)
+		{
+		var SkinValue=fastCSharp.Skin.Body.Data;
+		if(Value.ProblemId==SkinValue.problem.Id)
+			{
+			SkinValue.TestDataInput=Value.Input;
+			SkinValue.TestDataOutput=Value.Output;
+			}
+		View.TestDataInput=Value.Input;
+		View.TestDataOutput=Value.Output;
+		fastCSharp.Skin.Skins.runResult.Show(View);
+		}
+	else	alert('提交失败');
+	},
+Judge:function()
+	{
+	var Value=this.JudgeValue();
+	if(Value)
+		{
+		fastCSharp.Skin.Skins.runResult.Hide();
+		LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnJudge),'judge.Append',{value:Value});
+		}
+	},
+OnJudge:function(Value)
+	{
+	if(Value.Return)	location=new diantou.judge({Id:Value.Return}).Path.SubmitDetail;
+	else	{
+		fastCSharp.Skin.BodyData('isSubmit').$Set(0);
+		alert(Value.isTimeError?'提交过于频繁，请休息几秒钟':'提交失败');
+		}
+	}
+		});
+var fastCSharp;
+(function (fastCSharp) {
+	var AutoHeight = (function () {
+		function AutoHeight(Parameter) {
+			fastCSharp.Pub.GetParameter(this, AutoHeight.DefaultParameter, Parameter);
+			var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+			if (this.LineHeight == null)
+				this.LineHeight = parseInt(0 + fastCSharp.HtmlElement.$AttributeOrStyle(Element, 'lineHeight'));
+			this.SetFunction = fastCSharp.Pub.ThisFunction(this, this.SetHeight);
+			this.Div = fastCSharp.HtmlElement.$Create('div').AddClass(Element.className).Display(0).To();
+			this.Start(this.Event || fastCSharp.DeclareEvent.Default);
+		}
+		AutoHeight.prototype.Start = function (Event) {
+			if (!Event.IsGetOnly) {
+				var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+				if (!this.Element || Element != this.Element) {
+					this.MinHeight = (this.Element = Element).scrollHeight;
+					fastCSharp.HtmlElement.$AddEvent(Element, ['blur'], fastCSharp.Pub.ThisFunction(this, this.Stop));
+					fastCSharp.HtmlElement.$AddEvent(Element, ['keypress', 'keyup'], this.SetFunction);
+					var Width = fastCSharp.HtmlElement.$Width(Element), Css = fastCSharp.HtmlElement.$Css(Element);
+					if (!fastCSharp.Pub.IsBorder) {
+						Width -= parseInt(0 + Css['border-left-width'], 10) + parseInt(0 + Css['border-right-width'], 10);
+						if (!fastCSharp.Pub.IsPadding)
+							Width -= parseInt(0 + Css['padding-left'], 10) + parseInt(0 + Css['padding-right'], 10);
+					}
+					this.Div.Style('width', Width + 'px');
+					if (this.Interval)
+						clearTimeout(this.Interval);
+					this.IsStart = false;
+				}
+				if (!this.IsStart) {
+					if (!this.Interval)
+						this.Interval = setTimeout(this.SetFunction, this.Timeout);
+					this.IsStart = true;
+				}
+			}
+		};
+		AutoHeight.prototype.SetHeight = function () {
+			if (this.IsStart) {
+				this.Div.Html(this.Element.value.ToHTML().replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />'));
+				var Height = this.Div.ScrollHeight0() + this.LineHeight;
+				if (this.MaxHeight && Height > this.MaxHeight)
+					Height = this.MaxHeight;
+				fastCSharp.HtmlElement.$SetStyle(this.Element, 'height', Math.max(Height, this.MinHeight) + 'px');
+				if (this.Interval)
+					clearTimeout(this.Interval);
+				this.Interval = setTimeout(this.SetFunction, this.Timeout);
+			}
+		};
+		AutoHeight.prototype.Stop = function () {
+			if (this.Interval) {
+				clearTimeout(this.Interval);
+				this.Interval = 0;
+			}
+			this.IsStart = false;
+		};
+		AutoHeight.DefaultParameter = { Id: null, Event: null, LineHeight: null, MaxHeight: 0, Timeout: 200 };
+		return AutoHeight;
+	}());
+	fastCSharp.AutoHeight = AutoHeight;
+	new fastCSharp.Declare(AutoHeight, 'AutoHeight', 'focus', 'Src');
+})(fastCSharp || (fastCSharp = {}));
+var fastCSharp;
+(function (fastCSharp) {
+	var OverDiv = (function () {
+		function OverDiv(Parameter) {
+			if (Parameter === void 0) { Parameter = null; }
+			fastCSharp.Pub.GetParameter(this, OverDiv.DefaultParameter, Parameter);
+			this.Id = '_' + (++fastCSharp.Pub.Identity) + '_OVER_';
+			this.Ids = [];
+		}
+		OverDiv.prototype.Show = function (Id, ZIndex) {
+			if (Id === void 0) { Id = null; }
+			if (ZIndex === void 0) { ZIndex = 0; }
+			if (Id) {
+				if (this.Ids.length) {
+					if (this.Ids[this.Ids.length - 1].Id != Id) {
+						var Index = this.Ids.IndexOf(function (Value) { return Value.Id == Id; });
+						if (Index + 1)
+							this.Ids.splice(Index, 1);
+						var Value = this.Ids[this.Ids.length - 1], Element = fastCSharp.HtmlElement.$Id(Value.Id);
+						if (!Value.ZIndex)
+							this.Ids[this.Ids.length - 1].ZIndex = Element.Style0('zIndex') || 0;
+						Element.Style('zIndex', -100);
+						this.Ids.push({ Id: Id, ZIndex: ZIndex || 0 });
+					}
+				}
+				else
+					this.Ids.push({ Id: Id, ZIndex: ZIndex || 0 });
+			}
+			var Element = fastCSharp.HtmlElement.$Id(this.Id);
+			if (Element.Element0())
+				Element.Display(1);
+			else
+				fastCSharp.HtmlElement.$Create('div').Style('zIndex', fastCSharp.HtmlElement.OverZIndex).Style('position', 'fixed').Styles('top,left', '0px').Styles('width,height', '100%').Style('backgroundColor', this.Color).Opacity(this.Opacity).Set('id', this.Id).To();
+		};
+		OverDiv.prototype.Hide = function (Id) {
+			if (Id === void 0) { Id = null; }
+			if (Id) {
+				if (this.Ids.length) {
+					if (this.Ids[this.Ids.length - 1].Id == Id) {
+						this.Ids.pop();
+						if (this.Ids.length) {
+							var Value = this.Ids[this.Ids.length - 1];
+							fastCSharp.HtmlElement.$Id(Value.Id).Style('zIndex', Value.ZIndex);
+						}
+					}
+					else
+						this.Ids.Remove(function (Value) { return Value.Id == Id; });
+				}
+			}
+			else {
+				while (this.Ids.length) {
+					var Value = this.Ids.pop();
+					fastCSharp.HtmlElement.$Id(Value.Id).Style('zIndex', Value.ZIndex);
+				}
+			}
+			if (!this.Ids.length)
+				fastCSharp.HtmlElement.$Id(this.Id).Display(0);
+		};
+		OverDiv.DefaultParameter = { Color: '#444444', Opacity: 90 };
+		OverDiv.Default = new OverDiv();
+		return OverDiv;
+	}());
+	fastCSharp.OverDiv = OverDiv;
+})(fastCSharp || (fastCSharp = {}));
+var fastCSharp;
+(function (fastCSharp) {
+	var FloatCenter = (function () {
+		function FloatCenter(Parameter) {
+			fastCSharp.Pub.GetParameter(this, FloatCenter.DefaultParameter, Parameter);
+			this.KeyDownFunction = fastCSharp.Pub.ThisEvent(this, this.KeyDown);
+			if (this.SkinView)
+				this.Skin = fastCSharp.Skin.Skins[this.Id] || new fastCSharp.Skin(this.Id);
+			if (fastCSharp.Pub.IsFixed) {
+				if (!this.AutoClass)
+					fastCSharp.HtmlElement.$Id(this.Id).Style('position', 'fixed').Style('top,left', '50%').Style('transform', 'translateX(-50%) translateY(-50%)');
+			}
+			else {
+				fastCSharp.HtmlElement.$Id(this.Id).Style('position', 'absolute');
+				this.ShowFunction = fastCSharp.Pub.ThisFunction(this, this.Show);
+				this.Hide();
+			}
+		}
+		FloatCenter.prototype.Show = function () {
+			var Element = fastCSharp.HtmlElement.$Id(this.Id);
+			if (fastCSharp.Pub.IsFixed) {
+				fastCSharp.OverDiv.Default.Show(this.Id, this.ZIndex || !this.AutoClass ? fastCSharp.HtmlElement.ZIndex + this.ZIndex : 0);
+				Element.Style('zIndex', fastCSharp.HtmlElement.ZIndex + this.ZIndex);
+				if (this.AutoClass) {
+					if (this.Skin)
+						this.Skin.SetHtml(this.SkinView);
+					Element.AddClass(this.AutoClass);
+				}
+				else {
+					if (this.Skin)
+						this.Skin.Show(this.SkinView);
+					else
+						Element.Display(1);
+				}
+			}
+			else {
+				fastCSharp.OverDiv.Default.Show();
+				if (this.Skin)
+					this.Skin.Show(this.SkinView);
+				else
+					Element.Display(1);
+				var Left = (fastCSharp.HtmlElement.$GetScrollLeft() + (fastCSharp.HtmlElement.$Width() - fastCSharp.HtmlElement.$Width(Element.Element0())) / 2), Top = (fastCSharp.HtmlElement.$GetScrollTop() + (fastCSharp.HtmlElement.$Height() - fastCSharp.HtmlElement.$Height(Element.Element0())) / 2);
+				Element.Style('zIndex', fastCSharp.HtmlElement.ZIndex + this.ZIndex).ToXY(Left < 0 ? 0 : Left, Top < 0 ? 0 : Top);
+				if (this.IsFixed) {
+					if (this.ShowInterval)
+						clearTimeout(this.ShowInterval);
+					this.ShowInterval = setTimeout(this.ShowFunction, this.Timeout);
+				}
+			}
+			if (this.IsEsc)
+				fastCSharp.HtmlElement.$(document.body).AddEvent('keydown', this.KeyDownFunction);
+		};
+		FloatCenter.prototype.Hide = function () {
+			fastCSharp.HtmlElement.$(document.body).DeleteEvent('keypress', this.KeyDownFunction);
+			var Element = fastCSharp.HtmlElement.$Id(this.Id);
+			if (fastCSharp.Pub.IsFixed) {
+				if (this.AutoClass) {
+					Element.RemoveClass(this.AutoClass);
+					Element.Style('zIndex', -100);
+				}
+				else
+					Element.Display(0);
+				fastCSharp.OverDiv.Default.Hide(this.Id);
+			}
+			else {
+				if (this.ShowInterval)
+					clearTimeout(this.ShowInterval);
+				this.ShowInterval = null;
+				Element.Display(0);
+				fastCSharp.OverDiv.Default.Hide();
+			}
+		};
+		FloatCenter.prototype.KeyDown = function (Event) {
+			if (Event.keyCode == 27) {
+				var Element = Event.$Name('floatcenter');
+				if (Element && Element.id == this.Id)
+					this.Hide();
+			}
+		};
+		FloatCenter.GetFloatCenters = function () {
+			if (!this.FloatCenters)
+				fastCSharp.Pub.OnLoadedHash.Add(fastCSharp.Pub.ThisFunction(this, this.GetFloatCenters));
+			this.FloatCenters = {};
+			for (var Childs = fastCSharp.HtmlElement.$('@floatcenter').GetElements(), Index = Childs.length; --Index >= 0;) {
+				var Element = Childs[Index], Parameter = fastCSharp.HtmlElement.$Attribute(Element, 'floatcenter');
+				(Parameter = Parameter ? eval('(' + Parameter + ')') : {}).Id = Element.id;
+				this.FloatCenters[Element.id] = new FloatCenter(Parameter);
+			}
+		};
+		FloatCenter.DefaultParameter = { Id: null, IsFixed: false, IsEsc: true, Timeout: 200, SkinView: null, ZIndex: 0, AutoClass: null };
+		return FloatCenter;
+	}());
+	fastCSharp.FloatCenter = FloatCenter;
+	fastCSharp.Pub.OnLoad(FloatCenter.GetFloatCenters, FloatCenter, true);
+})(fastCSharp || (fastCSharp = {}));
+var fastCSharp;
+(function (fastCSharp) {
+	var TextHegiht = (function () {
+		function TextHegiht(Parameter) {
+			fastCSharp.Pub.GetParameter(this, TextHegiht.DefaultParameter, Parameter);
+			this.HideId = this.TextId + 'Hide';
+			this.Start();
+		}
+		TextHegiht.prototype.Start = function () {
+			var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+			if (Element != this.Element) {
+				this.Element = Element;
+				fastCSharp.HtmlElement.$Create('span').Set('id', this.HideId).InsertBefore(fastCSharp.HtmlElement.$IdElement(this.TextId)).Display(0);
+				fastCSharp.HtmlElement.$Id(this.ShowButton).AddEvent('click', fastCSharp.Pub.ThisFunction(this, this.Show));
+				fastCSharp.HtmlElement.$Id(this.HideButton).AddEvent('click', fastCSharp.Pub.ThisFunction(this, this.Hide));
+				this.IsCheck = false;
+			}
+			if (!this.IsCheck) {
+				this.IsCheck = true;
+				if (fastCSharp.HtmlElement.$Id(this.Id).Height0() > this.Height) {
+					fastCSharp.HtmlElement.$Id(this.HideId).Html(fastCSharp.HtmlElement.$Id(this.TextId).Text0().Left(this.HideSize).ToHTML());
+					this[this.IsHide ? 'Hide' : 'Show'](1);
+				}
+			}
+		};
+		TextHegiht.prototype.Show = function (NoScroll) {
+			if (!TextHegiht.IsSetPageView) {
+				this.Hide(NoScroll, false);
+				TextHegiht.IsSetPageView = true;
+				fastCSharp.Skin.Body.OnSet.Function();
+				TextHegiht.IsSetPageView = false;
+			}
+		};
+		TextHegiht.prototype.Hide = function (NoScroll, IsHide) {
+			if (IsHide === void 0) { IsHide = true; }
+			this.IsHide = IsHide;
+			fastCSharp.HtmlElement.$Id(this.TextId).Display(!IsHide);
+			fastCSharp.HtmlElement.$Id(this.HideButton).Display(!IsHide);
+			fastCSharp.HtmlElement.$Id(this.HideId).Display(IsHide);
+			fastCSharp.HtmlElement.$Id(this.ShowButton).Display(IsHide);
+			if (!NoScroll)
+				fastCSharp.HtmlElement.$SetScrollTop(fastCSharp.HtmlElement.$Id(this.ScrollId || this.HideId).XY0().Top);
+		};
+		TextHegiht.CheckTextHegiht = function () {
+			if (!this.TextHegihts) {
+				this.TextHegihts = {};
+				fastCSharp.Skin.Body.OnSet.Add(fastCSharp.Pub.ThisFunction(this, this.CheckTextHegiht));
+			}
+			if (!this.IsSetPageView) {
+				for (var Elements = fastCSharp.HtmlElement.$('@textheight').GetElements(), Index = Elements.length; --Index >= 0;) {
+					var Element = Elements[Index], TestHeight = this.TextHegihts[Element.id];
+					if (TestHeight)
+						TestHeight.Start();
+					else {
+						var Parameter = eval('(' + fastCSharp.HtmlElement.$Attribute(Element, 'textheight') + ')');
+						Parameter.Id = Element.id;
+						this.TextHegihts[Element.id] = new TextHegiht(Parameter);
+					}
+				}
+			}
+		};
+		TextHegiht.DefaultParameter = { Id: null, Height: null, HideSize: null, TextId: null, ShowButton: null, HideButton: null, ScrollId: null, IsHide: 1 };
+		return TextHegiht;
+	}());
+	fastCSharp.TextHegiht = TextHegiht;
+	fastCSharp.Pub.OnLoad(TextHegiht.CheckTextHegiht, TextHegiht, true);
+})(fastCSharp || (fastCSharp = {}));
+
+var fastCSharp;
+(function (fastCSharp) {
+	var MathJaxLoader = (function () {
+		function MathJaxLoader() {
+		}
+		MathJaxLoader.SetShow = function (Skin) {
+			if (Skin === void 0) { Skin = fastCSharp.Pub.PageView; }
+			Skin.OnSet.Add(fastCSharp.Pub.ThisFunction(this, this.Show));
+			this.Show();
+		};
+		MathJaxLoader.Get = function () {
+			return window['MathJax'];
+		};
+		MathJaxLoader.CheckShowElement = function (Element) {
+			return !fastCSharp.HtmlElement.$ElementName(Element, 'htmleditor');
+		};
+		MathJaxLoader.Show = function () {
+			for (var MathJax = this.Get(), Values = [], Elements = fastCSharp.HtmlElement.$('@lang=latex').GetElements(), Index = 0; Index - Elements.length; ++Index) {
+				if (!fastCSharp.Pub.GetHtmlEditor(Elements[Index])) {
+					var Element = Elements[Index], Nodes = Element.childNodes;
+					if (Nodes.length) {
+						var Span = Nodes[0];
+						if (Span.tagName && Span.tagName.toLowerCase() == 'span') {
+							if (MathJax) {
+								var Text = fastCSharp.HtmlElement.$GetText(Span);
+								if (Text) {
+									Element.innerHTML = this.Format(Text);
+									Values.push(Element);
+								}
+							}
+							else {
+								this.Load(fastCSharp.Pub.ThisFunction(this, this.Show));
+								return;
+							}
+						}
+					}
+				}
+			}
+			if (Values.length)
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub, Values, {}]);
+		};
+		MathJaxLoader.Format = function (Text) {
+			return '$\n' + Text.replace(/\xA0/g, ' ').ToHTML() + '\n$';
+		};
+		MathJaxLoader.LoadConfig = function () {
+			this.Get().Hub.Config({ extensions: ['tex2jax.js'], jax: ['input/TeX', 'output/HTML-CSS'], elements: [''], tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] } });
+		};
+		MathJaxLoader.Load = function (OnLoad) {
+			if (!this.IsLoad) {
+				this.IsLoad = true;
+				var config = document.createElement('script');
+				config.type = 'text/x-mathjax-config';
+				config.text = 'fastCSharp.MathJaxLoader.LoadConfig();';
+				document.getElementsByTagName('head')[0].appendChild(config);
+			}
+			fastCSharp.Pub.OnModule(['mathJax/MathJax'], OnLoad, true);
+		};
+		MathJaxLoader.ShowElement = function (Element) {
+			var MathJax = this.Get();
+			MathJax.Hub.Queue(['Typeset', MathJax.Hub, Element]);
+		};
+		MathJaxLoader.TryShow = function (Element, Text) {
+			if (Text) {
+				Element.innerHTML = this.Format(Text);
+				var MathJax = this.Get();
+				if (MathJax)
+					MathJax.Hub.Queue(['Typeset', MathJax.Hub, Element]);
+				else
+					this.Load(fastCSharp.Pub.ThisFunction(this, this.ShowElement, [Element]));
+			}
+			else
+				Element.innerHTML = '';
+		};
+		return MathJaxLoader;
+	}());
+	fastCSharp.MathJaxLoader = MathJaxLoader;
+	fastCSharp.Pub.OnLoad(MathJaxLoader.SetShow, MathJaxLoader, true);
+})(fastCSharp || (fastCSharp = {}));
+
+var LoadAjax=function(CallBack,OnError)
+	{
+	this.CallBack=CallBack;
+	this.Error=OnError;
+	LoadAjax.AddCount(1);
+	};
+fastCSharp.Pub.Copy(LoadAjax,{
+Count:0,
+Post:function(CallBack,Name,Send,OnError,IsOnLoad,IsRandom)
+	{
+	fastCSharp.HttpRequest.Post(new LoadAjax(CallBack,OnError).GetQuery(Name,Send,IsOnLoad,IsRandom));
+	},
+Get:function(CallBack,Name,Send,OnError,IsOnLoad,IsRandom)
+	{
+	fastCSharp.HttpRequest.Get(new LoadAjax(CallBack,OnError).GetQuery(Name,Send,IsOnLoad,IsRandom));
+	},
+AddCount:function(Value)
+	{
+	this.ClearInterval();
+	if(this.Count+=Value)	this.Interval=setTimeout(this.CreateFunction,100);
+	else if(this.Image)	this.Image.Display(0);
+	},
+ClearInterval:function()
+	{
+	if(this.Interval)
+		{
+		clearTimeout(this.Interval);
+		this.Interval=0;
+		}
+	},
+Show:function()
+	{
+	if(this.Count)
+		{
+		this.Image.ToXY(fastCSharp.HtmlElement.$GetScrollLeft(),fastCSharp.HtmlElement.$GetScrollTop()+fastCSharp.HtmlElement.$Height()/2).Display(1);
+		this.Interval=setTimeout(this.ShowFunction,100);
+		}
+	},
+Create:function()
+	{
+	this.Interval=0;
+	if(!this.Image)	this.Image=fastCSharp.HtmlElement.$Create('img').Set('src','//file.51nod.com/Images/loading.gif').Style('position','absolute').Display(0).To();
+	this.Show();
+	}
+		});
+LoadAjax.CreateFunction=fastCSharp.Pub.ThisFunction(LoadAjax,LoadAjax.Create);
+LoadAjax.ShowFunction=fastCSharp.Pub.ThisFunction(LoadAjax,LoadAjax.Show);
+LoadAjax.prototype={
+OnLoad:function()
+	{
+	LoadAjax.AddCount(-1);
+	if(this.CallBack)	this.CallBack.apply(null,fastCSharp.Pub.ToArray(arguments));
+	},
+OnError:function()
+	{
+	LoadAjax.AddCount(-1);
+	if(this.Error)	this.Error.apply(null,fastCSharp.Pub.ToArray(arguments));
+	},
+GetQuery:function(Name,Send,IsOnLoad,IsRandom)
+	{
+	var Query=new fastCSharp.HttpRequestQuery(Name,Send,fastCSharp.Pub.ThisFunction(this,this.OnLoad));
+	Query.OnError=fastCSharp.Pub.ThisFunction(this,this.OnError);
+	Query.IsOnLoad=IsOnLoad;
+	Query.IsRandom=IsRandom;
+	return Query;
+	}
+		};
+var fastCSharp;
+(function (fastCSharp) {
+	var DefaultInput = (function () {
+		function DefaultInput(Parameter) {
+			fastCSharp.Pub.GetParameter(this, DefaultInput.DefaultParameter, Parameter);
+			this.DefaultValue = this.Value;
+			this.Start(this.Event || fastCSharp.DeclareEvent.Default);
+		}
+		DefaultInput.prototype.Start = function (Event) {
+			if (!Event.IsGetOnly) {
+				var Element = fastCSharp.HtmlElement.$Id(this.Id), Input = Element.Element0();
+				if (Input != this.Element) {
+					this.Element = Input;
+					Element.AddEvent('blur', fastCSharp.Pub.ThisFunction(this, this.OnBlur)).Set('readOnly', false);
+					if (this.DefaultValue == null) {
+						this.Value = Input.value;
+						this.LastValue = '';
+					}
+					else
+						this.LastValue = this.Value = this.DefaultValue;
+				}
+				if (Input.value == this.Value && this.LastValue == '')
+					Input.value = '';
+				Input.focus();
+				this.LastValue = this;
+				this.IsFocus = true;
+			}
+		};
+		DefaultInput.prototype.OnBlur = function () {
+			var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+			if ((this.LastValue = Element.value.Trim()) == '')
+				Element.value = this.Value;
+			this.IsFocus = false;
+		};
+		DefaultInput.prototype.GetValue = function () {
+			var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+			if (Element == this.Element) {
+				var Value = Element.value;
+				return Value == this.Value && this.LastValue == '' ? '' : Value;
+			}
+			return '';
+		};
+		DefaultInput.DefaultParameter = { Id: null, Event: null, Value: null };
+		return DefaultInput;
+	}());
+	fastCSharp.DefaultInput = DefaultInput;
+	new fastCSharp.Declare(DefaultInput, 'DefaultInput', 'focus', 'Src');
+})(fastCSharp || (fastCSharp = {}));
+
+var SearchPopup=function(Parameter)
+	{
+	fastCSharp.Pub.GetParameter(this,{Id:null,SkinId:null,Timeout:0,Type:null,OnSearch:null,OnGetSearch:null,GetType:null,ValueName:'results',Query:{},SearchEmptyKey:null,IsInputWidth:1,IsShowNull:0,MarkClass:null,ClientPath:null},Parameter)
+	this.OnSearch=new fastCSharp.Events().Add(this.OnSearch);
+	this.OnGetSearch=new fastCSharp.Events().Add(this.OnGetSearch);
+	this.SetLeftTopFunction=fastCSharp.Pub.ThisFunction(this,this.SetLeftTop);
+	this.Index=-1;
+	this.Values={};
+	};
+SearchPopup.prototype={
+MoveIndex:function(Count)
+	{
+	if(this.Value)
+		{
+		var Index=this.Index+Count;
+		if(Index>=this.Value[this.ValueName].length)	Index=this.Value[this.ValueName].length-1;
+		else if(Index<-1)	Index=-1;
+		if(Index-this.Index)	this.SetIndex(Index);
+		}
+	},
+KeyEnter:function()
+	{
+	if(this.Index+1)
+		{
+		var Event=new fastCSharp.BrowserEvent();
+		Event.srcElement=fastCSharp.HtmlElement.$IdElement(this.Type+'SearchItem_'+this.Index);
+		this.ClickItem(Event);
+		return true;
+		}
+	},
+ClickItem:function(Event)
+	{
+	var Element=Event.$Name('name','searchItem');
+	if(Element&&Event.$Name('id',this.SkinId))
+		{
+		var Link=new fastCSharp.HtmlElement('*searchHref',Element.Element0()).Get0('href');
+		if(Link.substring(0,11).toLowerCase()=='javascript:')	eval(Link.substring(11));
+		else	location=Link;
+		}
+	},
+GetClass:function(Name,IsSet)
+	{
+	return Name;
+	},
+SetIndex:function(Index)
+	{
+	this.ResetIndex();
+	if((this.Index=Index)+1)
+		{
+		var Item=fastCSharp.HtmlElement.$Id(this.Type+'SearchItem_'+Index);
+		Item.AddClass(this.GetClass(Item.Class0(),1));
+		}
+	},
+MouseOver:function(Event)
+	{
+	var Element=Event.$Name('name','searchItem');
+	if(Element&&Event.$Name('id',this.SkinId))	this.SetIndex(parseInt(Element.Id0().split('_')[1]));
+	},
+MouseOut:function(Event)
+	{
+	if(Event.$Name('name','searchItem')&&Event.$Name('id',this.SkinId))	this.ResetIndex();
+	},
+ResetIndex:function()
+	{
+	if(this.Index+1)
+		{
+		var Item=fastCSharp.HtmlElement.$Id(this.Type+'SearchItem_'+this.Index);
+		Item.AddClass(this.GetClass(Item.Class0(),0));
+		}
+	this.Index=-1;
+	},
+Search:function(Key)
+	{
+	if(Key=='')	Key=this.SearchEmptyKey;
+	if(Key!=null)
+		{
+		var LowerKey=(Key=Key.substring(0,30)).toLowerCase(),Value=this.Values[LowerKey];
+		if(Value)
+			{
+			if(Value!=1)
+				{
+				Value.key=Key;
+				this.ShowValue(Value);
+				}
+			}
+		else	{
+			this.Values[LowerKey]=1;
+			this.Query.key=Key;
+			this.Query.onlyPath=0;
+			this.OnSearch.Function();
+			LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.GetSearch,[LowerKey]),'/include/'+this.GetType+'.html',this.Query);
+			}
+		}
+	else	this.Hide(Key);
+	},
+GetSearch:function(Parameter,LowerKey)
+	{
+	var Values=Parameter[this.ValueName];
+	this.OnGetSearch.Function(Values,Parameter);
+	for(var Index=Values.length;--Index>=0;SearchPopup.Mark(Value,this.MarkClass))
+		{
+		var Value=Values[Index];
+		if(this.ClientPath)
+			{
+			var Name=Value.SearchType;
+			if(Name=='Topic')
+				{
+				if(Value['LinkTopic'])	Name='LinkTopic';
+				}
+			else if(Name=='UserRemark')	Name='User';
+			var Item=Value[Name]=fastCSharp.Pub.Copy({},Value[Name]);
+			(Item.Path=fastCSharp.Pub.Copy({},Item.Path)).Index='javascript:'+this.ClientPath+'('+Item.Id+');';
+			}
+		}
+	this.ShowValue(this.Values[Parameter.key.toLowerCase()]=Parameter);
+	},
+SearchPath:function(Key)
+	{
+	var LowerKey=Key.toLowerCase(),Value=this.Values[LowerKey];
+	if(Value)	this.GetSearchPath(Value,Value);
+	else	{
+		this.Query.key=Key;
+		this.Query.onlyPath=1;
+		LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.GetSearchPath),'/include/'+this.GetType+'.html',this.Query);
+		}
+	},
+GetSearchPath:function(Parameter)
+	{
+	if(Parameter&&Parameter.searchPath)	location=Parameter.searchPath;
+	},
+ShowValue:function(Value)
+	{
+	if(this.Value!=Value)
+		{
+		if((this.Value=Value)[this.ValueName].length||this.IsShowNull)
+			{
+			fastCSharp.Skin.Skins[this.SkinId].Show(Value);
+			if(this.IsInputWidth)	fastCSharp.HtmlElement.$Id(this.SkinId).Style('width',fastCSharp.HtmlElement.$Id(this.Id).Width0()+'px');
+			this.SetLeftTop();
+			if(this.Timeout)	this.Interval=setInterval(this.SetLeftTopFunction,this.Timeout);
+			this.Index=-1;
+			}
+		else	this.Hide();
+		}
+	},
+SetLeftTop:function()
+	{
+	var XY=this.GetXY();
+	fastCSharp.HtmlElement.$Id(this.SkinId).Style('position','absolute').ToXY(XY?XY.Left:0,XY?XY.Top:0).Style('zIndex',fastCSharp.HtmlElement.ZIndex+1);
+	},
+GetItem:function(IsValue)
+	{
+	return IsValue?this.Value[this.ValueName].First(IsValue):(this.Index+1?this.Value[this.ValueName][this.Index]:null);
+	},
+Hide:function()
+	{
+	fastCSharp.Skin.Skins[this.SkinId].Hide();
+	clearInterval(this.Interval);
+	this.Index=-1;
+	this.Value=this.Interval=null;
+	}
+		};
+SearchPopup.Get=function(Argument)
+	{
+	if(!this.SearchPopups)	this.SearchPopups={};
+	var Value=this.SearchPopups[Argument.SkinId];
+	if(!Value)	this.SearchPopups[Argument.SkinId]=Value=new SearchPopup(Argument);
+	return Value;
+	};
+SearchPopup.MarkClass='Red';
+SearchPopup.Mark=function(Value,MarkClass)
+	{
+	for(var Indexs=[],IndexHash={},Index=Value.Indexs.length;--Index>=0;)
+		{
+		var StartIndex=Value.Indexs[Index],Length=Value.Lengths[Index];
+		if(IndexHash[StartIndex]==null)
+			{
+			Indexs.push(StartIndex);
+			IndexHash[StartIndex]=Length;
+			}
+		else if(IndexHash[StartIndex]<Length)	IndexHash[StartIndex]=Length;
+		}
+	Indexs.sort(function(Left,Right){return Left-Right;});
+	switch(Value.SearchType)
+		{
+		case 'User':	Value.Text=Value.User.Name;	break;
+		case 'UserRemark':	Value.Text=Value.User.Remark;	break;
+		case 'Topic':	Value.Text=Value.Topic.Name;	break;
+		case 'Question':	Value.Text=Value.Question.Title;	break;
+		case 'Favorite':	Value.Text=Value.Favorite.Name;	break;
+		}
+	for(var Text=[],StartIndex=0,Index=0;Index!=Indexs.length;++Index)
+		{
+		if(Indexs[Index]>=StartIndex)
+			{
+			Text.push(Value.Text.substring(StartIndex,Indexs[Index]).ToHTML());
+			Text.push('<span class="'+(MarkClass||SearchPopup.MarkClass)+'">'+Value.Text.substring(Indexs[Index],StartIndex=Indexs[Index]+IndexHash[Indexs[Index]]).ToHTML()+'</span>');
+			}
+		}
+	Text.push(Value.Text.substring(StartIndex).ToHTML());
+	Value.Text=Text.join('');
+	};
+
+
+var SearchInput=function(Parameter)
+	{
+	fastCSharp.Pub.GetParameter(this,{Id:null,Event:null,IsGetOnly:0,IsSearchPath:0,MaxLength:0,Left:0,Top:0},Parameter)
+	this.SearchFunction=fastCSharp.Pub.ThisFunction(this,this.Search);
+	this.HideFunction=fastCSharp.Pub.ThisFunction(this,this.Hide);
+	this.KeyUpFunction=fastCSharp.Pub.ThisEvent(this,this.KeyUp);
+	this.CheckFunction=fastCSharp.Pub.ThisFunction(this,this.CheckDefaultValue);
+	this.SetHideFunction=fastCSharp.Pub.ThisFunction(this,this.SetHide);
+	if(this.MaxLength)	fastCSharp.HtmlElement.$Id(this.Id).Set('maxLength',this.MaxLength);
+	this.Popup=SearchPopup.Get(Parameter);
+	this.Popup.GetXY=fastCSharp.Pub.ThisFunction(this,this.GetXY);
+	this.Query=this.Popup.Query;
+	this.Start(this.Event||fastCSharp.DeclareEvent.Default);
+	};
+SearchInput.prototype={
+Start:function(Event)
+	{
+	if(!Event.IsGetOnly)
+		{
+		var Element=fastCSharp.HtmlElement.$Id(this.Id),Input=Element.Element0();
+		if(Input!=this.Element)
+			{
+			this.Element=Input;
+			Element.AddEvent('keyup,keypress',this.KeyUpFunction).AddEvent('focus',this.CheckFunction).AddEvent('blur',this.SetHideFunction);
+			}
+		}
+	},
+GetValue:function()
+	{
+	var Input=fastCSharp.Declare.Declares.DefaultInputs[this.Id];
+	return (Input?Input.GetValue():fastCSharp.HtmlElement.$GetValueById(this.Id)).Trim();
+	},
+CheckDefaultValue:function()
+	{
+	if(this.SearchInterval)	clearTimeout(this.SearchInterval);
+	this.Search();
+	},
+KeyUp:function(Event)
+	{
+	var Key=Event.keyCode;
+	if(!Event.shiftKey&&(Key==38||Key==40))
+		{
+		Event.CancelBubble();
+		this.Popup.MoveIndex(Key-39);
+		}
+	else if(Key==13&&fastCSharp.HtmlElement.$Id(this.Id).TagName0()=='input')
+		{
+		Event.CancelBubble();
+		if(!this.Popup.KeyEnter()&&this.IsSearchPath)	this.Popup.SearchPath(this.GetValue());
+		}
+	else	{
+		if(this.SearchInterval)	clearTimeout(this.SearchInterval);
+		this.SearchInterval=setTimeout(this.SearchFunction,200);
+		}
+	},
+GetXY:function()
+	{
+	var Input=fastCSharp.HtmlElement.$Id(this.Id),XY=Input.XY0();
+	XY.Left+=this.Left;
+	XY.Top+=Input.Height0()+this.Top;
+	return XY;
+	},
+SetHide:function()
+	{
+	if(this.SearchInterval)	clearTimeout(this.SearchInterval);
+	this.SearchInterval=setTimeout(this.HideFunction,1000);
+	},
+Search:function()
+	{
+	this.Popup.Search(this.GetValue());
+	},
+Hide:function()
+	{
+	if(this.SearchInterval)	clearTimeout(this.SearchInterval);
+	this.Popup.Hide();
+	},
+GetItem:function(IsValue)
+	{
+	return this.Popup.GetItem(IsValue);
+	},
+Clear:function()
+	{
+	this.Popup.Values=[];
+	}
+		};
+new fastCSharp.Declare(SearchInput,'SearchInput','focus','Src');
+var OnImage=	{
+Load:function()
+	{
+	fastCSharp.HtmlElement.$(document.body).AddEvent('mouseover',fastCSharp.Pub.ThisEvent(this,this.MouseOver))
+		.AddEvent('mouseout',fastCSharp.Pub.ThisEvent(this,this.MouseOut));
+	},
+Format:function(Src,IsOver)
+	{
+	var Index=Src.lastIndexOf('.');
+	if(Src.substring(Index-3,Index)=='_on')
+		{
+		if(!IsOver)	return Src.substring(0,Index-3)+Src.substring(Index);
+		}
+	else if(IsOver)	return Src.substring(0,Index)+'_on'+Src.substring(Index);
+	return Src;
+	},
+GetElement:function(Event)
+	{
+	var Element=Event.$Name('onimage');
+	if(Element)
+		{
+		var Parameter=fastCSharp.HtmlElement.$Attribute(Element,'onimage'),Image=Element=fastCSharp.HtmlElement.$(Element);
+		if(Parameter)
+			{
+			Parameter=eval('('+Parameter+')');
+			if(Parameter.Id)	Image=fastCSharp.HtmlElement.$Id(Parameter.Id);
+			else if(Parameter.Path)
+				{
+				var Images=fastCSharp.HtmlElement.$(Parameter.Path,Image).GetElements();
+				if(Images.length)	Image=fastCSharp.HtmlElement.$(Images[0]);
+				}
+			}
+		return {Element:Element,Image:Image,Parameter:Parameter||{}};
+		}
+	},
+MouseOver:function(Event)
+	{
+	var Value=this.GetElement(Event);
+	if(Value)
+		{
+		var Element=Value.Element,Parameter=Value.Parameter;
+		if(Parameter.OutClassName)	Element.RemoveClass(Parameter.OutClassName);
+		if(Parameter.OverClassName)	Element.AddClass(Parameter.OverClassName);
+		Value.Image.Set('src',this.Format(Value.Image.Get0('src'),1));
+		}
+	},
+MouseOut:function(Event)
+	{
+	var Value=this.GetElement(Event);
+	if(Value)
+		{
+		var Element=Value.Element,Parameter=Value.Parameter;
+		if(Parameter.OverClassName)	Element.RemoveClass(Parameter.OverClassName);
+		if(Parameter.OutClassName)	Element.AddClass(Parameter.OutClassName);
+		Value.Image.Set('src',this.Format(Value.Image.Get0('src'),0));
+		}
+	}
+		};
+fastCSharp.Pub.OnLoad(OnImage.Load,OnImage,1);
+
+var SetFocus=	{
+SetBlack:function(Id,ViewId)
+	{
+	DeleteAlert.Show('黑名单确认','是否将该用户添加到黑名单？',fastCSharp.Pub.ThisFunction(this,this.Set,['user',Id,'Blacklist',ViewId]));
+	},
+Set:function(Type,Id,FocusType,ViewId)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnFocus,[fastCSharp.Skin.Body.SearchData(ViewId)['Is'+FocusType],1]),'setFocus.'+Type+'.Set',{value:{FocusId:Id,Type:FocusType}});
+	},
+Remove:function(Type,Id,FocusType,ViewId)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnFocus,[fastCSharp.Skin.Body.SearchData(ViewId)['Is'+FocusType],0]),'setFocus.'+Type+'.Remove',{value:{FocusId:Id,Type:FocusType}});
+	},
+OnFocus:function(Value,View,IsFocus)
+	{
+	if(Value.Return)	View.$Set(IsFocus);
+	},
+SetCount:function(Type,Id,FocusType,ViewId,CancelType)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnCount,[fastCSharp.Skin.Body.SearchData(ViewId),FocusType,1,CancelType]),'setFocus.'+Type+'.Set',{value:{FocusId:Id,Type:FocusType}});
+	},
+RemoveCount:function(Type,Id,FocusType,ViewId)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnCount,[fastCSharp.Skin.Body.SearchData(ViewId),FocusType,-1]),'setFocus.'+Type+'.Remove',{value:{FocusId:Id,Type:FocusType}});
+	},
+OnCount:function(Value,View,FocusType,Count,CancelType)
+	{
+	if(Value.Return)
+		{
+		var Value=View.$Data.GetValue();
+		Value[FocusType+'Count']+=Count;
+		View['Is'+FocusType].$Set(Count>0);
+		if(CancelType&&View['Is'+CancelType].$Data)
+			{
+			Value[CancelType+'Count']-=Count;
+			View['Is'+CancelType].$Set(0);
+			}
+		}
+	}
+		};
+var __extends = (this && this.__extends) || function (d, b) {
+	for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	function __() { this.constructor = d; }
+	d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var fastCSharp;
+(function (fastCSharp) {
+	var PollParameter = (function () {
+		function PollParameter() {
+		}
+		return PollParameter;
+	}());
+	fastCSharp.PollParameter = PollParameter;
+	var Poll = (function (_super) {
+		__extends(Poll, _super);
+		function Poll(Parameter) {
+			if (Parameter === void 0) { Parameter = null; }
+			_super.call(this);
+			fastCSharp.Pub.GetParameter(this, Poll.DefaultParameter, Parameter);
+			fastCSharp.Pub.GetEvents(this, Poll.DefaultEvents, Parameter);
+			if (!this.Query)
+				this.Query = {};
+			if (this.Path == null)
+				this.Path = this.IsView ? '/poll.html' : 'poll';
+			this.GetFunction = fastCSharp.Pub.ThisFunction(this, this.Get);
+			this.VerifyFunction = fastCSharp.Pub.ThisFunction(this, this.Verify);
+			this.OnVerifyFunction = fastCSharp.Pub.ThisFunction(this, this.OnVerify);
+			this.OnVerifyErrorFunction = fastCSharp.Pub.ThisFunction(this, this.OnVerifyError);
+			fastCSharp.IndexPool.Push(this);
+		}
+		Poll.prototype.Start = function (Verify) {
+			if (Verify != null)
+				this.VerifyInfo = Verify;
+			if (!this.Identity)
+				setTimeout(this.GetFunction, this.Identity = 1);
+		};
+		Poll.prototype.Close = function () {
+			fastCSharp.IndexPool.Pop(this);
+		};
+		Poll.prototype.Stop = function () {
+			this.Identity = 0;
+		};
+		Poll.prototype.Get = function () {
+			if (this.Identity) {
+				if (this.OnMessage.Get().length) {
+					fastCSharp.Pub.AppendJs((this.Domain == null ? '//comet.51nod.com' : (this.Domain ? '//' + this.Domain : '')) + '/ajax?n=' + this.Path + '&c=' + fastCSharp.IndexPool.ToString(this) + '.OnGet' + (this.IsView ? 'View' : '') + '&j=' + fastCSharp.Pub.ToJson({ verify: this.VerifyInfo, query: this.Query }, true).Escape() + (fastCSharp.Pub.IE ? '&t=' + (new Date).getTime() : ''), null, null, fastCSharp.Pub.ThisFunction(this, this.OnError, [this.Identity]));
+				}
+				else
+					setTimeout(this.GetFunction, 1000);
+			}
+		};
+		Poll.prototype.OnGet = function (Value) {
+			this.OnGetView(Value ? Value.Return : null);
+		};
+		Poll.prototype.OnGetView = function (Value) {
+			if (this.Identity) {
+				++this.Identity;
+				if (Value) {
+					if (!this.VerifyPath || Value.isVerify) {
+						this.VerifyTimeout = 100;
+						if (this.ReturnName) {
+							if (Value[this.ReturnName])
+								this.OnMessage.Function(Value[this.ReturnName]);
+						}
+						else
+							this.OnMessage.Function(Value);
+						if (this.Identity)
+							setTimeout(this.GetFunction, 100);
+					}
+					else {
+						if ((this.VerifyTimeout *= 2) > 2000)
+							this.VerifyTimeout = 2000;
+						this.Verify();
+					}
+				}
+				else
+					setTimeout(this.GetFunction, 2000);
+			}
+		};
+		Poll.prototype.OnError = function (Identity) {
+			if (Identity == this.Identity)
+				setTimeout(fastCSharp.Pub.ThisFunction(this, this.Check, [Identity]), 2000);
+		};
+		Poll.prototype.Check = function (Identity) {
+			if (Identity == this.Identity)
+				setTimeout(this.GetFunction, 8000);
+		};
+		Poll.prototype.Verify = function () {
+			var Query = new fastCSharp.HttpRequestQuery(this.VerifyPath, null, this.OnVerifyFunction);
+			Query.OnError = this.OnVerifyErrorFunction;
+			fastCSharp.HttpRequest.Post(Query);
+		};
+		Poll.prototype.OnVerify = function (Value) {
+			if (Value && Value.isVerify) {
+				this.VerifyInfo = Value.Return;
+				if (this.Identity)
+					setTimeout(this.GetFunction, this.VerifyTimeout);
+			}
+			else
+				this.OnVerifyError(null);
+		};
+		Poll.prototype.OnVerifyError = function (Request) {
+			if (this.Identity)
+				setTimeout(this.VerifyFunction, 8000);
+		};
+		Poll.DefaultParameter = { Domain: null, Path: null, VerifyPath: 'poll.Verify', Query: null, IsView: true, ReturnName: null, VerifyTimeout: 100 };
+		Poll.DefaultEvents = { OnMessage: null };
+		Poll.Default = new Poll();
+		return Poll;
+	}(PollParameter));
+	fastCSharp.Poll = Poll;
+})(fastCSharp || (fastCSharp = {}));
+
+
+
+var DeleteAlert=DeleteAlert||{};
+fastCSharp.Pub.Copy(DeleteAlert,{
+Show:function(Title,Content,Callback,OnCancel)
+	{
+	var Alert=fastCSharp.FloatCenter.FloatCenters.deleteAlert;
+	Alert.SkinView.Title=Title||'删除确认';
+	Alert.SkinView.Content=Content;
+	this.Callback=Callback;
+	this.OnCancel=OnCancel;
+	Alert.Show();
+	},
+Cancel:function()
+	{
+	fastCSharp.FloatCenter.FloatCenters.deleteAlert.Hide();
+	if(this.OnCancel)	this.OnCancel();
+	},
+Delete:function()
+	{
+	fastCSharp.FloatCenter.FloatCenters.deleteAlert.Hide();
+	if(this.Callback)	this.Callback();
+	}
+		});
+var fastCSharp;
+(function (fastCSharp) {
+	var DefaultPassword = (function () {
+		function DefaultPassword(Parameter) {
+			fastCSharp.Pub.GetParameter(this, DefaultPassword.DefaultParameter, Parameter);
+			this.Start(this.Event || fastCSharp.DeclareEvent.Default);
+		}
+		DefaultPassword.prototype.Start = function (Event) {
+			if (!Event.IsGetOnly) {
+				var Element = fastCSharp.HtmlElement.$Id(this.Id), Input = Element.Element0(), Password = fastCSharp.HtmlElement.$Id(this.PasswordId);
+				if (Input != this.Element) {
+					this.Element = Input;
+					Password.AddEvent('blur', fastCSharp.Pub.ThisFunction(this, this.OnBlur));
+				}
+				Element.Display(0);
+				Password.Display(1).Focus0();
+			}
+		};
+		DefaultPassword.prototype.OnBlur = function () {
+			var Password = fastCSharp.HtmlElement.$Id(this.PasswordId);
+			if (!Password.Element0().value) {
+				Password.Display(0);
+				fastCSharp.HtmlElement.$Id(this.Id).Display(1);
+			}
+		};
+		DefaultPassword.DefaultParameter = { Id: null, Event: null, PasswordId: null };
+		return DefaultPassword;
+	}());
+	fastCSharp.DefaultPassword = DefaultPassword;
+	new fastCSharp.Declare(DefaultPassword, 'DefaultPassword', 'focus', 'Src');
+})(fastCSharp || (fastCSharp = {}));
+
+var fastCSharp;
+(function (fastCSharp) {
+	var EmailDomain = (function () {
+		function EmailDomain() {
+		}
+		EmailDomain.Get = function (Email) {
+			var Domain = Email.split('@')[1], Key = Domain.toLowerCase();
+			return this.Mails[Key] ? 'http://mail.' + Key : (this.Domains[Key] || ('http://' + Domain));
+		};
+		EmailDomain.Mails = {
+			'11185.cn': 1,
+			'128.com': 1,
+			'163.com': 1,
+			'17173.com': 1,
+			'173.com': 1,
+			'189.cn': 1,
+			'21cn.com': 1,
+			'263.net': 1,
+			'263.com': 1,
+			'aliyun.com': 1,
+			'aol.com': 1,
+			'bxemail.com': 1,
+			'china.com': 1,
+			'chinaacc.com': 1,
+			'citiz.net': 1,
+			'cntv.cn': 1,
+			'hainan.net': 1,
+			'hainan.com': 1,
+			'hexun.com': 1,
+			'qq.com': 1,
+			'sina.com': 1,
+			'sina.cn': 1,
+			'sogou.com': 1,
+			'sohu.com': 1,
+			'tianya.cn': 1,
+			'tom.com': 1,
+			'wo.cn': 1,
+			'yahoo.com': 1
+		};
+		EmailDomain.Domains = {
+			'gmail.com': 'https://mail.google.com/',
+			'263.net.cn': 'http://mail.263.net/',
+			'x263.net': 'http://mail.263.net/',
+			'vnet.citiz.net': 'http://mail.citiz.net/'
+		};
+		return EmailDomain;
+	}());
+	fastCSharp.EmailDomain = EmailDomain;
+})(fastCSharp || (fastCSharp = {}));
+
+var Password=function(Value)
+	{
+	var Passwords=[],Verify=Password.Verify;
+	for(var Index=0;Index!=Value.length;++Index)
+		{
+		var Code=Value.charCodeAt(Index)^Verify.charCodeAt(Index%Verify.length)^(Index/Verify.length);
+		Passwords.push((Code>>10)+48);
+		Passwords.push(((Code>>5)&31)+48);
+		Passwords.push((Code&31)+48);
+		}
+	return Passwords.MakeString();
+	};
+Password.Verify='ligudan';
+
+var fastCSharp;
+(function (fastCSharp) {
+	var OpenApi = (function () {
+		function OpenApi(StateAjaxCallName) {
+			if (StateAjaxCallName === void 0) { StateAjaxCallName = 'pub.GetOpenApiState'; }
+			this.StateAjaxCallName = StateAjaxCallName;
+			this.APIs = {};
+		}
+		OpenApi.prototype.Login = function (Name) {
+			var Api = this.APIs[Name];
+			if (Api && Api.Url) {
+				if (Api.IsState == null || Api.IsState)
+					fastCSharp.HttpRequest.Post(new fastCSharp.HttpRequestQuery(this.StateAjaxCallName, null, fastCSharp.Pub.ThisFunction(this, this.OnState, [Api])));
+				else
+					location = Api.Url;
+			}
+			else
+				alert('未找到第三方 ' + Name + ' API信息');
+		};
+		OpenApi.prototype.OnState = function (Value, Api) {
+			if (Value = Value.Return) {
+				if (this.IsLoginCookie == null || this.IsLoginCookie)
+					fastCSharp.Cookie.Default.Write({ Name: 'OpenLoginUrl', Value: location.toString() });
+				location = Api.Url + '&state=' + Value;
+			}
+		};
+		OpenApi.prototype.Location = function (Url) {
+			var Value = fastCSharp.Cookie.Default.Read('OpenLoginUrl');
+			if (Value)
+				fastCSharp.Cookie.Default.Write({ Name: 'OpenLoginUrl' });
+			location.replace(Value || Url);
+		};
+		OpenApi.Default = new OpenApi();
+		return OpenApi;
+	}());
+	fastCSharp.OpenApi = OpenApi;
+})(fastCSharp || (fastCSharp = {}));
+
+
+fastCSharp.Pub.Copy(fastCSharp.OpenApi.Default.APIs,
+	{
+	Weibo:	{
+		Url:'https://api.weibo.com/oauth2/authorize?client_id=3138594281&response_type=code&redirect_uri=https://www.51nod.com/login/weibo'
+		},
+	QQ:	{
+		Url:'https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=100306089&redirect_uri=https://www.51nod.com/login/qq&scope=get_user_info,add_t,add_share'
+		},
+	Renren:	{
+		Url:'https://graph.renren.com/oauth/authorize?client_id=398d8d4c415f4465b76546e27556f2e8&redirect_uri=https://www.51nod.com/login/renren&response_type=code&scope=publish_share'
+		}
+	});
+
+
+
+
+
+
+var User=User||{};
+fastCSharp.Pub.Copy(User,{
+IsEnterprise:0,
+ShowLogin:function(IsShow,IsEnterprise)
+	{
+	if(IsShow)
+		{
+		if(IsEnterprise!=null)	fastCSharp.FloatCenter.FloatCenters.login.SkinView.IsEnterprise=fastCSharp.FloatCenter.FloatCenters.register.SkinView.IsEnterprise=this.IsEnterprise=IsEnterprise;
+		fastCSharp.FloatCenter.FloatCenters.register.Hide();
+		fastCSharp.HtmlElement.$Id('loginPassword').Value('');
+		}
+	fastCSharp.FloatCenter.FloatCenters.login[IsShow?'Show':'Hide']();
+	},
+Login:function()
+	{
+	if(this.IsLogin)
+		{
+		alert('正在登录，请稍候...');
+		return;
+		}
+	var Value={email:fastCSharp.HtmlElement.$GetValueById('loginEmail').Trim(),password:fastCSharp.HtmlElement.$GetValueById('loginPassword'),isRemember:fastCSharp.HtmlElement.$GetCheckedById('loginIsRemember'),isEnterprise:this.IsEnterprise};
+	if(!Value.email.match(/^[0-9A-Z_\-\.]+@[0-9A-Z_\-\.]+(@51nod)?$/gi)&&!Value.email.match(/^[0-9]{11}$/gi))
+		{
+		alert('请输入正确的电子邮件地址或者手机号码');
+		return;
+		}
+	if(Value.password.length<6)
+		{
+		alert('输入密码长度至少为6');
+		return;
+		}
+	Value.password=Password(Value.password,Value.verify=Password.Verify);
+	Value.email=Value.email.toLowerCase();
+	this.IsLogin=1;
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnLogin),'pub.Login',Value);
+	},
+OnLogin:function(Value)
+	{
+	this.IsLogin=0;
+	if(Value.Return)
+		{
+		this.ShowLogin(0);
+		fastCSharp.Pub.ReView();
+		}
+	else	alert(Value.error||'登录失败');
+	},
+ShowRegister:function(IsShow)
+	{
+	if(IsShow)	fastCSharp.FloatCenter.FloatCenters.login.Hide();
+	fastCSharp.FloatCenter.FloatCenters.register[IsShow?'Show':'Hide']();
+	},
+Register:function()
+	{
+	if(this.IsRegister)
+		{
+		alert('正在注册，请稍候...');
+		return;
+		}
+	var Value={Name:fastCSharp.HtmlElement.$GetValueById('registerName').Trim(),Email:fastCSharp.HtmlElement.$GetValueById('registerEmail').Trim(),Password:fastCSharp.HtmlElement.$GetValueById('registerPassword'),Type:this.IsEnterprise?'未审核企业':'程序员'};
+	if(!Value.Email.match(/^[0-9A-Z_\-\.]+@[0-9A-Z_\-\.]+$/gi))
+		{
+		alert('请输入正确的电子邮件地址');
+		return;
+		}
+	if(Value.Password.length<6)
+		{
+		alert('输入密码长度至少为6');
+		return;
+		}
+	if(!Value.Name)
+		{
+		alert('请输入您的姓名');
+		return;
+		}
+	Value.Password=Password(Value.Password,Password.Verify);
+	Value.Email=Value.Email.toLowerCase();
+	this.IsRegister=1;
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnRegister,[Value.Email]),'pub.Register',{value:Value,verify:Password.Verify});
+	},
+OnRegister:function(Value,Email)
+	{
+	this.IsRegister=0;
+	if(Value.Return)	fastCSharp.Skin.Skins.registerEmailDiv.Show({email:Email,emailDomain:fastCSharp.EmailDomain.Get(Email)});
+	else	alert('该电子邮件地址已注册');
+	},
+ShowGetPassword:function(IsShow)
+	{
+	if(IsShow)
+		{
+		fastCSharp.FloatCenter.FloatCenters.login.Hide();
+		fastCSharp.FloatCenter.FloatCenters.register.Hide();
+		}
+	fastCSharp.FloatCenter.FloatCenters.getPassword[IsShow?'Show':'Hide']();
+	},
+GetPassword:function()
+	{
+	var Email=fastCSharp.HtmlElement.$GetValueById('getPasswordEmail').Trim();
+	if(Email)		LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnGetPassword,[Email]),'pub.GetPassword',{email:Email.toLowerCase()});
+	else	alert('请输入电子邮件地址');
+	},
+OnGetPassword:function(Value,Email)
+	{
+	if(Value.Return)
+		{
+		var GetPassword=fastCSharp.FloatCenter.FloatCenters.getPassword;
+		GetPassword.SkinView.emailDomain=fastCSharp.EmailDomain.Get(Email);
+		GetPassword.SkinView.email=Email;
+		this.ShowGetPassword(1);
+		}
+	else	alert('用户不存在');
+	}
+		});
+var fastCSharp;
+(function (fastCSharp) {
+	var InputLength = (function () {
+		function InputLength(Parameter) {
+			fastCSharp.Pub.GetParameter(this, InputLength.DefaultParameter, Parameter);
+			if (!this.SkinView)
+				this.SkinView = {};
+			if (!this.ErrorSkinView)
+				this.ErrorSkinView = {};
+			this.Start(this.Event || fastCSharp.DeclareEvent.Default);
+		}
+		InputLength.prototype.Start = function (Event) {
+			if (!Event.IsGetOnly) {
+				var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+				if (Element != this.Element) {
+					this.Element = Element;
+					fastCSharp.HtmlElement.$AddEvent(Element, ['keypress', 'keyup', 'blur'], fastCSharp.Pub.ThisEvent(this, this.Check));
+				}
+			}
+		};
+		InputLength.prototype.Check = function () {
+			var Length = fastCSharp.HtmlElement.$IdElement(this.Id).value.length;
+			if (Length <= this.Length) {
+				if (this.ErrorSkinId)
+					fastCSharp.Skin.Skins[this.ErrorSkinId].Hide();
+				if (this.SkinId) {
+					this.SkinView[this.LengthName] = this.Length - Length;
+					fastCSharp.Skin.Skins[this.SkinId].Show(this.SkinView);
+				}
+			}
+			else {
+				if (this.SkinId)
+					fastCSharp.Skin.Skins[this.SkinId].Hide();
+				if (this.ErrorSkinId) {
+					this.ErrorSkinView[this.ErrorLengthName] = Length - this.Length;
+					fastCSharp.Skin.Skins[this.ErrorSkinId].Show(this.ErrorSkinView);
+				}
+			}
+		};
+		InputLength.prototype.GetValue = function () {
+			var Value = fastCSharp.HtmlElement.$IdElement(this.Id).value;
+			return Value.length <= this.Length ? Value : null;
+		};
+		InputLength.DefaultParameter = { Id: null, Event: null, Length: 0, SkinId: null, LengthName: 'InputLength', SkinView: null, ErrorSkinId: null, ErrorLengthName: 'InputLength', ErrorSkinView: null };
+		return InputLength;
+	}());
+	fastCSharp.InputLength = InputLength;
+	new fastCSharp.Declare(InputLength, 'InputLength', 'focus', 'Src');
+})(fastCSharp || (fastCSharp = {}));
+
+var Privacy=	{
+GetType:function(Name,Value)
+	{
+	return this.Get(Name,'Hide')||this.Get(Name,'AllUser')||this.Get(Name,'FocusUser')||this.Get(Name,'Friend')||this.Get(Name,'FriendIdol')||Value;
+	},
+Get:function(Name,Value)
+	{
+	var Element=fastCSharp.HtmlElement.$Id(Name+Value).Element0();
+	return Element&&Element.checked?Value:null;
+	}
+		};
+
+
+
+var CreateFavorite={
+Show:function(IsShow,Type)
+	{
+	fastCSharp.FloatCenter.FloatCenters.createFavorite[IsShow?'Show':'Hide']();
+	if(IsShow)
+		{
+		this.Type=Type;
+		this.Favorite=null;
+		}
+	else if(this.OnClose)	this.OnClose(this.Favorite);
+	},
+Create:function()
+	{
+	var Value={Name:fastCSharp.HtmlElement.$GetValueById('createFavoriteName').Trim(),Remark:MentionEditor.GetHtmlEditor('createFavoriteRemark').GetHtml().Trim(),Type:this.Type,Privacy:Privacy.GetType('createFavoritePrivacyIs','AllUser')};
+	if(Value.Name)	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnCreate,[Value]),'favorite.Create',{value:Value});
+	else	alert('请输入收藏夹名称');
+	},
+OnCreate:function(Value,Favorite)
+	{
+	if(Favorite.Id=Value.Return)	this.Favorite=Favorite;
+	this.Show(0);
+	}
+		};
+
+var AddFavorite={
+Show:function(LinkId,Type)
+	{
+	if(LinkId)
+		{
+		CreateFavorite.Show(0);
+		LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.OnGet,[LinkId,Type]),'/include/linkFavorite.html',{linkId:this.LinkId=LinkId,type:this.Type=Type});
+		}
+	else	fastCSharp.FloatCenter.FloatCenters.addFavorite.Hide();
+	},
+OnGet:function(Value,LinkId,Type)
+	{
+	if(Type==this.Type)
+		{
+		this.LinkId=LinkId;
+		Value.typeName=diantou.favorite.TypeNames[this.Type];
+		this.Favorites=Value.favorites;
+		fastCSharp.Skin.Skins.addFavorite.Show(Value);
+		fastCSharp.FloatCenter.FloatCenters.addFavorite.Show();
+		}
+	},
+Add:function(Id,IsFavorite,ViewId)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnFavorite,[fastCSharp.Skin.Skins.addFavorite.SearchData(ViewId),IsFavorite?-1:1]),IsFavorite?'favorite.Remove':'favorite.Append',{value:{FavoriteId:Id,LinkId:this.LinkId}});
+	},
+OnFavorite:function(Value,View,Count)
+	{
+	if(Value.Return)
+		{
+		View.$Data.Favorite.LinkCount+=Count;
+		View.IsFavorite.$Set(Count>0);
+		}
+	},
+ShowCreate:function()
+	{
+	fastCSharp.FloatCenter.FloatCenters.addFavorite.Hide();
+	CreateFavorite.OnClose=fastCSharp.Pub.ThisFunction(this,this.OnCreate);
+	CreateFavorite.Show(1,this.Type);
+	},
+OnCreate:function(Favorite)
+	{
+	CreateFavorite.OnClose=null;
+	if(Favorite)
+		{
+		this.Favorites.push({Favorite:Favorite,IsFavorite:0});
+		Favorite.LinkCount=Favorite.FocusCount=0;
+		}
+	this.OnGet({favorites:this.Favorites},this.LinkId,this.Type);
+	}
+		};
+var Relation=Relation||{};
+fastCSharp.Pub.Copy(Relation,{
+Set:function(Id,Type,ViewId)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnSet,[Id]),'setFocus.user.SetRelation',{value:{FocusId:Id,Type:Type}});
+	},
+OnSet:function(Value,Id)
+	{
+	if(Value.Return>=0)
+		{
+		var UserRelation=diantou.userRelation.Get(Id,1);
+		UserRelation.RelationMap=Value.Return;
+		fastCSharp.Skin.Skins.userRelation.Hide();
+		UserRelation['$'].ReShowName('IsBlackAny');
+		}
+	}
+		});
+var UserPopup=	{
+ShowMenu:function(Menu)
+	{
+	Menu.MenuId='userPopup';
+	Menu.Type=Menu.Type||'Top';
+	if(UserPopup.Menu!=Menu)	UserPopup.CheckMenu(Menu);
+	},
+CheckMenu:function(Menu)
+	{
+	var CurrentUser=fastCSharp.Skin.Body.Data.currentUser,SkinView=(this.Menu=Menu).SkinView;
+	Menu.CheckMenuParameter();
+	Menu.IsShow=0;
+	SkinView[Menu.ShowViewFunctionName='IsShow']=this.NoShowView;
+	fastCSharp.HtmlElement.$Id('userPopup').Display(0);
+	if(CurrentUser)
+		{
+		if(this.Interval)
+			{
+			clearTimeout(this.Interval);
+			this.Interval=0;
+			}
+		if(SkinView.UserId&&SkinView.UserId!=CurrentUser.Id)
+			{
+			var User=diantou.user.Get(SkinView.UserId,1);
+			if(!User.IsUserPopup||User.IsUserPopup==2)	this.Interval=setTimeout(fastCSharp.Pub.ThisFunction(this,this.GetUser,[Menu]),500);
+			}
+		}
+	},
+NoShowView:function()	{	return 0;	},
+SetView:function()
+	{
+	var SkinView=this.Menu.SkinView;
+	SkinView.userRelation=diantou.userRelation.Get(SkinView.UserId,1);
+	SkinView.userRelation.User=diantou.user.Get(SkinView.UserId,1);
+	this.Menu.IsShow=1;
+	this.Menu.ShowViewFunctionName=this.Menu.ShowView=null;
+	},
+ShowView:function()
+	{
+	this.SetView();
+	this.Menu.Show();
+	},
+GetUser:function(Menu)
+	{
+	if(Menu==this.Menu&&Menu.IsOver)
+		{
+		var SkinView=Menu.SkinView,User=diantou.user.Get(SkinView.UserId,1);
+		if(User.IsUserPopup)
+			{
+			if(User.IsUserPopup==2)	this.ShowView();
+			}
+		else	{
+			User.IsUserPopup=1;
+			LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.OnGetUser,[Menu]),'/include/userPopup.html',{userId:Menu.SkinView.UserId});
+			}
+		}
+	},
+OnGetUser:function(Value,Menu)
+	{
+	if(Value&&Value.userRelation.User)
+		{
+		var SkinView=Menu.SkinView,User=diantou.user.Get(SkinView.UserId,1);
+		User.IsUserPopup=2;
+		if(Menu==this.Menu&&Menu.IsOver)	this.ShowView();
+		}
+	},
+SetRelation:function(Id,Type)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnSetRelation,[Id]),'setFocus.user.SetRelation',{value:{FocusId:Id,Type:Type}});
+	},
+OnSetRelation:function(Value,Id)
+	{
+	if(Value.Return>=0)
+		{
+		var UserRelation=diantou.userRelation.Get(Id,1);
+		UserRelation.RelationMap=Value.Return;
+		if(this.Menu.SkinView.UserId==Id)	this.ShowView();
+		}
+	}
+		};
+var fastCSharp;
+(function (fastCSharp) {
+	var InputKeyCode = (function () {
+		function InputKeyCode(Parameter) {
+			fastCSharp.Pub.GetParameter(this, InputKeyCode.DefaultParameter, Parameter);
+			fastCSharp.Pub.GetEvents(this, InputKeyCode.DefaultEvents, Parameter);
+			if (!this.Keys)
+				this.Keys = {};
+			this.Start(this.Event || fastCSharp.DeclareEvent.Default);
+		}
+		InputKeyCode.prototype.Start = function (Event) {
+			if (!Event.IsGetOnly) {
+				var Element = fastCSharp.HtmlElement.$IdElement(this.Id);
+				if (Element != this.Element) {
+					this.Element = Element;
+					fastCSharp.HtmlElement.$AddEvent(Element, ['keyup', 'keypress'], fastCSharp.Pub.ThisEvent(this, this.OnKey));
+				}
+			}
+		};
+		InputKeyCode.prototype.OnKey = function (Event) {
+			var Value = this.Keys[Event.keyCode];
+			if (Value)
+				Value();
+			this.OnAnyKey.Function();
+		};
+		InputKeyCode.DefaultParameter = { Id: null, Event: null, Keys: null };
+		InputKeyCode.DefaultEvents = { OnAnyKey: null };
+		return InputKeyCode;
+	}());
+	fastCSharp.InputKeyCode = InputKeyCode;
+	new fastCSharp.Declare(InputKeyCode, 'InputKeyCode', 'focus', 'Src');
+})(fastCSharp || (fastCSharp = {}));
+
+
+
+
+
+
+
+
+
+
+var MentionEditor=function(Value,Element)
+	{
+	if(!Value.Style)	Value.Style='//file.51nod.com/css/main.css?v=-10';
+	if(!Value.NotPasteFilter)
+		{
+		if(!Value.PasteLinkAjaxCallName)	Value.PasteLinkAjaxCallName='userPub.EditorGetLink';
+		if(!Value.PasteImageAjaxCallName)
+			{
+			Value.PasteImageAjaxCallName='userPub.EditorUploadPasteImage';
+			Value.FormatPasteImage=MentionEditor.FormatPasteImage;
+			}
+		}
+	var ColorButton;
+	if(Value.ButtonIds&&(ColorButton=Value.ButtonIds.Color))	delete Value.ButtonIds.Color;
+	var Color=Value.ButtonIds?Value.ButtonIds.Color:null;
+	(this.HtmlEditor=new fastCSharp.HtmlEditor(this.Value=Value)).Start({});
+	if(Value.ButtonIds)
+		{
+		if(Value.ButtonIds.InsertCode)
+			{
+			(this.InsertCodeMenu=fastCSharp.Declare.Getters.MouseMenu(Value.ButtonIds.InsertCode)).OnShowed.Add(fastCSharp.Pub.ThisFunction(this,this.ShowInsertCodeMenu));
+			fastCSharp.HtmlElement.$Id(Value.ButtonIds.InsertCodeType).Set('unselectable','on');
+			}
+		if(Value.ButtonIds.InsertImage)
+			{
+			this.HtmlEditor.SetButton({Name:'InsertImage',Title:'插入图片',OnlyDesign:1,OnClick:fastCSharp.Pub.ThisFunction(this,this.ShowInsertImage),DefaultSet:true});
+			}
+		}
+	if(ColorButton)
+		{
+		(this.ColorMenu=fastCSharp.Declare.Getters.MouseMenu(ColorButton)).OnShowed.Add(fastCSharp.Pub.ThisFunction(this,this.ShowColorMenu));
+		fastCSharp.HtmlElement.$Id(ColorButton).Set('unselectable','on');
+		}
+	if(Value.ButtonIds&&Value.ButtonIds.InsertLaTeX)	fastCSharp.HtmlElement.$Id(Value.ButtonIds.InsertLaTeX).Set('unselectable','on').Set('title','插入公式').Cursor('pointer').AddEvent('click',fastCSharp.Pub.ThisFunction(this,this.ShowInsertLaTeX));
+	this.SearchFunction=fastCSharp.Pub.ThisFunction(this,this.Search);
+	this.HtmlEditor.OnKeyPress.Add(fastCSharp.Pub.ThisFunction(this,this.KeyPress));
+	this.HtmlEditor.OnKeyDown.Add(fastCSharp.Pub.ThisFunction(this,this.KeyDown));
+	this.HtmlEditor.OnKeyUp.Add(fastCSharp.Pub.ThisFunction(this,this.KeyUp));
+	this.HtmlEditor.OnMouseMove.Add(fastCSharp.Pub.ThisFunction(this,this.MouseMove));
+	this.HtmlEditor.OnDoubleClick.Add(fastCSharp.Pub.ThisFunction(this,this.DoubleClick));
+	this.Popup=MentionEditor.Popup;
+	this.Hide();
+	};
+fastCSharp.Pub.Copy(MentionEditor,{
+Colors:('FFFFFF,CCCCCC,C0C0C0,999999,666666,333333,000000,FFCCCC,FF6666,FF0000,CC0000,990000,660000,330000,FFCC99,FF9966,FF9900,FF6600,CC6600,993300,663300,FFFF99,FFFF66,FFCC66,FFCC33,CC9933,996633,663333,FFFFCC,FFFF33,FFFF00,FFCC00,999900,666600,333300,99FF99,66FF99,33FF33,33CC00,009900,006600,003300,99FFFF,33FFFF,66CCCC,00CCCC,339999,336666,003333,CCFFFF,66FFFF,33CCFF,3366FF,3333FF,000099,000066,CCCCFF,9999FF,6666CC,6633FF,6600CC,333399,330099,FFCCFF,FF99FF,CC66CC,CC33CC,993399,663366,330033').split(','),
+LoadPopup:function()
+	{
+	if(fastCSharp.Skin.Body.Data.currentUser)
+		{
+		this.SearchInput=fastCSharp.Declare.Getters.SearchInput('mentionEditorSearchInput');
+		fastCSharp.HtmlElement.$Id('mentionEditorSearchInput').AddEvent('keyup,keypress',fastCSharp.Pub.ThisEvent(this,this.OnKeyUp)).AddEvent('blur',fastCSharp.Pub.ThisFunction(this,this.OnCancel));
+		fastCSharp.HtmlElement.$(document.body).AddEvent('click',fastCSharp.Pub.ThisEvent(this,this.LoadEditor));
+		}
+	},
+LoadEditor:function(Event)
+	{
+	var Element=Event.$Name('mentioneditor');
+	if(Element)
+		{
+		var Editor=fastCSharp.HtmlElement.$Attribute(Element,'mentioneditor');
+		if(!Editor||typeof(Editor)=='string')	this.GetHtmlEditor(Element.id).Focus();
+		}
+	},
+Get:function(Value)
+	{
+	var Element=fastCSharp.HtmlElement.$Id(Value.Id),Editor=Element.Attribute0('mentioneditor');
+	if(!Editor||typeof(Editor)=='string')
+		{
+		var Id=Value.Id,ButtonId=Id+'EditorButton',ButtonDiv=fastCSharp.HtmlElement.$Id(ButtonId);
+		if(ButtonDiv.Element0())
+			{
+			ButtonDiv.Display(1);
+			for(var ButtonIds={},Elements=fastCSharp.HtmlElement.$('@EDITORBUTTONNAME',ButtonDiv).GetElements(),Index=Elements.length;Index;)
+				{
+				var ButtonElement=Elements[--Index],Name=fastCSharp.HtmlElement.$Attribute(ButtonElement,'EDITORBUTTONNAME'),Id=ButtonElement.id;
+				if(!Id)	ButtonElement.id=Id=ButtonId+Name;
+				ButtonIds[Name]=Id;
+				}
+			Value.ButtonIds=ButtonIds;
+			}
+		if(!Value.GetMaxHeight)	Value.GetMaxHeight=this.GetMaxHeight;
+		if(Editor)	fastCSharp.Pub.Copy(Value,eval('('+Editor+')'));
+		Element.Set('mentioneditor',Editor=new MentionEditor(Value,Element));
+		}
+	return Editor;
+	},
+GetHtmlEditor:function(Id)
+	{
+	fastCSharp.Skin.Refresh();
+	return this.Get({Id:Id}).HtmlEditor;
+	},
+GetMaxHeight:function()
+	{
+	return fastCSharp.HtmlElement.$Height()-40;
+	},
+SelectMention:function(Id)
+	{
+	if(this.Current)	this.Current.SelectMention(diantou.user.Get(Id,1));
+	},
+OnCancel:function(IsBlur)
+	{
+	if(this.Current)	setTimeout(fastCSharp.Pub.ThisFunction(this.Current,this.Current.CancelMention,[IsBlur]),200);
+	},
+OnKeyUp:function(Event)
+	{
+	if(Event.keyCode==27)
+		{
+		Event.CancelBubble();
+		this.OnCancel(1);
+		}
+	},
+ShowUpload:function(IsShow)
+	{
+	fastCSharp.HtmlElement.$Name('mentionEditorUploadImage').Display(IsShow);
+	fastCSharp.HtmlElement.$Name('mentionEditorImageInput').Display(!IsShow);
+	},
+ShowInsertImage:function(IsShow)
+	{
+	this.ShowUpload(1);
+	fastCSharp.FloatCenter.FloatCenters.mentionEditorInsertImage[IsShow?'Show':'Hide']();
+	if(IsShow)	fastCSharp.HtmlElement.$Id('mentionEditorUploadIFrame').Set('src','/upload.html?t='+fastCSharp.Loader.Version+'#type=Editor&callBack=parent.MentionEditor.OnUploadImage');
+	},
+InputImage:function()
+	{
+	var Src=fastCSharp.HtmlElement.$GetValueById('mentionEditorImageSrc').Trim();
+	if(Src)	{
+		if(!diantou.httpLinkEmpty.Check(Src))	Src='//'+Src;
+		this.Current.InsertImage(Src);
+		}
+	this.ShowInsertImage(0);
+	},
+OnUploadImage:function(Image)
+	{
+	if(Image)
+		{
+		this.Current.InsertImage(new diantou.image({Value:Image}).Src());
+		this.ShowInsertImage(0);
+		}
+	else	{
+		fastCSharp.HtmlElement.$Id('mentionEditorUploadIFrame').Set('src','/upload.html?t='+fastCSharp.Loader.Version+'#type=Editor&callBack=parent.MentionEditor.OnUploadImage');
+		alert('上传失败');
+		}
+	},
+FormatPasteImage:function(Value)	{	return new diantou.image({Value:Value}).Src();	},
+ShowInsertCode:function(IsShow,Name)
+	{
+	fastCSharp.FloatCenter.FloatCenters.mentionEditorInsertCode[IsShow?'Show':'Hide']();
+	if(IsShow)	this.Current.ShowInsertCode(IsShow,Name);
+	},
+InsertCode:function()
+	{
+	var Value=fastCSharp.Ace.IsIE6?fastCSharp.HtmlElement.$GetValueById('mentionEditorCodeInput'):MentionEditor.Ace.Editor.getValue();
+	this.ShowInsertCode(0);
+	if(Value.Trim())	this.Current.InsertCode(Value);
+	},
+SetLink:function(IsLink)
+	{
+	var Element=this.Current.LinkElement.Elements[0],Link=Element.href,Text=fastCSharp.HtmlElement.$GetText(Element);
+	if(IsLink)
+		{
+		if(Text!=Link)	Element.title=Text;
+		Element.innerHTML=Element.href.ToHTML();
+		}
+	else	{
+		var Title=Element.title;
+		if(Title)
+			{
+			Element.title='';
+			Element.innerHTML=Title.ToHTML();
+			}
+		else	{
+			var Value=fastCSharp.CrawlTitle.Titles[Element.href];
+			if(Value&&Value.IsTitle)	Element.innerHTML=Value.Title.ToHTML();
+			}
+		}
+	},
+TryHideLink:function()
+	{
+	this.MouseMoveLink();
+	this.LinkInterval=setTimeout(fastCSharp.Pub.ThisFunction(this,this.HideLink),300);
+	},
+MouseMoveLink:function()
+	{
+	if(this.LinkInterval)
+		{
+		clearInterval(this.LinkInterval);
+		this.LinkInterval=0;
+		}
+	},
+HideLink:function()
+	{
+	fastCSharp.HtmlElement.$Id('mentionEditorLink').Display(0);
+	},
+TryHideCode:function()
+	{
+	this.MouseMoveCode();
+	this.CodeInterval=setTimeout(fastCSharp.Pub.ThisFunction(this,this.HideCode),300);
+	},
+MouseMoveCode:function()
+	{
+	if(this.CodeInterval)
+		{
+		clearInterval(this.CodeInterval);
+		this.CodeInterval=0;
+		}
+	},
+HideCode:function()
+	{
+	fastCSharp.HtmlElement.$Id('mentionEditorCode').Display(0);
+	},
+ReworkCode:function()
+	{
+	this.Current.ShowReworkCode();
+	},
+LaTeXIdentity:0,
+CheckLaTeX:function()
+	{
+	if(MentionEditor.Current.IsLaTeX)
+		{
+		setTimeout(fastCSharp.Pub.ThisFunction(MentionEditor,MentionEditor.ShowLaTeX,[++MentionEditor.LaTeXIdentity]),1000);
+		}
+	},
+ShowLaTeX:function(LaTeXIdentity)
+	{
+	if(LaTeXIdentity==this.LaTeXIdentity&&this.Current.IsLaTeX)
+		{
+		var Value=fastCSharp.Ace.IsIE6?fastCSharp.HtmlElement.$GetValueById('mentionEditorCodeInput'):MentionEditor.Ace.Editor.getValue();
+		fastCSharp.MathJaxLoader.TryShow(fastCSharp.HtmlElement.$IdElement('mentionEditorLatex'),Value||'');
+		}
+	},
+SetColor:function(Color)
+	{
+	this.Current.SetColor(Color);
+	}
+		});
+MentionEditor.prototype={
+Close:function()
+	{
+	this.Value.Element.Set('MentionEditor',null);
+	this.Value.Element=null;
+	},
+GetElement:function(Element)
+	{
+	while(Element.Element0()&&Element.Name0()!='mention')	Element=Element.Parent0();
+	return Element;
+	},
+KeyPress:function(Event)
+	{
+	if(Event.keyCode==64)	this.KeyMention(Event,0);
+	},
+KeyMention:function(Event,IsCheck)
+	{
+	if(this.ShiftKey)
+		{
+		this.ShiftKey=0;
+		var Element=this.GetElement(Event.Element0());
+		if(Element.Element0()==0)
+			{
+			this.Hide();
+			Event.CancelBubble();
+			this.HtmlEditor.PasteRange('<a href="#" style="text-decoration:none" name="mention" id="mention">@<img src="//file.51nod.com/Images/Icon/small/address.png" id="mentionImage" /></a>',1);
+			var Document=frames[this.HtmlEditor.EditorFrameId].document,Mention=Document.getElementById('mention');
+			this.Element=fastCSharp.HtmlElement.$(Mention).Id('');
+			if(IsCheck)
+				{
+				var Previous=this.Element.Previous0(),Text=Previous.Text0();
+				if(Text&&Text.indexOf('<')==-1&&(Text.charAt(Text.length-1)=='@'||Text.charAt(Text.length-1)=='＠'))	Previous.Text(Text.substring(0,Text.length-1));
+				}
+			Mention.removeChild(Document.getElementById('mentionImage'));
+			var XY=this.Element.XY0(),EditorXY=this.HtmlEditor.GetXY();
+			fastCSharp.HtmlElement.$Id('mentionEditorSearch').Style('zIndex',fastCSharp.HtmlElement.ZIndex+1).Style('position','absolute').ToXY(XY.Left+EditorXY.Left,XY.Top+EditorXY.Top).Display(1);
+			MentionEditor.SearchInput.Search();
+			fastCSharp.HtmlElement.$Id('mentionEditorSearchInput').Focus0();
+			MentionEditor.Current=this;
+			}
+		}
+	},
+KeyDown:function(Event)
+	{
+	this.ShiftKey=Event.shiftKey;
+	},
+KeyUp:function(Event)
+	{
+	if(this.ShiftKey&&Event.keyCode==50)	this.KeyMention(Event,1);
+	},
+Hide:function()
+	{
+	fastCSharp.HtmlElement.$Id('mentionEditorSearch').Display(0);
+	this.Element=null;
+	if(MentionEditor.SearchInput)	MentionEditor.SearchInput.Hide();
+	if(MentionEditor.Current==this)	MentionEditor.Current=null;
+	},
+SelectMention:function(User)
+	{
+	if(User&&this.Element)
+		{
+		this.IsSelect=1;
+		fastCSharp.HtmlElement.$Id('mentionEditorSearchInput').Blur0();
+		this.HtmlEditor.Select(this.Element);
+		this.HtmlEditor.PasteRange('<a href="'+User.Path.Index+'" mention="user_'+User.Id+'">@'+User.Name.ToHTML()+'</a>&nbsp;',1);
+		this.Hide();
+		}
+	},
+CancelMention:function(IsBlur)
+	{
+	if(!this.IsSelect&&this.Element)
+		{
+		fastCSharp.HtmlElement.$Id('mentionEditorSearchInput').Blur0();
+		var Element=fastCSharp.HtmlElement.$Create('span',frames[this.HtmlEditor.EditorFrameId].document).Text('@');
+		this.Element.Replace0(Element);
+		this.HtmlEditor.Select(Element);
+		this.HtmlEditor.PasteRange('@',1);
+		this.Hide();
+		}
+	this.IsSelect=0;
+	},
+Parse:function(Value,Type)
+	{
+	this.HtmlEditor.PasteRange('<a href="'+Value.Path.Index+'" mention="'+Type+'_'+Value.Id+'">@'+Value.Name.ToHTML()+'</a>&nbsp;',1);
+	},
+ShowInsertImage:function()
+	{
+	MentionEditor.Current=this;
+	MentionEditor.ShowInsertImage(1);
+	},
+InsertImage:function(Src)
+	{
+	this.HtmlEditor.InsertImage(Src);
+	},
+ShowColorMenu:function()
+	{
+	MentionEditor.Current=this;
+	},
+SetColor:function(Color)
+	{
+	this.ColorMenu.Hide();
+	this.HtmlEditor.SetForeColor(Color);
+	},
+ShowInsertCodeMenu:function()
+	{
+	MentionEditor.Current=this;
+	if(fastCSharp.Ace.IsIE6)
+		{
+		fastCSharp.HtmlElement.$Id('mentionEditorAceCodeInput').Display(0);
+		fastCSharp.HtmlElement.$Id('mentionEditorCodeInput').Parent0().Display(1);
+		}
+	},
+ShowInsertCode:function(Type,Mode,Code,IsLaTeX)
+	{
+	if(fastCSharp.Ace.IsIE6)
+		{
+		this.InsertCodeType=Mode;
+		if(Code==null)
+			{
+			this.CodeElement=null;
+			this.HtmlEditor.SaveRange();
+			fastCSharp.HtmlElement.$Id('mentionEditorCodeType').Html(Type+(IsLaTeX?'':' 源代码'));
+			fastCSharp.HtmlElement.$Id('mentionEditorCodeInput').Value('').Focus0();
+			this.InsertCodeMenu.Hide();
+			}
+		else	{
+			if(!Type)
+				{
+				Type=fastCSharp.Ace.Modes.First(function(Value){return Value.mode==Mode;});
+				if(Type)	Type=Type.type;
+				}
+			fastCSharp.HtmlElement.$Id('mentionEditorCodeType').Html((Type==null?Mode:Type)+(IsLaTeX?'':' 源代码'));
+			fastCSharp.HtmlElement.$Id('mentionEditorCodeInput').Value(Code).Focus0();
+			}
+		}
+	else if(Code==null)
+		{
+		this.CodeElement=null;
+		this.HtmlEditor.SaveRange();
+		fastCSharp.HtmlElement.$Id('mentionEditorCodeType').Html(Type+(IsLaTeX?'':' 源代码'));
+		var Value={Id:'mentionEditorAceCodeInput',MinLength:20,MaxHeight:-120,Mode:this.InsertCodeType=Mode,Code:''};
+		if(MentionEditor.Ace)	MentionEditor.Ace.Set(Value);
+		else	{
+			(MentionEditor.Ace=new fastCSharp.Ace(Value)).Show();
+			MentionEditor.Ace.OnChange.Add(MentionEditor.CheckLaTeX);
+			}
+		this.InsertCodeMenu.Hide();
+		}
+	else	{
+		if(!Type)
+			{
+			Type=fastCSharp.Ace.Modes.First(function(Value){return Value.mode==Mode;});
+			if(Type)	Type=Type.type;
+			}
+		fastCSharp.HtmlElement.$Id('mentionEditorCodeType').Html((Type==null?Mode:Type)+(IsLaTeX?'':' 源代码'));
+		var Value={Id:'mentionEditorAceCodeInput',MinLength:20,MaxHeight:-120,Mode:this.InsertCodeType=Mode,Code:Code};
+		if(MentionEditor.Ace)	MentionEditor.Ace.Set(Value);
+		else	{
+			(MentionEditor.Ace=new fastCSharp.Ace(Value)).Show();
+			MentionEditor.Ace.OnChange.Add(MentionEditor.CheckLaTeX);
+			}
+		}
+	fastCSharp.HtmlElement.$Id('mentionEditorLatexRemark').Display(this.IsLaTeX=IsLaTeX);
+	if(IsLaTeX)	MentionEditor.CheckLaTeX();
+	else	fastCSharp.HtmlElement.$Id('mentionEditorLatex').Html('');
+	},
+InsertCode:function(Value)
+	{
+	if(this.CodeElement)
+		{
+		this.CodeElement.Html(this.IsLaTeX?'<span>'+Value.ToHTML()+'</span>':('<pre>'+Value.ToHTML()+'</pre>'));
+		this.CodeElement=null;
+		}
+	else if(this.IsLaTeX)	this.HtmlEditor.PasteRange('&nbsp;<span name="ace" lang="latex"><span>'+Value.ToHTML()+'</span></span>&nbsp;',1);
+	else	this.HtmlEditor.PasteRange('<div>&nbsp;</div><div name="ace" mode="'+this.InsertCodeType+'"><pre>'+Value.ToHTML()+'</pre></div><div>&nbsp;</div>',1);
+	},
+ShowInsertLaTeX:function()
+	{
+	fastCSharp.FloatCenter.FloatCenters.mentionEditorInsertCode.Show();
+	MentionEditor.Current=this;
+	this.ShowInsertCode('LaTeX','latex','',1);
+	},
+MouseMove:function(Event)
+	{
+	var CodeElement=Event.$Name('name','ace');
+	if(CodeElement)
+		{
+		var XY=(this.CodeMenuElement=CodeElement=fastCSharp.HtmlElement.$(CodeElement)).XY0(),EditorXY=this.HtmlEditor.GetXY();
+		fastCSharp.HtmlElement.$Id('mentionEditorCode').Style('zIndex',fastCSharp.HtmlElement.ZIndex+1).Style('position','absolute').ToXY(XY.Left+EditorXY.Left+CodeElement.Width0()-35,XY.Top+EditorXY.Top).Display(1);
+		MentionEditor.Current=this;
+		}
+	else	MentionEditor.TryHideCode();
+	},
+DoubleClick:function(Event)
+	{
+	var CodeElement=Event.$Name('name','ace');
+	if(CodeElement)
+		{
+		this.CodeMenuElement=fastCSharp.HtmlElement.$(CodeElement);
+		this.ShowReworkCode();
+		}
+	},
+ShowReworkCode:function()
+	{
+	MentionEditor.HideCode();
+	MentionEditor.TryHideCode();
+	fastCSharp.FloatCenter.FloatCenters.mentionEditorInsertCode.Show();
+	MentionEditor.Current=this;
+	var Mode=(this.CodeElement=this.CodeMenuElement).Attribute0('mode'),Text=fastCSharp.HtmlElement.$GetText(this.CodeElement.Element0().childNodes[0]);
+	if(Mode)	this.ShowInsertCode(null,Mode,Text);
+	else	this.ShowInsertCode('LaTeX','latex',Text,1);
+	}
+		};
+fastCSharp.Pub.OnModule(['htmlEditor'],fastCSharp.Pub.ThisFunction(MentionEditor,MentionEditor.LoadPopup),1);
+
+
+
+
+
+
+
+
+
+
+
+
+fastCSharp.Pub.DisableZoom();
+var Header={
+Logout:function()
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnLogout),'pub.Logout');
+	},
+OnLogout:function()
+	{
+	fastCSharp.Pub.ReView();
+	fastCSharp.Skin.BodyData('currentUser').$Set(null);
+	},
+ExitSimulation:function()
+	{
+	fastCSharp.Cookie.Default.Write({Name:'SimulationUserId'});
+	location='/management/user.html#!userId='+fastCSharp.Skin.Body.Data.currentUser.Id;
+	},
+Load:function()
+	{
+	this.ReadNoticeIds={};
+	this.QuestionSaveDraftFunction=fastCSharp.Pub.ThisFunction(this,this.QuestionSaveDraft);
+	this.NoticeMenu=fastCSharp.Declare.Getters.MouseMenu('headerNotice');
+	var SkinValue=fastCSharp.Skin.Body.Data;
+	if(SkinValue.currentUser)
+		{
+		fastCSharp.Pub.OnModule(['htmlEditor']);
+		fastCSharp.Poll.Default.ReturnName='value';
+		fastCSharp.Poll.Default.Query.NoticeIds=[];
+		fastCSharp.Poll.Default.Query.Message=SkinValue.currentUser.MessageNewUserCount;
+		fastCSharp.Poll.Default.Query.Mention=SkinValue.currentUser.MentionNewCount;
+		if(!this.IsPoll)
+			{
+			fastCSharp.Poll.Default.OnMessage.Add(fastCSharp.Pub.ThisFunction(this,this.OnPoll));
+			this.IsPoll=1;
+			}
+		fastCSharp.Poll.Default.Start({UserId:SkinValue.currentUser.Id,Verify:SkinValue.pollVerify});
+		}
+	this.SearchAppendQuestion=fastCSharp.Declare.Getters.SearchInput('headerAppendQuestionTitle');
+	this.SearchAppendTopic=fastCSharp.Declare.Getters.SearchInput('headerSearchAppendQuestionTopicInput');
+	this.SearchAppendTopic.Popup.OnSearch.Add(fastCSharp.Pub.ThisFunction(this,this.SetSearchTopic));
+	this.Topics=[];
+	},
+OnPoll:function(Value)
+	{
+	if(Value.IsNewServer)
+		{
+		this.IsNewServer=1;
+		if(window.PageCache)	PageCache.Load();
+		else	fastCSharp.Pub.AppendJs(fastCSharp.Loader.JsDomain+'pageCache.js?v='+fastCSharp.Loader.Version);
+		return;
+		}
+	var SkinValue=fastCSharp.Skin.BodyData(),Poll=SkinValue.currentUser.Poll,OldNotices=Poll.$Data.Notices,Notices=Value.Notices||[];
+	Poll.$Data.Notices=[];
+	for(var Index=Notices.length;Index;)
+		{
+		if(!this.ReadNoticeIds[Notices[--Index].Notice.Id])	Poll.$Data.Notices.push(Notices[Index]);
+		}
+	if(Value.LogId)	fastCSharp.Poll.Default.Query.FocusId=Value.LogId;
+	if(Value=Value.Header)
+		{
+		OldNotices=OldNotices.ToHash(function(Value){return Value.Notice.Id;});
+		for(var NoticeIds=Value.NoticeIds||[],Index=NoticeIds.length;Index;)
+			{
+			var NoticeId=-NoticeIds[--Index];
+			if(OldNotices[NoticeId]&&!this.ReadNoticeIds[NoticeId])	Poll.$Data.Notices.push(OldNotices[NoticeId]);
+			}
+		Poll.Notice.$Set(fastCSharp.Poll.Default.Query.Notice=Value.NoticeCount);
+		if(Value.Focus!=Poll.$Data.NewFocusCount)	Poll.NewFocusCount.$Set(fastCSharp.Poll.Default.Query.Focus=Value.Focus);
+		if(Value.Problem!=Poll.$Data.Problem)	Poll.Problem.$Set(fastCSharp.Poll.Default.Query.Problem=Value.Problem);
+		if(Value.Tutorial!=Poll.$Data.Tutorial)	Poll.Tutorial.$Set(fastCSharp.Poll.Default.Query.Tutorial=Value.Tutorial);
+		if(Value.Contest!=Poll.$Data.Contest)	Poll.Contest.$Set(fastCSharp.Poll.Default.Query.Contest=Value.Contest);
+		if(Value.ContestId!=Poll.$Data.ContestId)
+			{
+			Poll.ContestId.$Set(fastCSharp.Poll.Default.Query.CurrentContestId=Value.ContestId);
+			Poll.CurrentContestPath.$Set(Value.ContestId&&!Value.Contest?new diantou.contest({Id:Value.ContestId}).Path.ProblemList:new diantou.path().ContestListPath);
+			}
+		var IsCount=0;
+		if(Value.Mention!=SkinValue.$Data.currentUser.MentionNewCount)
+			{
+			SkinValue.currentUser.MentionNewCount.$Set(fastCSharp.Poll.Default.Query.Mention=Value.Mention);
+			IsCount=1;
+			}
+		if(Value.Message!=SkinValue.$Data.currentUser.MessageNewUserCount)
+			{
+			SkinValue.$Data.currentUser.MessageNewUserCount=fastCSharp.Poll.Default.Query.Message=Value.Message;
+			IsCount=1;
+			}
+		if(IsCount)	SkinValue.currentUser.MessageNewUserCount.$Set();
+		}
+	this.LoadNotices();
+	},
+LoadNotices:function()
+	{
+	var SkinValue=fastCSharp.Skin.BodyData(),Poll=SkinValue.currentUser.Poll,Count=SkinValue.$Data.currentUser.Poll.Notice;
+	if(Poll.$Data.Notices.length)	this.NoticeMenu.IsShow=1;
+	else	{
+		this.NoticeMenu.Hide();
+		this.NoticeMenu.IsShow=0;
+		}
+	Poll.Notices.$Set();
+	fastCSharp.Poll.Default.Query.NoticeIds=Poll.$Data.Notices.ToArray(function(Value){return Value.Notice.Id;});
+	SkinValue.$Data.noticeHeader=Count?'('+Count+') ':'';
+	fastCSharp.Skin.ChangeHeader();
+	},
+ReadNotice:function(NoticeId)
+	{
+	for(var SkinValue=fastCSharp.Skin.BodyData(),Poll=SkinValue.$Data.currentUser.Poll,Values=Poll.Notices,Index=Values.length;--Index>=0;)
+		{
+		if(Values[Index].Notice.Id==NoticeId)
+			{
+			var Path=Values[Index].Path;
+			this.ReadNoticeIds[NoticeId]=1;
+			Poll.Notices.splice(Index,1);
+			SkinValue.currentUser.Poll.Notice.$Add(-1);
+			this.LoadNotices();
+			if(Path)	location.replace(Path);
+			else	LoadAjax.Post(null,'notice.Read',{ids:[NoticeId]});
+			}
+		}
+	},
+ReadNotices:function()
+	{
+	var SkinValue=fastCSharp.Skin.Body.Data,Notices=SkinValue.currentUser.Poll.Notices,Count=fastCSharp.Skin.BodyData('currentUser').Poll.Notice;
+	for(var Index=Notices.length,Ids=[];Index;)
+		{
+		var NoticeId=Notices[--Index].Notice.Id;
+		this.ReadNoticeIds[NoticeId]=1;
+		Ids.push(NoticeId);
+		}
+	SkinValue.currentUser.Poll.Notices=[];
+	Count.$Add(-Ids.length);
+	this.LoadNotices();
+	if(Ids.length)	LoadAjax.Post(null,'notice.Read',{ids:Ids});
+	},
+GetAppendQuestion:function()
+	{
+	var Editor=MentionEditor.GetHtmlEditor('headerAppendQuestionRemark');
+	return {Title:fastCSharp.HtmlElement.$GetValueById('headerAppendQuestionTitle').Trim(),Remark:Editor.GetText().Trim()?Editor.GetHtml().Trim():''};
+	},
+QuestionSaveDraft:function()
+	{
+	var Value=this.GetAppendQuestion();
+	if((Value.Title||Value.Remark)&&Value.Title.length<=80)
+		{
+		if(this.Topics.length)	Value.TopicIds=this.Topics.ToArray(function(Topic){return Topic.Id;}).join(',');
+		LoadAjax.Post(null,'question.SaveDraft',{value:Value});
+		}
+	},
+ShowAppendQuestion:function(IsShow,IsAppend)
+	{
+	if(IsShow)
+		{
+		if(this.QuestionDraft)
+			{
+			if(this.QuestionDraft!=1)
+				{
+				fastCSharp.Pub.OnBeforeUnLoad.Add(this.QuestionSaveDraftFunction);
+				fastCSharp.FloatCenter.FloatCenters.headerAppendQuestion.Show();
+				var Title=fastCSharp.HtmlElement.$Id('headerAppendQuestionTitle'),Editor=MentionEditor.GetHtmlEditor('headerAppendQuestionRemark');
+				if(this.QuestionDraft.IsDraft)
+					{
+					Title.Value(this.QuestionDraft.Title);
+					Editor.SetHtml(this.QuestionDraft.Remark);
+					if(this.QuestionDraft.TopicIds)
+						{
+						for(var Topics=fastCSharp.Pub.EvalJson('('+this.QuestionDraft.TopicIds+')'),Index=0;Index-Topics.length;this.SelectAppendQuestionTopic(Topics[Index++].Id));
+						}
+					}
+				else if(!Title.Value0())	Title.Value(fastCSharp.Declare.Getters.DefaultInput('headerSearchInput').GetValue());
+				Title.Focus0();
+				this.SearchAppendQuestion.Search();
+				}
+			}
+		else	{
+			this.QuestionDraft=1;
+			LoadAjax.Get(fastCSharp.Pub.ThisFunction(this,this.OnQuestionGetDraft),'question.GetDraft');
+			}
+		}
+	else	{
+		fastCSharp.Pub.OnBeforeUnLoad.Remove(this.QuestionSaveDraftFunction);
+		if(!IsAppend)	this.QuestionSaveDraft();
+		fastCSharp.FloatCenter.FloatCenters.headerAppendQuestion.Hide();
+		}
+	},
+OnQuestionGetDraft:function(Value)
+	{
+	if(Value=Value.Return)	(this.QuestionDraft=Value).IsDraft=1;
+	else	this.QuestionDraft={};
+	this.ShowAppendQuestion(1);
+	},
+SetSearchTopic:function()
+	{
+	this.SearchAppendTopic.Query.ignoreIds=this.Topics.ToArray(function(Value){return Value.Id;});
+	},
+CreateTopic:function(Name)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnCreateTopic,[Name]),'topic.Create',{name:Name});
+	},
+OnCreateTopic:function(Value,Name)
+	{
+	var Topic=new diantou.topic({Id:Value.Return,Name:Name});
+	if(Topic.Id)
+		{
+		this.Topics.push(Topic);
+		fastCSharp.Skin.Skins.headerAppendQuestionTopics.Show(this);
+		fastCSharp.HtmlElement.$Id('headerSearchAppendQuestionTopicInput').Value('');
+		}
+	},
+DeleteAppendQuestionTopic:function(TopicId)
+	{
+	this.Topics.Remove(function(Value){return Value.Id==TopicId;});
+	fastCSharp.Skin.Skins.headerAppendQuestionTopics.Show(this);
+	},
+SelectAppendQuestionTopic:function(TopicId)
+	{
+	this.Topics.Remove(function(Value){return Value.Id==TopicId;});
+	this.OnCreateTopic({Return:TopicId},diantou.topic.Get(TopicId,1).Name);
+	},
+AppendQuestion:function()
+	{
+	var Value=this.GetAppendQuestion();
+	if(Value.Title)
+		{
+		if(Value.Title.length>80)	alert('标题过长');
+		else	{
+			this.ShowAppendQuestion(0,1);
+			LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnAppendQuestion),'question.Append',{value:Value,isAnonymous:fastCSharp.HtmlElement.$Id('headerAppendQuestionIsAnonymous').Get('checked'),topicIds:this.Topics.ToArray(function(Topic){return Topic.Id;})});
+			}
+		}
+	},
+OnAppendQuestion:function(Value)
+	{
+	if(Value.Return)
+		{
+		this.QuestionDraft={};
+		location=new diantou.question({Id:Value.Return}).Path.Index;
+		fastCSharp.HtmlElement.$Id('headerAppendQuestionTitle').Value('');
+		MentionEditor.GetHtmlEditor('headerAppendQuestionRemark').SetHtml('');
+		this.Topics=[];
+		}
+	else	this.QuestionSaveDraft();
+	}
+		};
+fastCSharp.Pub.OnLoad(Header.Load,Header,1);
+
+
+var Topics=Topics||{};
+fastCSharp.Pub.Copy(Topics,{
+Load:function()
+	{
+	this.SearchRework=fastCSharp.Declare.Getters.SearchInput('searchReworkTopicInput');
+	this.SearchRework.Popup.OnSearch.Add(fastCSharp.Pub.ThisFunction(this,this.SetSearch));
+	},
+SetSearch:function()
+	{
+	var TopicIds=this.View.Topics.ToArray(function(Value){return Value.Id;});
+	if(this.Type=='topic')	TopicIds.push(fastCSharp.Skin.Body.Data.topic.Id);
+	this.SearchRework.Query.ignoreIds=TopicIds;
+	},
+Create:function(Name)
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnCreate,[Name]),'topic.Create',{name:Name});
+	},
+OnCreate:function(Value,Name)
+	{
+	var Topic={Id:Value.Return,Name:Name};
+	if(Topic.Id)	this.Select(diantou.topic.Get(Topic).Id);
+	},
+Show:function(Type,LinkId,TypeName,SkinName)
+	{
+	if(Type){
+		this.Type=Type;
+		this.TypeName=TypeName;
+		this.LinkId=LinkId;
+		this.SkinName=SkinName||Type;
+		fastCSharp.Skin.Skins.reworkTopics.Show(this.View={Topics:fastCSharp.Skin.Body.Data[this.SkinName].Remote.Topics.Copy()});
+		}
+	else	fastCSharp.Skin.Skins.reworkTopics.Hide();
+	fastCSharp.FloatCenter.FloatCenters.reworkTopics[Type?'Show':'Hide']();
+	},
+Select:function(TopicId)
+	{
+	this.View.Topics.Remove(function(Value){return Value.Id==TopicId;});
+	if(this.View.Topics.length>=5)	alert('每个'+this.TypeName+'最多可以添加 5 个话题');
+	else	{
+		this.View.Topics.push(diantou.topic.Get(TopicId,1));
+		fastCSharp.Skin.Skins.reworkTopics.Show(this.View);
+		}
+	},
+Remove:function(TopicId)
+	{
+	this.View.Topics.Remove(function(Value){return Value.Id==TopicId;});
+	fastCSharp.Skin.Skins.reworkTopics.Show(this.View);
+	},
+Rework:function()
+	{
+	LoadAjax.Post(fastCSharp.Pub.ThisFunction(this,this.OnRework,[this.SkinName,this.View]),'topics.'+this.Type+'.Rework',{linkId:this.LinkId,topicIds:this.View.Topics.ToArray(function(Value){return Value.Id})});
+	},
+OnRework:function(Value,SkinName,View)
+	{
+	if(Value.Return)
+		{
+		this.Show();
+		fastCSharp.Skin.BodyData(SkinName).Remote.Topics.$Set(View.Topics);
+		}
+	}
+		});
+fastCSharp.Pub.OnLoad(Topics.Load,Topics);
+
+var Problem=Problem||{};
+Problem.HideTopic=function(NoShow)
+	{
+	fastCSharp.Cookie.Default.Write({Name:'ojTopic',Value:NoShow,Expires:(new Date).AddDays(365)});
+	fastCSharp.Skin.BodyData('problem').$Set();
+	};
+
+
+var _hmt = _hmt || [];
+(function() {
+	if(location.host.indexOf('5'+'1nod')>=0){
+	var hm = document.createElement("script");
+	hm.src = "//hm.baidu.com/hm.js?21f25facd6e025e97158408a1448a664";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+}
+})();
+
+
+
+var MiddleNav=	{
+Load:function()
+	{
+	this.Interval=setInterval(fastCSharp.Pub.ThisFunction(this,this.Check),1000);
+	},
+Check:function()
+	{
+	var ScrollTop=fastCSharp.HtmlElement.$GetScrollTop(),Height=fastCSharp.HtmlElement.$Height();
+	fastCSharp.HtmlElement.$Id('middleToTop').Display(ScrollTop>500);
+	fastCSharp.HtmlElement.$Id('middleToBottom').Display(ScrollTop+Height<fastCSharp.HtmlElement.$(document.body).ScrollHeight0()-500);
+	},
+ToTop:function()
+	{
+	fastCSharp.HtmlElement.$SetScrollTop(0);
+	setTimeout(fastCSharp.Pub.ThisFunction(this,this.Check),10);
+	},
+ToButton:function()
+	{
+	fastCSharp.HtmlElement.$SetScrollTop(fastCSharp.HtmlElement.$(document.body).ScrollHeight0()-fastCSharp.HtmlElement.$Height());
+	setTimeout(fastCSharp.Pub.ThisFunction(this,this.Check),10);
+	}
+		};
+fastCSharp.Pub.OnLoad(MiddleNav.Load, MiddleNav, 1);
+
+
+
+
+
+
+
+
+fastCSharp.Pub.OnLoad(Problem.Load,Problem);

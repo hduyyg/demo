@@ -1,0 +1,588 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0090)http://students.infoiasi.ro/~boi2003/boibynet/problems.php?mode=view_solution&problem_id=9 -->
+<HTML><HEAD><TITLE>Balkan Olympiad in Informatics, Iasi 2003</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312"><LINK 
+href="problems.files/index.css" type=text/css rel=stylesheet>
+<SCRIPT language=JavaScript>
+<!--
+  var intHours, intMinutes, intSeconds;
+  var today;
+
+  intHours = 05;
+  intMinutes = 38;
+  intSeconds = 48;
+  intCETOffset=-1;
+
+function tick()
+{
+  var hours, minutes, seconds, ap;
+  if (intSeconds<59)
+  {
+	intSeconds++;
+  }
+  else
+  {
+	intSeconds=0;
+	if (intMinutes<59)
+	{
+		intMinutes++;
+	}
+	else
+	{
+		intMinutes=0;
+		if (intHours<23)
+		{
+			intHours++;
+		}
+		else
+		{
+			intHours=0;
+		}
+	}
+  }
+  if (intHours+intCETOffset>=0 && intHours+intCETOffset<=23)
+  {
+	intCETHours = intHours+intCETOffset;
+  }
+  else
+  {
+	if (intHours+intCETOffset<0)
+	{
+		intCETHours = 24+intHours+intCETOffset;
+	}
+	else
+	if (intHours+intCETOffset>24)
+	{
+		intCETHours = intHours+intCETOffset-24;
+	}
+  }
+
+  hours = intHours + ":";
+  CEThours = intCETHours + ":";
+
+  if (intMinutes < 10) {
+     minutes = "0"+intMinutes+":";
+  } else {
+     minutes = intMinutes+":";
+  }
+
+  if (intSeconds < 10) {
+     seconds = "0"+intSeconds+" ";
+  } else {
+     seconds = intSeconds+" ";
+  }
+
+  localtimeString = hours+minutes+seconds;
+  CETtimeString = CEThours+minutes+seconds;
+
+  document.Clock.clk1.value = localtimeString;
+  document.Clock.clk2.value = CETtimeString;
+
+  window.setTimeout("tick();", 1000);
+}
+// -->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2800.1106" name=GENERATOR></HEAD>
+<BODY style="MARGIN: 0px" onload="setTimeout('tick()', 1000); ">
+<DIV 
+style="FONT-SIZE: 12px; RIGHT: 10px; COLOR: white; FONT-FAMILY: ; POSITION: absolute; TOP: 10px; TEXT-ALIGN: right">
+<FORM name=Clock>
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=center align=right>
+      <DIV style="FONT-SIZE: 12px"><B>Local time: &nbsp;</B></DIV></TD>
+    <TD align=left><INPUT class=Clock size=8 name=clk1></TD></TR>
+  <TR>
+    <TD vAlign=center align=right>
+      <DIV style="FONT-SIZE: 12px"><B>CET time: &nbsp;</B></DIV></TD>
+    <TD align=left><INPUT class=Clock size=8 
+name=clk2></TD></TR></TBODY></TABLE></FORM></DIV>
+<TABLE style="WIDTH: 100%; HEIGHT: 100%" cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR style="HEIGHT: 120px">
+    <TD style="VERTICAL-ALIGN: middle"><!-- right side logo --><IMG 
+      src="problems.files/logo-right.gif"> 
+      <DIV 
+      style="LEFT: 112px; WIDTH: 220px; POSITION: absolute; TOP: 80px"><B>Balkan 
+      Olympiad in Informatics by NET</B></DIV></TD><!-- right side team information -->
+    <TD style="VERTICAL-ALIGN: bottom; TEXT-ALIGN: right">&nbsp; </TD></TR>
+  <TR><!-- contents go here -->
+    <TD class=tableContent colSpan=2>
+      <TABLE style="WIDTH: 100%; HEIGHT: 95%" cellSpacing=0 cellPadding=0 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD style="WIDTH: 5%"></TD>
+          <TD class=bordered_div style="VERTICAL-ALIGN: top">
+            <P class=title>View problem</P>
+            <TABLE width=580 align=center>
+              <TBODY>
+              <TR>
+                <TD width=180><B>Problem title:</B> 
+                <TD width=400>Euro 
+              <TR>
+                <TD width=180><B>Problem number:</B> 
+                <TD width=400>2 
+              <TR>
+                <TD width=180><B>Round:</B> 
+                <TD width=400>DAY 2 
+              <TR>
+                <TD vAlign=top width=180><B>Solution:</B> 
+                <TD width=400>Problem: euro 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">Authors: Mugurel Ionut 
+                  Andreica , Mihai Patrascu 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">There are several 
+                  solutions for this problem, having different time 
+                  complexities. The most obvious solution uses a DP algorithm 
+                  and has time complexity O(N2). 
+                  <P class=desc style="MARGIN-TOP: 0px">Let抯 examine an 
+                  O(N*sqrt(T)) solution (which is not so obvious). The first 
+                  step is to 揷ompress?the N values of the sequence into several 
+                  contiguous intervals. The first interval contains the first K 
+                  elements of the sequence, having the following property: K is 
+                  N, or the sum of the first K elements is less than zero, but 
+                  the sum of the first J elements is at least 0 (for any 
+                  1&lt;=J&lt;K). The next interval is obtained the same way, 
+                  considering only the remaining N-K elements. This way, we 
+                  split the subsequence into M 揷ompressed?intervals. We can now 
+                  use DP on the sequence of 揷ompressed?intervals, the same way 
+                  as for the original subsequence. This is, indeed, an 
+                  improvement, as M is at most N, but the time complexity of the 
+                  algorithm may still be O(N2) in the worst case. The catch is 
+                  that, in order to find the optimal solution for the sequence 
+                  ending with the ith interval, it is only necessary to look at 
+                  the solutions for the previous sqrt(T)+1 intervals. This leads 
+                  to an O(N*sqrt(T)) algorithm. 
+                  <P class=desc style="MARGIN-TOP: 0px">An even less obvious 
+                  solution uses a geometrical approach. First, let抯 consider the 
+                  sequence of partial sums: S0,S1,..,SN. S0=0 and Si=Ei+Si-1 , 
+                  where Ei is the ith number in the sequence given in the input 
+                  file. Next, let抯 consider another sequence C, where Ci=SN-Si 
+                  (for any 0&lt;=i&lt;=N). Obviously, CN is 0. The recurrent 
+                  expression for the maximum value which can be obtained by 
+                  optimally splitting into intervals the first J elements (the 
+                  same expression which is used for the DP solution) is: 
+                  MAX[J]=max{MAX[I]+(SJ-SI)*J}, for any 0&lt;=I&lt;J. MAX[0]=0. 
+                  <P class=desc style="MARGIN-TOP: 0px">Let抯 consider the 
+                  following transformation. We will compute the sequence MAXV[I] 
+                  (virtual max). First, we consider the integers from 0 to N, 
+                  placed on the OX-axis. Then, we will consider N+1 straight 
+                  lines, defined in the following way: the ith line will have 
+                  the slope Ci and the origin at the point (I,MAXV[I]). 
+                  MAXV[0]=0. MAXV[1]=MAXV[0]+(1-0)*C0-T. In general, 
+                  MAXV[I]=max{MAXV[J]+(I-J)*CJ}-T, with 0&lt;=J&lt;I. The 
+                  meaning of MAXV[I] is the 搗irtual?maximum value which can be 
+                  obtained by optimally splitting into intervals the first I 
+                  elements of the sequence given in the input file. The 
+                  connection between MAXV[I] and MAX[I] is the following: 
+                  MAXV[I]=MAX[I]+I*CI. Since CN=0, MAXV[N]=MAX[N] (the required 
+                  answer). In order to compute MAXV[I], we may use different 
+                  ideas. One observation is that a straight K line is 搖seful? 
+                  only if it is used in the computation of MAXV[K+P], with 
+                  1&lt;=P&lt;=T+1. This leads to an O(N*T) algorithm. A better 
+                  solution would be to find the interval for which one straight 
+                  line is above all other lines, by using binary search and a 
+                  data structure similar to a binary indexed tree, thus 
+                  obtaining an O(N*(logN)2) algorithm. 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">Scoring: 
+                  <P class=desc style="MARGIN-TOP: 0px">30% for an O(N2) 
+                  solution 
+                  <P class=desc style="MARGIN-TOP: 0px">80% for an O(N*T) 
+                  solution 
+                  <P class=desc style="MARGIN-TOP: 0px">100% for an O(N*sqrt(T)) 
+                  and an O(N*(logN)2) solution 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">Source codes: 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">(1) -&gt; O(N*sqrt(T)) 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">#include &lt;stdio.h&gt; 
+
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">#define filein "euro.in" 
+
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">#define fileout 
+                  "euro.out" 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">#define MAXN 34567 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">int t; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">struct val { 
+                  <P class=desc style="MARGIN-TOP: 0px">int val, pos, back; 
+                  <P class=desc style="MARGIN-TOP: 0px">long long max; 
+                  <P class=desc style="MARGIN-TOP: 0px">} e[MAXN]; 
+                  <P class=desc style="MARGIN-TOP: 0px">int ne; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">void read_in(void) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">int i, n, a[MAXN]; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">freopen(filein, "r", 
+                  stdin); 
+                  <P class=desc style="MARGIN-TOP: 0px">scanf("%d%d", &amp;n, 
+                  &amp;t); 
+                  <P class=desc style="MARGIN-TOP: 0px">for(i = 0; i &lt; n; 
+                  i++) 
+                  <P class=desc style="MARGIN-TOP: 0px">scanf("%d", a + i); 
+                  <P class=desc style="MARGIN-TOP: 0px">for(i = 0; i &lt; n - 1; 
+                  i++) { 
+                  <P class=desc style="MARGIN-TOP: 0px">e[ne].val += a[i]; 
+                  <P class=desc style="MARGIN-TOP: 0px">if(e[ne].val &lt; 0) 
+                  <P class=desc style="MARGIN-TOP: 0px">e[ne++].pos = i + 1; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">e[ne].val += a[n - 1]; 
+                  <P class=desc style="MARGIN-TOP: 0px">e[ne++].pos = n; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">int main() 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">int i, j, totsum, 
+                  parsum, back; 
+                  <P class=desc style="MARGIN-TOP: 0px">long long max; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">read_in(); 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">totsum = e-&gt;val; 
+                  <P class=desc style="MARGIN-TOP: 0px">e-&gt;back = 0; 
+                  <P class=desc style="MARGIN-TOP: 0px">e-&gt;max = (long long) 
+                  totsum * e-&gt;pos - t; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">for(i = 1; i &lt; ne; 
+                  i++) { 
+                  <P class=desc style="MARGIN-TOP: 0px">totsum += e[i].val; 
+                  <P class=desc style="MARGIN-TOP: 0px">max = (long long) totsum 
+                  * e[i].pos; 
+                  <P class=desc style="MARGIN-TOP: 0px">back = 0; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">parsum = e[i].val; 
+                  <P class=desc style="MARGIN-TOP: 0px">for(j = i - 1; (j &gt;= 
+                  e[i - 1].back) &amp;&amp; (i - j &lt;= 200); j--) { 
+                  <P class=desc style="MARGIN-TOP: 0px">if((long long) parsum * 
+                  e[i].pos + e[j].max &gt; max) { 
+                  <P class=desc style="MARGIN-TOP: 0px">max = (long long) parsum 
+                  * e[i].pos + e[j].max; 
+                  <P class=desc style="MARGIN-TOP: 0px">back = j; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">parsum += e[j].val; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">e[i].back = back; 
+                  <P class=desc style="MARGIN-TOP: 0px">e[i].max = max - t; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">freopen(fileout,"w",stdout); 
+                  <P class=desc style="MARGIN-TOP: 0px">printf("%Ldn", e[ne - 
+                  1].max); 
+                  <P class=desc style="MARGIN-TOP: 0px">return(0); 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">(2) -&gt; O(N*(logN)2) 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">#include &lt;stdio.h&gt; 
+
+                  <P class=desc style="MARGIN-TOP: 0px">#include 
+                  &lt;stdlib.h&gt; 
+                  <P class=desc style="MARGIN-TOP: 0px">#include 
+                  &lt;string.h&gt; 
+                  <P class=desc style="MARGIN-TOP: 0px">#define filein "euro.in" 
+
+                  <P class=desc style="MARGIN-TOP: 0px">#define fileout 
+                  "euro.out" 
+                  <P class=desc style="MARGIN-TOP: 0px">#define maxn 34568 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">typedef struct { long 
+                  li,ls,fs,fd,tata,lineindex; } nod; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">double 
+                  s[maxn],c[maxn],max[maxn],t; 
+                  <P class=desc style="MARGIN-TOP: 0px">long list[maxn]; 
+                  <P class=desc style="MARGIN-TOP: 0px">nod arb[2*maxn]; 
+                  <P class=desc style="MARGIN-TOP: 0px">long n,narb; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">void readdata(void); 
+                  <P class=desc style="MARGIN-TOP: 0px">void buildtree(void); 
+                  <P class=desc style="MARGIN-TOP: 0px">void compute(void); 
+                  <P class=desc style="MARGIN-TOP: 0px">void writedata(void); 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">int main() 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">readdata(); 
+                  <P class=desc style="MARGIN-TOP: 0px">buildtree(); 
+                  <P class=desc style="MARGIN-TOP: 0px">compute(); 
+                  <P class=desc style="MARGIN-TOP: 0px">writedata(); 
+                  <P class=desc style="MARGIN-TOP: 0px">return 0; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">void readdata(void) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long i; 
+                  <P class=desc style="MARGIN-TOP: 0px">double e; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">freopen(filein,"r",stdin); 
+                  <P class=desc style="MARGIN-TOP: 0px">scanf("%ld 
+                  %lf",&amp;n,&amp;t); 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">s[0]=0; 
+                  <P class=desc style="MARGIN-TOP: 0px">for (i=1;i&lt;=n;i++) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">scanf("%lf",&amp;e); 
+                  <P class=desc style="MARGIN-TOP: 0px">s[i]=s[i-1]+e; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">void buildtree(void) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long i,j,k,p; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">for (i=1;i&lt;=n;i++) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">arb[i].li=arb[i].ls=list[i]=i; 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">arb[i].fs=arb[i].fd=arb[i].tata=0; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">k=narb=n; 
+                  <P class=desc style="MARGIN-TOP: 0px">while (k&gt;1) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">j=0; 
+                  <P class=desc style="MARGIN-TOP: 0px">for (i=1;i&lt;k;i++) 
+                  <P class=desc style="MARGIN-TOP: 0px">if (i%2==1) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">narb++; 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">arb[narb].li=arb[list[i]].li; 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">arb[narb].ls=arb[list[i+1]].ls; 
+                  <P class=desc style="MARGIN-TOP: 0px">arb[narb].fs=list[i]; 
+                  <P class=desc style="MARGIN-TOP: 0px">arb[narb].fd=list[i+1]; 
+                  <P class=desc style="MARGIN-TOP: 0px">arb[list[i]].tata=narb; 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">arb[list[i+1]].tata=narb; 
+                  <P class=desc style="MARGIN-TOP: 0px">arb[narb].tata=0; 
+                  <P class=desc style="MARGIN-TOP: 0px">j++; 
+                  <P class=desc style="MARGIN-TOP: 0px">list[j]=narb; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">if (k%2==1) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">j++; 
+                  <P class=desc style="MARGIN-TOP: 0px">list[j]=list[k]; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">k=j; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">double getmax(long 
+                  i,long&amp; lineindex) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long line,p; 
+                  <P class=desc style="MARGIN-TOP: 0px">double res; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">line=-1; 
+                  <P class=desc style="MARGIN-TOP: 0px">p=i; 
+                  <P class=desc style="MARGIN-TOP: 0px">while (p&gt;0) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">if 
+                  (arb[p].lineindex&gt;line) 
+                  <P class=desc style="MARGIN-TOP: 0px">line=arb[p].lineindex; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">p=arb[p].tata; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">res=max[line]+c[line]*(i-line); 
+                  <P class=desc style="MARGIN-TOP: 0px">lineindex=line; 
+                  <P class=desc style="MARGIN-TOP: 0px">return res; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">long locatelow(long 
+                  line) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long poz,li,ls,m,lm; 
+                  <P class=desc style="MARGIN-TOP: 0px">double vline,vm; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">li=line+1; ls=n; 
+                  poz=n+1; 
+                  <P class=desc style="MARGIN-TOP: 0px">while (li&lt;=ls) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">m=(li+ls)&gt;&gt;1; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">vline=max[line]+c[line]*(m-line); 
+                  <P class=desc style="MARGIN-TOP: 0px">vm=getmax(m,lm); 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">if (c[lm]&lt;c[line]) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">if (vm&lt;vline) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">poz=m; 
+                  <P class=desc style="MARGIN-TOP: 0px">ls=m-1; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">li=m+1; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">ls=m-1; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">return poz; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">long locatehigh(long 
+                  line) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long poz,li,ls,m,lm; 
+                  <P class=desc style="MARGIN-TOP: 0px">double vline,vm; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">vm=getmax(n,lm); 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">vline=max[line]+c[line]*(n-line); 
+                  <P class=desc style="MARGIN-TOP: 0px">if (c[line]&gt;c[lm] 
+                  &amp;&amp; vline&gt;vm) 
+                  <P class=desc style="MARGIN-TOP: 0px">return n; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">li=line+1; ls=n; 
+                  poz=line; 
+                  <P class=desc style="MARGIN-TOP: 0px">while (li&lt;=ls) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">m=(li+ls)&gt;&gt;1; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">vline=max[line]+c[line]*(long 
+                  long)((m-line)); 
+                  <P class=desc style="MARGIN-TOP: 0px">vm=getmax(m,lm); 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">if (c[lm]&gt;c[line]) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">if (vm&lt;vline) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">poz=m; 
+                  <P class=desc style="MARGIN-TOP: 0px">li=m+1; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">ls=m-1; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">li=m+1; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">return poz; 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">void setmax(long li,long 
+                  ls,long num,long x) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long fs,fd; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">fs=arb[num].fs; 
+                  <P class=desc style="MARGIN-TOP: 0px">fd=arb[num].fd; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">if (li==arb[num].li 
+                  &amp;&amp; ls==arb[num].ls) 
+                  <P class=desc style="MARGIN-TOP: 0px">arb[num].lineindex=x; 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">if (li==arb[num].li) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">if (arb[fd].li&lt;=ls) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">setmax(li,arb[fs].ls,fs,x); 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">setmax(arb[fd].li,ls,fd,x); 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">setmax(li,ls,fs,x); 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">if (ls==arb[num].ls) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">if (arb[fs].ls&gt;=li) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">setmax(li,arb[fs].ls,fs,x); 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">setmax(arb[fd].li,ls,fd,x); 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">setmax(li,ls,fd,x); 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">if (ls&lt;=arb[fs].ls) 
+                  <P class=desc style="MARGIN-TOP: 0px">setmax(li,ls,fs,x); 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">if (li&gt;=arb[fd].li) 
+                  <P class=desc style="MARGIN-TOP: 0px">setmax(li,ls,fd,x); 
+                  <P class=desc style="MARGIN-TOP: 0px">else 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">setmax(li,arb[fs].ls,fs,x); 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">setmax(arb[fd].li,ls,fd,x); 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">void compute(void) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long i,j,p1,p2; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">/* compute the C array 
+                  */ 
+                  <P class=desc style="MARGIN-TOP: 0px">for (i=0;i&lt;=n;i++) 
+                  <P class=desc style="MARGIN-TOP: 0px">c[i]=s[n]-s[i]; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">/* init the tree */ 
+                  <P class=desc style="MARGIN-TOP: 0px">for (i=1;i&lt;=narb;i++) 
+
+                  <P class=desc style="MARGIN-TOP: 0px">arb[i].lineindex=0; 
+                  <P class=desc style="MARGIN-TOP: 0px">max[0]=0; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">/* do the smart things 
+                  */ 
+                  <P class=desc style="MARGIN-TOP: 0px">for (i=1;i&lt;n;i++) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">max[i]=getmax(i,j)-t; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">p1=locatelow(i); 
+                  <P class=desc style="MARGIN-TOP: 0px">p2=locatehigh(i); 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">if (p1&lt;=p2) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">setmax(p1,p2,narb,i); 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">} 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc style="MARGIN-TOP: 0px">void writedata(void) 
+                  <P class=desc style="MARGIN-TOP: 0px">{ 
+                  <P class=desc style="MARGIN-TOP: 0px">long nouse; 
+                  <P class=desc style="MARGIN-TOP: 0px">
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">freopen(fileout,"w",stdout); 
+                  <P class=desc 
+                  style="MARGIN-TOP: 0px">printf("%.0lfn",getmax(n,nouse)-t); 
+                  <P class=desc style="MARGIN-TOP: 0px">} </P></TR></TBODY></TABLE>
+            <P class=desc align=center><A 
+            href="http://students.infoiasi.ro/~boi2003/boibynet/problems.php"><B>Back</B></A> 
+            <BR><BR></P></TD>
+          <TD style="WIDTH: 5%"></TD></TR></TBODY></TABLE>&nbsp; </TD>
+  <TR style="BOTTOM: 0px; HEIGHT: 20px">
+    <TD>
+      <DIV align=center><FONT face="arial, helvetica, sans-serif" size=1>&copy; 2003 
+      V鈒san Mihai Liviu &amp; exist:create <BR>Webmaster contact address: <A 
+      href="mailto:liviuvalsan@yahoo.com"><B>liviuvalsan@yahoo.com</B></A> 
+      <BR>Organisers contact address: <A 
+      href="mailto:ema@mail.dntis.ro"><B>ema@mail.dntis.ro</B></A> 
+    </FONT></DIV></TD></TR></TR></TBODY></TABLE></BODY></HTML>
